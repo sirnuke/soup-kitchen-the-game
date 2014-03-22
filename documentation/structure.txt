@@ -1,0 +1,13 @@
+Daily running of soup kitchen.
+
+Breakfast
+Lunch
+Cooking
+Dinner
+
+Shifts.
+
+Track volunteers, food stock, supplies.  Volunteers levels grow/mature
+over time, unless the kitchen is poorly run.  Food stock is mostly RNG.
+Supplies depends on cash balance.
+
