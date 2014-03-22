@@ -10,6 +10,7 @@ function love.load()
   core.config()
   core.scenes = {}
   core.scenes.mainmenu = mainmenu
+  core.next = nil
   core.scene = mainmenu
   core.scene.enter()
 end
@@ -32,6 +33,12 @@ end
 
 function love.update(dt)
   core.scene.update(dt)
+  if core.next then
+    core.scene.exit()
+    core.scene = core.scenes[core.next]
+    core.scene.enter()
+    core.next = nil
+  end
 end
 
 function love.mousepressed(x, y, button)
@@ -43,5 +50,6 @@ function love.mousereleased(x, y, button)
 end
 
 function core.switch(scene)
+  core.next = scene
 end
 
