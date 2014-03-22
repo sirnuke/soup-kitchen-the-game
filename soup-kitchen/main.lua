@@ -10,6 +10,7 @@ require "ingame"
 require "mainmenu"
 
 require "map"
+require "session"
 
 function love.load()
   core.config()
