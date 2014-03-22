@@ -22,7 +22,7 @@ function love.draw()
 end
 
 function love.keypressed(key)
-  if key == "escape" then
+  if key == "`" then
     love.event.quit()
   else
     core.scene.keypressed(key)
