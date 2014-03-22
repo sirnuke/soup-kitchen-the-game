@@ -9,6 +9,7 @@ PawnClass.images = { }
 
 function PawnClass.new(type, x, y)
   assert(not map.blocked(x, y))
+  assert(not map.occupant(x, y))
   assert(PawnClass.types[type])
 
   local instance = {}
@@ -18,6 +19,8 @@ function PawnClass.new(type, x, y)
   instance.coordinate = { x=x, y=y }
   instance.destination = nil
   instance.skills = {}
+
+  map.setoccupant(x, y, instance)
 
   if type == 'player' then
     if not PawnClass.images.player then
