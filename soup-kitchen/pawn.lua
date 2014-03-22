@@ -29,4 +29,10 @@ function PawnClass.new(type, x, y)
   else
     assert(false, string.format("Unhandled pawn type %s", type))
   end
+
+  return instance
+end
+
+function PawnClass:draw()
+  love.graphics.draw(PawnClass.images[self.type], self.position.x, self.position.y)
 end
