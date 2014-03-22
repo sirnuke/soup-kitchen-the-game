@@ -6,7 +6,9 @@ ingame = { }
 function ingame.enter()
   ingame.background = love.graphics.newImage("images/ingame/background.png")
   ingame.warning_icon = love.graphics.newImage("images/ingame/warning-icon.png")
+  ingame.selected_overlay = love.graphics.newImage("images/ingame/selected-overlay.png")
   ingame.paused = false
+  ingame.selected = nil
   map.create()
   session.start()
 end
@@ -14,13 +16,19 @@ end
 function ingame.exit()
   ingame.background = nil
   ingame.warning_icon = nil
+  ingame.selected_overlay = nil
 end
 
 function ingame.draw()
   love.graphics.draw(ingame.background)
-  -- Draw GUI elements
-  -- Draw sprites here
+  -- Draw pawns
   session.player:draw()
+
+  -- Draw GUI elements
+  if ingame.selected then
+    love.graphics.draw(ingame.selected_overlay, ingame.selected.position.x,
+      ingame.selected.position.y)
+  end
   if ingame.paused then
     love.graphics.setColor(128, 128, 128, 192)
     love.graphics.rectangle("fill", 228, 100, 568, 568)
@@ -29,6 +37,7 @@ end
 
 function ingame.update(dt)
   if not ingame.paused then
+    session.player:update(dt)
     -- update pawns
     -- update session
   end
@@ -44,6 +53,17 @@ function ingame.keyreleased(key)
 end
 
 function ingame.mousepressed(x, y, button)
+  if not ingame.paused then
+    if button == 'l' then
+      if session.player:clicked(x, y) then
+        ingame.selected = session.player
+      else
+        ingame.selected = nil
+      end
+    elseif button == 'r' then
+      -- TODO: Move
+    end
+  end
 end
 
 function ingame.mousereleased(x, y, button)
