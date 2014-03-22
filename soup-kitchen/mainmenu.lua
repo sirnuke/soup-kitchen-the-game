@@ -5,7 +5,7 @@ mainmenu = { }
 
 function mainmenu.enter()
   mainmenu.background = love.graphics.newImage("images/mainmenu/background.png")
-  mainmenu.eat = 0.5
+  mainmenu.eat = core.eat
 end
 
 function mainmenu.exit()
@@ -32,6 +32,7 @@ end
 
 function mainmenu.mousepressed(x, y, button)
   if mainmenu.eat <= 0 and button == 'l' then
+    core.switch("help")
   end
 end
 
