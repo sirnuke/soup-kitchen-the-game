@@ -10,6 +10,7 @@ public:
   Game();
   ~Game();
 private:
+  int day;
 };
 
 #endif//_GAME_H_
