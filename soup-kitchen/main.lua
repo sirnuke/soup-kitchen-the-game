@@ -11,6 +11,7 @@ require "mainmenu"
 
 require "map"
 require "session"
+require "stock"
 
 function love.load()
   core.config()
