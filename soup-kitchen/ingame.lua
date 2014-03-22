@@ -5,10 +5,13 @@ ingame = { }
 
 function ingame.enter()
   ingame.background = love.graphics.newImage("images/ingame/background.png")
+  ingame.warning_icon = love.graphics.newImage("images/ingame/warning-icon.png")
+  ingame.paused = false
 end
 
 function ingame.exit()
   ingame.background = nil
+  ingame.warning_icon = nil
 end
 
 function ingame.draw()
