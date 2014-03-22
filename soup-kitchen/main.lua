@@ -10,6 +10,7 @@ require "ingame"
 require "mainmenu"
 
 require "map"
+require "pawn"
 require "session"
 require "stock"
 
