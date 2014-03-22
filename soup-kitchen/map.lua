@@ -42,8 +42,13 @@ function map.blocked(x, y)
 end
 
 function map.position(x, y)
-  return { x=x * core.square.width - core.square.width / 2, 
-           y=y * core.square.height - core.square.height / 2 }
+  return { x= (x - 1) * core.square.width, 
+           y= (y - 1) * core.square.height }
+end
+
+function map.coordinate(x, y)
+  return { x= 1 + (x - (x % core.square.width))  / core.square.width,
+           y= 1 + (y - (y % core.square.height)) / core.square.height }
 end
 
 function map.occupant(x, y)
