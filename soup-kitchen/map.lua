@@ -41,8 +41,8 @@ function map.blocked(x, y)
   return map.data[y][x].blocked
 end
 
-function map.coordinate(x, y)
-  return x * core.square.width - core.square.width / 2, 
-         y * core.square.height - core.square.height / 2
+function map.position(x, y)
+  return { x=x * core.square.width - core.square.width / 2, 
+           y=y * core.square.height - core.square.height / 2 }
 end
 
