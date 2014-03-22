@@ -26,7 +26,7 @@ function map.create()
       if v == ' ' then
         table.insert(data, map.create_square(x, y, false))
       else
-        table.insert(data, map.create_square(x, y, false))
+        table.insert(data, map.create_square(x, y, true))
       end
     end
     table.insert(map.data, data)
