@@ -20,9 +20,19 @@ function map.create()
   }
   map.data = {}
   for y,row in ipairs(structure) do
+    local data = {}
     for x,v in ipairs(row) do
       print(x,y,v)
+      if v == ' ' then
+        table.insert(data, map.create_square(x, y, false))
+      else
+        table.insert(data, map.create_square(x, y, false))
+      end
     end
   end
+end
+
+function map.create_square(x, y, blocked)
+  return { x=x, y=y, blocked=blocked, occupant=nil }
 end
 
