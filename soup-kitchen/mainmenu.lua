@@ -31,6 +31,8 @@ function mainmenu.keyreleased(key)
 end
 
 function mainmenu.mousepressed(x, y, button)
+  if mainmenu.eat <= 0 and button == 'l' then
+  end
 end
 
 function mainmenu.mousereleased(x, y, button)
