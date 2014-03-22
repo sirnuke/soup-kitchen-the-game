@@ -46,7 +46,11 @@ function map.position(x, y)
            y=y * core.square.height - core.square.height / 2 }
 end
 
+function map.occupant(x, y)
+  return map.data[y][x].occupant
+end
+
 function map.setoccupant(x, y, occupant)
-  map.data[x][y].occupant = occupant
+  map.data[y][x].occupant = occupant
 end
 
