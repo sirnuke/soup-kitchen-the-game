@@ -4,9 +4,8 @@
 mainmenu = { }
 
 function mainmenu.enter()
-  if mainmenu.background == nil then
-    mainmenu.background = love.graphics.newImage("images/mainmenu/background.png")
-  end
+  mainmenu.background = love.graphics.newImage("images/mainmenu/background.png")
+  mainmenu.eat = 0.5
 end
 
 function mainmenu.exit()
@@ -18,9 +17,14 @@ function mainmenu.draw()
 end
 
 function mainmenu.update(dt)
+  if mainmenu.eat > 0 then
+    mainmenu.eat -= dt
+  end
 end
 
 function mainmenu.keypressed(key)
+  if mainmenu.eat <= 0 then
+  end
 end
 
 function mainmenu.keyreleased(key)
