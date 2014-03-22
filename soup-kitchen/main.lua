@@ -30,3 +30,11 @@ function love.update(dt)
   scene.update(dt)
 end
 
+function love.mousepressed(x, y, button)
+  scene.mousepressed(x, y, button)
+end
+
+function love.mousereleased(x, y, button)
+  scene.mousereleased(x, y, button)
+end
+

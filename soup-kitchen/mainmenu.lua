@@ -18,7 +18,7 @@ end
 
 function mainmenu.update(dt)
   if mainmenu.eat > 0 then
-    mainmenu.eat -= dt
+    mainmenu.eat = mainmenu.eat - dt
   end
 end
 
@@ -28,5 +28,11 @@ function mainmenu.keypressed(key)
 end
 
 function mainmenu.keyreleased(key)
+end
+
+function mainmenu.mousepressed(x, y, button)
+end
+
+function mainmenu.mousereleased(x, y, button)
 end
 
