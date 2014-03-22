@@ -20,6 +20,7 @@ function ingame.draw()
   love.graphics.draw(ingame.background)
   -- Draw GUI elements
   -- Draw sprites here
+  session.player:draw()
   if ingame.paused then
     love.graphics.setColor(128, 128, 128, 192)
     love.graphics.rectangle("fill", 228, 100, 568, 568)
