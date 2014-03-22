@@ -9,6 +9,8 @@ require "help"
 require "ingame"
 require "mainmenu"
 
+require "map"
+
 function love.load()
   core.config()
   core.scenes = { mainmenu=mainmenu, help=help, ingame=ingame }

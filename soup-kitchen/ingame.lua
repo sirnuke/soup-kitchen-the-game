@@ -7,6 +7,7 @@ function ingame.enter()
   ingame.background = love.graphics.newImage("images/ingame/background.png")
   ingame.warning_icon = love.graphics.newImage("images/ingame/warning-icon.png")
   ingame.paused = false
+  map.create()
 end
 
 function ingame.exit()
