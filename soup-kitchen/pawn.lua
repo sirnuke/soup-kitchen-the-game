@@ -48,7 +48,9 @@ function PawnClass:go(x, y)
   map.setoccupant(x, y, self)
   self.coordinate.x = x
   self.coordinate.y = y
-  self.destination = map.position(x, y)
+  --
+  data = { }
+  --self.destination
 end
 
 function PawnClass:update(dt)
@@ -59,8 +61,8 @@ function PawnClass:update(dt)
 end
 
 function PawnClass:clicked(x, y)
-  if x >= self.position.x and x < self.position.x + core.pawn.width and
-     y >= self.position.y and y < self.position.y + core.pawn.height then
+  if x >= self.position.x and x < self.position.x + core.sizes.pawn.width and
+     y >= self.position.y and y < self.position.y + core.sizes.pawn.height then
      return true
    else
      return false
