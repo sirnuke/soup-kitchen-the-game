@@ -11,3 +11,10 @@ Track volunteers, food stock, supplies.  Volunteers levels grow/mature
 over time, unless the kitchen is poorly run.  Food stock is mostly RNG.
 Supplies depends on cash balance.
 
+Objects:
+Player: current position
+Map: Stores maps
+Employee: knows everything
+Volunteer: who knows a certain level of detail, can help others, may disappear
+Customer: gets food, possibly repeatedly
+Food: a food stock, contains an expiration date
