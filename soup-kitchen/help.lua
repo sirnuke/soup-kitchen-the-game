@@ -32,6 +32,7 @@ end
 
 function help.mousepressed(x, y, button)
   if help.eat <= 0 and button == 'l' then
+    core.switch("ingame")
   end
 end
 
