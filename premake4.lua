@@ -9,7 +9,15 @@ solution "SoupKitchen"
     kind "WindowedApp"
 
     files { "include/*.h", "source/*.cpp" }
-    includedirs { "include" }
+    includedirs { "include", "SFML/include" }
+
+    if os.is("linux") then
+      libdirs { "/opt/SFML/lib" }
+    else
+      libdirs { "SFML/windows-32" }
+    end
+
+    links { "sfml-graphics", "sfml-window", "sfml-system", "GLEW" }
 
     flags { "ExtraWarnings" }
 
