@@ -57,3 +57,13 @@ function PawnClass:update(dt)
     self.destination = nil
   end
 end
+
+function PawnClass:clicked(x, y)
+  if x >= self.position.x and x < self.position.x + core.pawn.width and
+     y >= self.position.y and y < self.position.y + core.pawn.height then
+     return true
+   else
+     return false
+   end
+end
+
