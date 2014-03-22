@@ -1,9 +1,11 @@
 -- Soup Kitchen
 -- Bryan DeGrendel (c) 2014
 
+require "config"
 require "mainmenu"
 
 function love.load()
+  config()
   scene = mainmenu
   mainmenu.enter()
 end
