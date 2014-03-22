@@ -2,3 +2,5 @@ Makefile
 *.make
 *.o
 .*.sw*
+SoupKitchen
+obj
