@@ -29,10 +29,20 @@ function map.create()
         table.insert(data, map.create_square(x, y, false))
       end
     end
+    table.insert(map.data, data)
   end
 end
 
 function map.create_square(x, y, blocked)
   return { x=x, y=y, blocked=blocked, occupant=nil }
+end
+
+function map.blocked(x, y)
+  return map.data[y][x].blocked
+end
+
+function map.coordinate(x, y)
+  return x * core.square.width - core.square.width / 2, 
+         y * core.square.height - core.square.height / 2
 end
 

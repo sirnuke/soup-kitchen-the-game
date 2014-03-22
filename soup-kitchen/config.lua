@@ -4,4 +4,5 @@ function core.config()
   love.window.setTitle("Soup Kitchen")
 
   core.eat = 0.25
+  core.square = {width=64, height=64}
 end
