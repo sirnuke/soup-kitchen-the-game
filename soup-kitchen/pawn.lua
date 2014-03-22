@@ -39,3 +39,21 @@ end
 function PawnClass:draw()
   love.graphics.draw(PawnClass.images[self.type], self.position.x, self.position.y)
 end
+
+function PawnClass:go(x, y)
+  assert(not map.blocked(x, y))
+  assert(not map.occupant(x, y))
+
+  map.setoccupant(self.coordinate.x, self.coordinate.y, nil)
+  map.setoccupant(x, y, self)
+  self.coordinate.x = x
+  self.coordinate.y = y
+  self.destination = map.position(x, y)
+end
+
+function PawnClass:update(dt)
+  if self.destination then
+    self.position = self.destination
+    self.destination = nil
+  end
+end
