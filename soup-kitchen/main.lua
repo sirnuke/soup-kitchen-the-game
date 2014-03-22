@@ -4,12 +4,13 @@
 core = {}
 
 require "config"
+
+require "help"
 require "mainmenu"
 
 function love.load()
   core.config()
-  core.scenes = {}
-  core.scenes.mainmenu = mainmenu
+  core.scenes = { mainmenu = mainmenu, help = help }
   core.next = nil
   core.scene = mainmenu
   core.scene.enter()
