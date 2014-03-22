@@ -15,7 +15,13 @@ end
 function love.keypressed(key)
   if key == "escape" then
     love.event.quit()
+  else
+    scene.keypressed(key)
   end
+end
+
+function love.keyreleased(key)
+  scene.keyreleased(key)
 end
 
 function love.update(dt)
