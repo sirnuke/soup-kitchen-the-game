@@ -108,7 +108,6 @@ function PawnClass:update(dt)
     local dx, dy = self.destination.x - self.position.x, self.destination.y - self.position.y
     print("Current is", self.position.x, self.position.y)
     print("Destination is", self.destination.x, self.destination.y)
-    assert(dx == 0 or dy == 0)
     local distance = core.constants.walk * dt
     while distance > 0 do
       if self.destination.x == self.position.x and self.destination.y == self.position.y then
