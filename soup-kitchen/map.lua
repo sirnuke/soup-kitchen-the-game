@@ -42,13 +42,21 @@ function map.blocked(x, y)
 end
 
 function map.position(x, y)
-  return { x= (x - 1) * core.sizes.square.width, 
-           y= (y - 1) * core.sizes.square.height }
+  return { x= (x - 1) * core.sizes.square.width  + core.sizes.square.width / 2, 
+           y= (y - 1) * core.sizes.square.height + core.sizes.square.height / 2}
 end
 
 function map.coordinate(x, y)
   return { x= 1 + (x - (x % core.sizes.square.width))  / core.sizes.square.width,
            y= 1 + (y - (y % core.sizes.square.height)) / core.sizes.square.height }
+end
+
+function map.validcoordinate(x, y)
+  if x >= 0 and x <= core.sizes.map.width and y >= 0 and y <= core.sizes.map.height then
+    return true
+  else
+    return false
+  end
 end
 
 function map.occupant(x, y)
