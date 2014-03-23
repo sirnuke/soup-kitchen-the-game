@@ -28,6 +28,9 @@ end
 
 function CustomerClass:update(dt)
   instance.pawn:update(dt)
+  if not instance.action then
+    instance.action = map.actions.drinks
+  end
 end
 
 function CustomerClass:draw()
