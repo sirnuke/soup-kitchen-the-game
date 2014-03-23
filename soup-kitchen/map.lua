@@ -22,7 +22,6 @@ function map.create()
   for y,row in ipairs(structure) do
     local data = {}
     for x,v in ipairs(row) do
-      print(x,y,v)
       if v == ' ' then
         table.insert(data, map.create_square(x, y, false))
       else
@@ -65,5 +64,20 @@ end
 
 function map.setoccupant(x, y, occupant)
   map.data[y][x].occupant = occupant
+end
+
+function map.getneighbors(x, y)
+  local result, poss = { }, { {x=-1,y=0}, {x=1,y=0}, {x=0,y=-1}, {x=0,y=1} }
+  local nx, ny
+  for k,v in ipairs(poss) do
+    nx, ny = x + v.x, y + v.y
+    print("Checking", nx, ny, map.validcoordinate(nx,ny), map.blocked(nx, ny))
+    if map.validcoordinate(nx, ny) and not map.blocked(nx, ny) then
+      print("Adding", nx, ny)
+      table.insert(result, { x=nx, y=ny })
+    end
+  end
+  print("Found #valid neighbors", #result)
+  return result
 end
 
