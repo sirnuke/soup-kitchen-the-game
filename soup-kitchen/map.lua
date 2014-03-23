@@ -101,6 +101,7 @@ end
 
 function map.update(dt)
   for k,v in ipairs(map.actions) do
+    v:update(dt)
   end
 end
 

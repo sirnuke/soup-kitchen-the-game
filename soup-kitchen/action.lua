@@ -64,3 +64,6 @@ function ActionClass:next(stage, current)
   end
 end
 
+function ActionClass:update(dt)
+end
+
