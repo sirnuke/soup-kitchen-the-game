@@ -36,8 +36,8 @@ function ingame.draw()
   end
   love.graphics.setFont(ingame.gui_font)
   love.graphics.print(string.format("Day %i %s $%i", session.day, session.format_time(), session.cash), 778, 10)
+  love.graphics.setFont(ingame.gui_font_small)
   for k,v in ipairs(session.stock) do
-    love.graphics.setFont(ingame.gui_font_small)
     if k < 14 then
       love.graphics.print(tostring(v), 778, 330 + ((k - 1) * 32))
     elseif k == 14 then
@@ -45,6 +45,9 @@ function ingame.draw()
     else
     end
   end
+  -- for kv in ipairs(session.tasks) do
+  -- end
+  love.graphics.print("Tasks!", 778, 70)
   if ingame.paused then
     love.graphics.setColor(128, 128, 128, 192)
     love.graphics.rectangle("fill", 228, 100, 568, 568)
