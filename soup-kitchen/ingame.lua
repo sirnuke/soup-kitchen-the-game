@@ -48,9 +48,13 @@ function ingame.draw()
     else
     end
   end
-  -- for kv in ipairs(session.tasks) do
-  -- end
-  love.graphics.print("Tasks!", 778, 134)
+  for k,v in ipairs(session.tasks) do
+    if k < 6 then
+      love.graphics.print(v.description, 778, 138 + ((k - 1) * 32))
+    elseif k == 6 then
+      love.graphics.print("...", 778, 138 + ((k - 1) * 32))
+    end
+  end
   if ingame.paused then
     love.graphics.setColor(128, 128, 128, 192)
     love.graphics.rectangle("fill", 228, 100, 568, 568)
