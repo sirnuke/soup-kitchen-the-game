@@ -8,6 +8,8 @@ function CustomerClass.new()
   local instance = {}
   setmetatable(instance, CustomerClass)
   instance.pawn = nil
+  instance.action = nil
+  instance.complete = 0
   return instance
 end
 
