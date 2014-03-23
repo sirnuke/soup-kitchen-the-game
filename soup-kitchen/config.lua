@@ -9,8 +9,12 @@ function core.config()
   core.constants.font_size = 22
   core.constants.time_scale = 0.5
   core.constants.small_font_size = 14
-  core.constants.day_start = 450 -- 7:30am
-  core.constants.day_end = 1170 -- 7:30pm
+  core.constants.day_start = 480 -- 8:00am
+  core.constants.lunch = 660 -- 11:00am
+  core.constants.prepare = 780 -- 1:00pm
+  core.constants.dinner = 960 -- 4:00pm
+  core.constants.cleanup = 1080 -- 6:00pm
+  core.constants.day_end = 1200 -- 8:00pm
   core.constants.money_start = 1000
   core.constants.employee_wage = 50
   core.sizes = {}
