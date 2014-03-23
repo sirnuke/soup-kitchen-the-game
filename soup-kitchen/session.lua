@@ -2,6 +2,8 @@
 -- Bryan DeGrendel (c) 2014
 
 session = {}
+session.stages = { breakfeast:"breakfast", lunch:"lunch", cooking:"cooking", dinner:"dinner",
+  cleaning:"cleaning" }
 
 function session.start()
   session.day = 0
