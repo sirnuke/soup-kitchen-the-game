@@ -26,8 +26,8 @@ function ingame.draw()
 
   -- Draw GUI elements
   if ingame.selected then
-    love.graphics.draw(ingame.selected_overlay, ingame.selected.position.x,
-      ingame.selected.position.y)
+    love.graphics.draw(ingame.selected_overlay, ingame.selected.screen.x,
+      ingame.selected.screen.y)
   end
   if ingame.paused then
     love.graphics.setColor(128, 128, 128, 192)

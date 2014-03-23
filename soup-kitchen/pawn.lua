@@ -36,6 +36,9 @@ function PawnClass.new(type, x, y)
   setmetatable(instance, PawnClass)
   instance.type = type
   instance.position = map.position(x, y)
+  instance.screen = { }
+  instance.screen.x = instance.position.x - (core.sizes.square.width - core.sizes.pawn.width) / 2
+  instance.screen.y = instance.position.y - (core.sizes.square.height - core.sizes.pawn.height) / 2
   instance.coordinate = { x=x, y=y }
   instance.destination = nil
   instance.skills = {}
@@ -57,7 +60,7 @@ function PawnClass.new(type, x, y)
 end
 
 function PawnClass:draw()
-  love.graphics.draw(PawnClass.images[self.type], self.position.x, self.position.y)
+  love.graphics.draw(PawnClass.images[self.type], self.screen.x, self.screen.y)
 end
 
 function PawnClass:go(x, y)
@@ -110,8 +113,8 @@ function PawnClass:update(dt)
 end
 
 function PawnClass:clicked(x, y)
-  if x >= self.position.x and x < self.position.x + core.sizes.pawn.width and
-     y >= self.position.y and y < self.position.y + core.sizes.pawn.height then
+  if x >= self.screen.x and x < self.screen.x + core.sizes.pawn.width and
+     y >= self.screen.y and y < self.screen.y + core.sizes.pawn.height then
      return true
    else
      return false
