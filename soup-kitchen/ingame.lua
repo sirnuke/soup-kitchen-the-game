@@ -36,6 +36,8 @@ function ingame.draw()
   end
   love.graphics.setFont(ingame.gui_font)
   love.graphics.print(string.format("Day %i %s $%i", session.day, session.format_time(), session.cash), 778, 10)
+  love.graphics.print(string.format("#%i Eating", session.eating_count()), 8, 334)
+  love.graphics.print(string.format("#%i Queued", session.line_count()), 8, 398)
   love.graphics.setFont(ingame.gui_font_small)
   for k,v in ipairs(session.stock) do
     if k < 14 then
