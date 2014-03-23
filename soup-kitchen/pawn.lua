@@ -70,6 +70,14 @@ function PawnClass:move(x, y)
   self.screen.y = self.position.y - (core.sizes.square.height - core.sizes.pawn.height) / 2
 end
 
+function PawnClass:arrived()
+  if self.destination then
+    return false
+  else
+    return true
+  end
+end
+
 function PawnClass:go(x, y)
   assert(not map.blocked(x, y))
   assert(not map.occupant(x, y))
