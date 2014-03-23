@@ -32,11 +32,12 @@ function CustomerClass:update(dt)
     if not self.action then
       self.action = map.actions.drinks
       print("self.action", self.action, map.actions, map.actions.drinks)
-      self.pawn:go(self.action.customer.x, self.action.customer.y)
     else
       if self.pawn:arrived() then
-        print("Go to", self.action.customer.x, self.action.customer.y)
-        self.pawn:go(self.action.customer.x, self.action.customer.y)
+        if not map.occupant(self.action.customer.x, self.action.customer.y) then
+          print("Go to", self.action.customer.x, self.action.customer.y)
+          self.pawn:go(self.action.customer.x, self.action.customer.y)
+        end
       end
     end
   end
