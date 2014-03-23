@@ -21,6 +21,16 @@ local function calc_stage(time)
   end
 end
 
+function session.draw()
+  session.player:draw()
+  for k,v in ipairs(session.line) do
+    v:draw()
+  end
+  for k,v in ipairs(session.eating) do
+    v:draw()
+  end
+end
+
 function session.start()
   session.day = 0
   session.cash = core.constants.money_start
@@ -42,12 +52,18 @@ function session.update(dt)
   session.time = session.time + dt * core.constants.time_scale
   session.player:update(dt)
   local stage = calc_stage(session.time)
+  local customer
   assert(session.stages[stage])
   if session.stage ~= stage then
     session.new_stage(stage)
   else
-    if not map.occupant(9, 1) then
-      print("Spawn customer!")
+    if not map.occupant(core.constants.entry_location.x, core.constants.entry_location.y) then
+      for k,v in ipairs(session.line) do
+        if not v:spawned() then
+          v:place()
+          break
+        end
+      end
     end
   end
 end
