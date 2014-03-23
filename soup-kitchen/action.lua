@@ -78,7 +78,7 @@ function ActionClass:update(dt)
     if not volunteer then
       table.insert(session.tasks, TaskClass.new('serving', 
         string.format("Missing volunteer at (%i,%i)", self.volunteer.x, self.volunteer.y)))
-    else
+    elseif volunteer:arrived() then
       self.progress = self.progress + dt * core.constants.execute
     end
   elseif self.type == 'food1' then
