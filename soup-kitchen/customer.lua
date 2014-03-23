@@ -38,6 +38,8 @@ function CustomerClass:update(dt)
           print("Go to", self.action.customer.x, self.action.customer.y)
           self.pawn:go(self.action.customer.x, self.action.customer.y)
           self.action:reset()
+        else
+          self.action:update(dt)
         end
       end
     end

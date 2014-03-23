@@ -74,6 +74,9 @@ function ActionClass:update(dt)
     if not map.occupant(self.customer.x, self.customer.y) then
       return
     end
+    local volunteer = map.occupant(self.volunteer.x, self.volunteer.y)
+    if not volunteer then
+    end
   elseif self.type == 'food1' then
   elseif self.type == 'food2' then
   elseif self.type == 'food3' then
