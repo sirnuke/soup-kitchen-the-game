@@ -8,7 +8,9 @@ function ActionClass.new(type, customer, volunteer)
   local instance = {}
   setmetatable(instance, ActionClass)
   instance.type = type
-  instance.customer  = { x=customer.x,  y=customer.y  }
+  if instance.customer then
+    instance.customer = { x=customer.x,  y=customer.y  }
+  end
   instance.volunteer = { x=volunteer.x, y=volunteer.y }
 end
 
