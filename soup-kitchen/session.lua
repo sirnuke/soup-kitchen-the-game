@@ -103,12 +103,10 @@ function session.format_time()
 end
 
 function session.line_count()
-  -- TODO: Dis
   return #session.line
 end
 
 function session.eating_count()
-  -- TODO: Dis
   return #session.eating
 end
 
