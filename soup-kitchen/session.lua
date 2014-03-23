@@ -2,8 +2,24 @@
 -- Bryan DeGrendel (c) 2014
 
 session = {}
-session.stages = { breakfeast:"breakfast", lunch:"lunch", cooking:"cooking", dinner:"dinner",
-  cleaning:"cleaning" }
+session.stages = { breakfast="breakfast", lunch="lunch", prepare="preprea", dinner="dinner",
+  cleaning="cleaning", done="done" }
+
+local function calc_stage(time)
+  if time >= core.constants.day_end then
+    return 'done'
+  elseif  time >= core.constants.cleanup then
+    return 'cleanup'
+  elseif time >= core.constants.dinner then
+    return 'dinner'
+  elseif time >= core.constants.prepare then
+    return 'prepare'
+  elseif time >= core.constants.lunch then
+    return 'lunch'
+  else
+    return 'breakfast'
+  end
+end
 
 function session.start()
   session.day = 0
@@ -24,12 +40,19 @@ end
 function session.update(dt)
   session.time = session.time + dt * core.constants.time_scale
   session.player:update(dt)
+  local stage = calc_stage(session.time)
+  assert(session.stages[stage])
+  if session.stage ~= stage then
+    -- TODO: Clear line, etc
+    session.stage = stage
+  end
 end
 
 function session.new_day()
   session.day = session.day + 1
   session.time = core.constants.day_start
   session.cash = session.cash - #session.employees * core.constants.employee_wage
+  session.stage = 'breakfast'
 end
 
 function session.format_time()
