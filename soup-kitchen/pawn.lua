@@ -109,9 +109,57 @@ function PawnClass:update(dt)
     print("Current is", self.position.x, self.position.y)
     print("Destination is", self.destination.x, self.destination.y)
     assert(dx == 0 or dy == 0)
-    dx, dy = dx * core.constants.walk, dy * core.constants.walk
-    print("Would move", dx, dy)
+    local distance = core.constants.walk * dt
+    while distance > 0 do
+      if self.destination.x == self.position.x and self.destination.y == self.position.y then
+        table.remove(self.path)
+        if #self.path > 0 then
+          self.destination = map.position(self.path[#self.path].x, self.path[#self.path].y)
+        else
+          self.path = nil
+          self.destination = nil
+          distance = 0
+          -- TODO: Set directions, possibly update task here
+        end
+      end
+      distance = self:walk(distance)
+    end
+  else
+    -- perform task, if any
   end
+end
+
+function PawnClass:walk(distance)
+  if distance == 0 then
+    return 0
+  end
+
+  local dx, dy = self.destination.x - self.position.x, self.destination.y - self.position.y
+  if math.abs(dx) + math.abs(dy) > distance then
+    if dx ~= 0 then
+      -- TODO: Set directions here
+      if dx < 0 then
+        dx = -distance
+      else
+        dx = distance
+      end
+    else
+      assert(dy ~= 0)
+      if dy < 0 then
+        dy = -distance
+      else
+        dy = distance
+      end
+    end
+    distance = 0
+  else
+    distance = distance - math.abs(dx) - math.abs(dy)
+  end
+  self.position.x = self.position.x + dx
+  self.position.y = self.position.y + dy
+  self.screen.x = self.screen.x + dx
+  self.screen.y = self.screen.y + dy
+  return distance
 end
 
 function PawnClass:clicked(x, y)
