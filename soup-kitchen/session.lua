@@ -87,7 +87,7 @@ end
 function session.new_day()
   session.day = session.day + 1
   session.time = constants.time.start
-  session.cash = session.cash - #session.employees * constants.cash.wage
+  session.cash = session.cash - #session.employees * constants.money.wage
   session.new_stage('breakfast')
   session.player:move(constants.coords.start)
   session.tasks = {}
