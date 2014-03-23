@@ -16,13 +16,13 @@ function ActionClass.new(type, customer, volunteer)
   setmetatable(instance, ActionClass)
   instance.type = type
   if customer then
-    instance.customer = { x=customer.x,  y=customer.y  }
-    assert(not map.blocked(customer.x, customer.y))
-    map.data[customer.y][customer.x].action = instance
+    instance.customer = Coordinate.new(customer.x, customer.y)
+    assert(not map.blocked(instance.customer))
+    map.set_action(customer, instance)
   end
-  assert(not map.blocked(volunteer.x, volunteer.y))
-  instance.volunteer = { x=volunteer.x, y=volunteer.y }
-  map.data[volunteer.y][volunteer.x].action = instance
+  assert(not map.blocked(volunteer))
+  instance.volunteer = Coordinate.new(volunteer.x, volunteer.y)
+  map.set_action(volunteer, instance)
   instance.progress = 0
   return instance
 end
@@ -79,15 +79,15 @@ end
 
 function ActionClass:update(dt)
   local customer, volunteer
-  if self.customer then customer = map.occupant(self.customer.x, self.customer.y) end
-  if self.volunteer then volunteer = map.occupant(self.volunteer.x, self.volunteer.y) end
+  if self.customer then customer = map.occupant(self.customer) end
+  if self.volunteer then volunteer = map.occupant(self.volunteer) end
   if self.type == 'drinks' then
     if not customer then return end
     if not volunteer then
       table.insert(session.tasks, TaskClass.new('serving', 
         string.format("Missing volunteer at (%i,%i)", self.volunteer.x, self.volunteer.y)))
     elseif volunteer:arrived() then
-      self.progress = self.progress + dt * core.constants.execute
+      self.progress = self.progress + dt * constants.scale.work
       print("Progress is now", self.progress)
     end
     --if self.progress >= core.constants.max_progress then
@@ -98,7 +98,7 @@ function ActionClass:update(dt)
       table.insert(session.tasks, TaskClass.new('serving', 
         string.format("Missing volunteer at (%i,%i)", self.volunteer.x, self.volunteer.y)))
     elseif volunteer:arrived() then
-      self.progress = self.progress + dt * core.constants.execute
+      self.progress = self.progress + dt * constants.scale.work
       print("Progress is now", self.progress)
     end
   elseif self.type == 'food2' then
@@ -107,7 +107,7 @@ function ActionClass:update(dt)
       table.insert(session.tasks, TaskClass.new('serving', 
         string.format("Missing volunteer at (%i,%i)", self.volunteer.x, self.volunteer.y)))
     elseif volunteer:arrived() then
-      self.progress = self.progress + dt * core.constants.execute
+      self.progress = self.progress + dt * constants.scale.work
       print("Progress is now", self.progress)
     end
   elseif self.type == 'food3' then
@@ -126,7 +126,7 @@ function ActionClass:update(dt)
 end
 
 function ActionClass:finished()
-  if self.progress >= core.constants.max_progress then
+  if self.progress >= constants.max_progress then
     return true
   else
     return false
