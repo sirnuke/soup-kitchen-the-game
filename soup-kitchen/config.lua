@@ -22,6 +22,7 @@ function core.config()
   core.constants.employee_wage = 50
 
   core.constants.start_location = {x=5, y=11}
+  core.constants.entry_location = {x=1,  y=9}
 
   core.constants.homeless_need = 50
 
