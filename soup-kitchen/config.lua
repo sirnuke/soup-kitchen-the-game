@@ -5,34 +5,41 @@ function core.config()
   love.window.setMode(1024, 768, {})
   love.window.setTitle("Soup Kitchen")
 
-  core.constants = {}
-  core.constants.eat = 0.25
-  core.constants.walk = 150
-  core.constants.execute = 70
-  core.constants.time_scale = 1
-  core.constants.max_progress = 100
+  constants = {}
 
-  core.constants.font_size = 22
-  core.constants.small_font_size = 14
+  constants.scale = {}
+  constants.scale.walk = 150
+  constants.scale.work = 70
+  constants.scale.clock = 1
 
-  core.constants.day_start = 480 -- 8:00am
-  core.constants.lunch = 660 -- 11:00am
-  core.constants.prepare = 780 -- 1:00pm
-  core.constants.dinner = 960 -- 4:00pm
-  core.constants.cleanup = 1080 -- 6:00pm
-  core.constants.day_end = 1200 -- 8:00pm
+  constants.eat = 0.25
+  constants.max_progress = 100
+  constants.homeless_need = 50
 
-  core.constants.money_start = 1000
-  core.constants.employee_wage = 50
+  constants.font = {}
+  constants.font.filename = "fonts/Inconsolata-Bold.ttf"
+  constants.font.normal = 22
+  constants.font.small = 14
 
-  core.constants.start_location = {x=5, y=11}
-  core.constants.entry_location = {x=1, y=9}
-  core.constants.exit_location  = {x=1, y=3}
+  constants.time = {}
+  constants.time.start   =  480 --  8:00am
+  constants.time.lunch   =  660 -- 11:00am
+  constants.time.prepare =  780 --  1:00pm
+  constants.time.dinner  =  960 --  4:00pm
+  constants.time.cleanup = 1080 --  6:00pm
+  constants.time.close   = 1200 --  8:00pm
 
-  core.constants.homeless_need = 50
+  constants.money = {}
+  constants.money.initial = 1000
+  constants.money.wage = 50
 
-  core.sizes = {}
-  core.sizes.square = {width=64, height=64}
-  core.sizes.pawn = {width=32, height=32}
-  core.sizes.map = {width=12, height=12}
+  constants.coords = {}
+  constants.coords.start = Coordinate.new(5, 11)
+  constants.coords.entrance = Coordinate.new(1, 9)
+  constants.coords.exit = Coordinate.new(1, 3)
+  
+  constants.sizes = {}
+  constants.sizes.square = 64
+  constants.sizes.pawn = 32
+  constants.sizes.map = {w=12, h=12}
 end
