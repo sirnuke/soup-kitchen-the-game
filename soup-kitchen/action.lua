@@ -76,6 +76,10 @@ function ActionClass:update(dt)
     end
     local volunteer = map.occupant(self.volunteer.x, self.volunteer.y)
     if not volunteer then
+      table.insert(session.tasks, TaskClass.new('serving', 
+        string.format("Missing volunteer at (%i,%i)", self.volunteer.x, self.volunteer.y)))
+    else
+      self.progress = self.progress + dt * core.constants.execute
     end
   elseif self.type == 'food1' then
   elseif self.type == 'food2' then
