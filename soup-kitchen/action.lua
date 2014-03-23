@@ -23,6 +23,7 @@ function ActionClass.new(type, customer, volunteer)
   assert(not map.blocked(volunteer.x, volunteer.y))
   instance.volunteer = { x=volunteer.x, y=volunteer.y }
   map.data[volunteer.y][volunteer.x].action = instance
+  instance.progress = 0
   return instance
 end
 
@@ -64,6 +65,28 @@ function ActionClass:next(stage, current)
   end
 end
 
+function ActionClass:reset()
+  self.progress = 0
+end
+
 function ActionClass:update(dt)
+  if self.type == 'drinks' then
+    if not map.occupant(self.customer.x, self.customer.y) then
+      return
+    end
+  elseif self.type == 'food1' then
+  elseif self.type == 'food2' then
+  elseif self.type == 'food3' then
+  elseif self.type == 'food4' then
+  elseif self.type == 'cleaning1' then
+  elseif self.type == 'prepare1' then
+  elseif self.type == 'prepare2' then
+  elseif self.type == 'prepare3' then
+  elseif self.type == 'prepare4' then
+  elseif self.type == 'prepare5' then
+  elseif self.type == 'prepare6' then
+  elseif self.type == 'trash' then
+  else
+  end
 end
 

@@ -37,6 +37,7 @@ function CustomerClass:update(dt)
         if not map.occupant(self.action.customer.x, self.action.customer.y) then
           print("Go to", self.action.customer.x, self.action.customer.y)
           self.pawn:go(self.action.customer.x, self.action.customer.y)
+          self.action:reset()
         end
       end
     end
