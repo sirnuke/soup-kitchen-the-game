@@ -44,9 +44,20 @@ function session.update(dt)
   local stage = calc_stage(session.time)
   assert(session.stages[stage])
   if session.stage ~= stage then
-    -- TODO: Clear line, etc
-    session.stage = stage
+    session.new_stage(stage)
   end
+end
+
+function session.new_stage(stage)
+  if stage == 'breakfast' then
+  elseif stage == 'lunch' then
+  elseif stage == 'prepare' then
+  elseif stage == 'dinner' then
+  elseif stage == 'cleanup' then
+  else
+    assert(false, string.format("Unhandled stage %s", stage))
+  end
+  session.stage = stage
 end
 
 function session.new_day()
