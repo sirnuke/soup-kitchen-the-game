@@ -16,6 +16,14 @@ function core.config()
   constants.max_progress = 100
   constants.homeless_need = 50
 
+  constants.stock = {}
+  constants.stock.start = {}
+  constants.stock.start.core = 2
+  constants.stock.start.side = 4
+  constants.stock.start.drink = 2
+  constants.stock.start.desert = 3
+  constants.stock.start.salad = 1
+
   constants.font = {}
   constants.font.filename = "fonts/Inconsolata-Bold.ttf"
   constants.font.normal = 22
