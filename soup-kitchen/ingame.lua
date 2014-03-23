@@ -9,6 +9,7 @@ function ingame.enter()
   ingame.selected_overlay = love.graphics.newImage("images/ingame/selected-overlay.png")
   ingame.paused = false
   ingame.selected = nil
+  ingame.gui_font = love.graphics.setNewFont("fonts/Inconsolata-Bold.ttf", core.constants.font_size)
   map.create()
   session.start()
 end
@@ -17,6 +18,7 @@ function ingame.exit()
   ingame.background = nil
   ingame.warning_icon = nil
   ingame.selected_overlay = nil
+  ingame.gui_font = nil
 end
 
 function ingame.draw()
@@ -25,10 +27,13 @@ function ingame.draw()
   session.player:draw()
 
   -- Draw GUI elements
+  love.graphics.setColor(0, 0, 0, 255)
+  love.graphics.setFont(ingame.gui_font)
   if ingame.selected then
     love.graphics.draw(ingame.selected_overlay, ingame.selected.screen.x,
       ingame.selected.screen.y)
   end
+  love.graphics.print(string.format("Day %i %s $%i", session.day, session.format_time(), session.cash), 778, 10)
   if ingame.paused then
     love.graphics.setColor(128, 128, 128, 192)
     love.graphics.rectangle("fill", 228, 100, 568, 568)
