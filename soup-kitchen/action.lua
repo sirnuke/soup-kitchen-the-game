@@ -80,6 +80,7 @@ function ActionClass:update(dt)
         string.format("Missing volunteer at (%i,%i)", self.volunteer.x, self.volunteer.y)))
     elseif volunteer:arrived() then
       self.progress = self.progress + dt * core.constants.execute
+      print("Progress is now", self.progress)
     end
     --if self.progress >= core.constants.max_progress then
     --  self.customer
@@ -96,9 +97,15 @@ function ActionClass:update(dt)
   elseif self.type == 'prepare6' then
   elseif self.type == 'trash' then
   else
+    assert(false, string.format("Unhandled action type of %s", self.type))
   end
+end
+
+function ActionClass:finished()
   if self.progress >= core.constants.max_progress then
-    -- TODO: do SOMETHING
+    return true
+  else
+    return false
   end
 end
 
