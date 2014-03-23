@@ -70,17 +70,19 @@ function ActionClass:reset()
 end
 
 function ActionClass:update(dt)
+  local customer, volunteer
+  if self.customer then customer = map.occupant(self.customer.x, self.customer.y) end
+  if self.volunteer then volunteer = map.occupant(self.volunteer.x, self.volunteer.y) end
   if self.type == 'drinks' then
-    if not map.occupant(self.customer.x, self.customer.y) then
-      return
-    end
-    local volunteer = map.occupant(self.volunteer.x, self.volunteer.y)
+    if not customer then return end
     if not volunteer then
       table.insert(session.tasks, TaskClass.new('serving', 
         string.format("Missing volunteer at (%i,%i)", self.volunteer.x, self.volunteer.y)))
     elseif volunteer:arrived() then
       self.progress = self.progress + dt * core.constants.execute
     end
+    --if self.progress >= core.constants.max_progress then
+    --  self.customer
   elseif self.type == 'food1' then
   elseif self.type == 'food2' then
   elseif self.type == 'food3' then
@@ -94,6 +96,9 @@ function ActionClass:update(dt)
   elseif self.type == 'prepare6' then
   elseif self.type == 'trash' then
   else
+  end
+  if self.progress >= core.constants.max_progress then
+    -- TODO: do SOMETHING
   end
 end
 
