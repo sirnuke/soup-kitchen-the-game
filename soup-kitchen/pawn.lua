@@ -61,10 +61,12 @@ function PawnClass:go(x, y)
   assert(not map.blocked(x, y))
   assert(not map.occupant(x, y))
 
-  PawnClass.pathfinding.map[self.coordinate.y][self.coordinate.x] = true
+  local current = map.coordinate(self.position.x, self.position.y)
+
+  PawnClass.pathfinding.map[current.y][current.x] = true
 
   print("Performing breadth first search...")
-  local queue = { self.coordinate }
+  local queue = { current }
 
   while #queue > 0 and (queue[1].x ~= x or queue[1].y ~= y) do
     print("Getting neighbors of ", queue[1].x, queue[1].y)
@@ -90,9 +92,9 @@ function PawnClass:go(x, y)
   for y = 1,core.sizes.map.height do for x = 1,core.sizes.map.width do
     PawnClass.pathfinding.map[y][x] = nil
   end end
-  print("Removing", self.path[#self.path].x, self.path[#self.path].y)
-  table.remove(self.path)
-  print("Next step is", self.path[#self.path].x, self.path[#self.path].y)
+  --print("Removing", self.path[#self.path].x, self.path[#self.path].y)
+  --table.remove(self.path)
+  --print("Next step is", self.path[#self.path].x, self.path[#self.path].y)
 
   self.destination = map.position(self.path[#self.path].x, self.path[#self.path].y)
 
@@ -134,6 +136,7 @@ function PawnClass:walk(distance)
   end
 
   local dx, dy = self.destination.x - self.position.x, self.destination.y - self.position.y
+  assert(dx == 0 or dy == 0)
   if math.abs(dx) + math.abs(dy) > distance then
     if dx ~= 0 then
       -- TODO: Set directions here
