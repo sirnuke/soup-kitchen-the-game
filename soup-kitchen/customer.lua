@@ -16,6 +16,7 @@ end
 function CustomerClass:place()
   self.pawn = PawnClass.new('customer', core.constants.entry_location.x,
     core.constants.entry_location.y)
+  self.action = map.actions.drinks
 end
 
 function CustomerClass:spawned()
@@ -27,25 +28,29 @@ function CustomerClass:spawned()
 end
 
 function CustomerClass:update(dt)
-  if self.pawn then
-    self.pawn:update(dt)
-    if not self.action then
-      if not map.occupant(map.actions.drinks.customer.x, map.actions.drinks.customer.y) then
-        self.action = map.actions.drinks
-        print("self.action", self.action, map.actions, map.actions.drinks)
+  if not self.pawn then
+    return
+  end
+  self.pawn:update(dt)
+  if not self.action then
+    return
+  end
+  if self.pawn.coordinate.x ~= self.action.customer.x 
+    or self.pawn.coordinate.y ~= self.action.customer.y then
+    if self.pawn:arrived() then
+      if not map.occupant(self.action.customer.x, self.action.customer.y) then
+        print("Go to", self.action.customer.x, self.action.customer.y)
+        self.pawn:go(self.action.customer.x, self.action.customer.y)
+        self.action:reset()
       end
-    else
-      if self.pawn:arrived() then
-        if not map.occupant(self.action.customer.x, self.action.customer.y) then
-          print("Go to", self.action.customer.x, self.action.customer.y)
-          self.pawn:go(self.action.customer.x, self.action.customer.y)
-          self.action:reset()
-        else
-          self.action:update(dt)
-          if self.action:finished() then
-            self.action = self.action:next(session.stage, self.action)
-          end
-        end
+    end
+  else
+    self.action:update(dt)
+    if self.action:finished() then
+      self.action = self.action:next(session.stage, self.action)
+      if self.action == 'exit' then
+        self.pawn:go(core.constants.exit_location.x, core.constants.exit_location.y)
+        self.action = nil
       end
     end
   end
