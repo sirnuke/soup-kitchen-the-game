@@ -2,8 +2,8 @@
 -- Bryan DeGrendel (c) 2014
 
 session = {}
-session.stages = { breakfast="breakfast", lunch="lunch", prepare="preprea", dinner="dinner",
-  cleaning="cleaning", done="done" }
+session.stages = { breakfast="breakfast", lunch="lunch", prepare="prepare", dinner="dinner",
+  cleanup="cleanup", done="done" }
 
 local function calc_stage(time)
   if time >= core.constants.day_end then
@@ -31,7 +31,8 @@ function session.start()
   for i = 1,5 do table.insert(session.stock, StockClass.random('desert')) end
   for i = 1,2 do table.insert(session.stock, StockClass.random('salad')) end
 
-  session.player = PawnClass.new('player', 5, 11)
+  session.player = PawnClass.new('player', core.constants.start_location.x,
+    core.constants.start_location.y)
   session.employees = {}
   session.volunteers = {}
   session.new_day()
@@ -53,6 +54,7 @@ function session.new_day()
   session.time = core.constants.day_start
   session.cash = session.cash - #session.employees * core.constants.employee_wage
   session.stage = 'breakfast'
+  session.player:move(core.constants.start_location.x, core.constants.start_location.y)
 end
 
 function session.format_time()
