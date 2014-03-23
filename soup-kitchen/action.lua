@@ -36,16 +36,18 @@ function ActionClass:next(stage, current)
     return map.actions.food2
   elseif current.type == 'food2' then
     if stage == 'breakfast' then
-      return nil
+      return 'exit'
     else
       return map.actions.food3
     end
   elseif current.type == 'food3' then
     return map.actions.food4
   elseif current.type == 'food4' then
-    return map.actions.cleaning1
+    return 'exit'
   elseif current.type == 'cleaning1' then
     return map.actions.cleaning2
+  elseif current.type == 'cleaning2' then
+    return 'done'
   elseif current.type == 'prepare1' then
     return map.actions.storage1
   elseif current.type == 'prepare2' then
@@ -58,8 +60,14 @@ function ActionClass:next(stage, current)
     return map.actions.storage3
   elseif current.type == 'prepare6' then
     return map.actions.storage3
+  elseif current.type == 'storage1' then
+    return 'done'
+  elseif current.type == 'storage2' then
+    return 'done'
+  elseif current.type == 'storage3' then
+    return 'done'
   elseif current.type == 'trash' then
-    return nil
+    return 'done'
   else
     assert(false, string.format("Unhandled type of %s", current.type))
   end
