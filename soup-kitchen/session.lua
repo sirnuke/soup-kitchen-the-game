@@ -45,10 +45,12 @@ function session.start()
     core.constants.start_location.y)
   session.employees = {}
   session.volunteers = {}
+  session.tasks = {}
   session.new_day()
 end
 
 function session.update(dt)
+  session.tasks = {}
   session.time = session.time + dt * core.constants.time_scale
   session.player:update(dt)
   local stage = calc_stage(session.time)
@@ -102,6 +104,7 @@ function session.new_day()
   session.cash = session.cash - #session.employees * core.constants.employee_wage
   session.new_stage('breakfast')
   session.player:move(core.constants.start_location.x, core.constants.start_location.y)
+  session.tasks = {}
   session.customers = {}
 end
 
