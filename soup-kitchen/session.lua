@@ -26,9 +26,6 @@ function session.draw()
   for k,v in ipairs(session.line) do
     v:draw()
   end
-  --for k,v in ipairs(session.eating) do
-  --  v:draw()
-  --end
 end
 
 function session.start()
@@ -41,8 +38,7 @@ function session.start()
     end
   end
 
-  session.player = PawnClass.new('player', core.constants.start_location.x,
-    core.constants.start_location.y)
+  session.player = PawnClass.new('player', constants.coords.start)
   session.employees = {}
   session.volunteers = {}
   session.tasks = {}
@@ -51,22 +47,13 @@ end
 
 function session.update(dt)
   session.tasks = {}
-  session.time = session.time + dt * core.constants.time_scale
+  session.time = session.time + dt * constants.scale.clock
   session.player:update(dt)
   local stage = calc_stage(session.time)
   local customer
   assert(session.stages[stage])
   if session.stage ~= stage then
     session.new_stage(stage)
-  else
-    if not map.occupant(core.constants.entry_location.x, core.constants.entry_location.y) then
-      for k,v in ipairs(session.line) do
-        if not v:spawned() then
-          v:place()
-          break
-        end
-      end
-    end
   end
   for k,v in ipairs(session.line) do
     v:update(dt)
@@ -99,16 +86,16 @@ end
 
 function session.new_day()
   session.day = session.day + 1
-  session.time = core.constants.day_start
-  session.cash = session.cash - #session.employees * core.constants.employee_wage
+  session.time = constants.time.start
+  session.cash = session.cash - #session.employees * constants.cash.wage
   session.new_stage('breakfast')
-  session.player:move(core.constants.start_location.x, core.constants.start_location.y)
+  session.player:move(constants.coords.start)
   session.tasks = {}
   session.customers = {}
 end
 
 function session.format_time()
-  if session.time > core.constants.day_end then 
+  if session.time >= constants.time.close then 
     return "Late!"
   else
     local hour = math.floor((session.time - (session.time % 60)) / 60)
