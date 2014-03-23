@@ -32,7 +32,23 @@ function map.create()
   end
   -- Actions
   map.actions = {}
-  table.insert(map.actions, ActionClass.new('drinks', {x=2,y=9}, {x=3,y=11}))
+  table.insert(map.actions, ActionClass.new('drinks',    {x=2,y=9}, {x=3, y=11}))
+  table.insert(map.actions, ActionClass.new('food1',     {x=3,y=9}, {x=5, y=9}))
+  table.insert(map.actions, ActionClass.new('food2',     {x=3,y=8}, {x=5, y=8}))
+  table.insert(map.actions, ActionClass.new('food3',     {x=3,y=6}, {x=5, y=6}))
+  table.insert(map.actions, ActionClass.new('food4',     {x=3,y=5}, {x=5, y=5}))
+  table.insert(map.actions, ActionClass.new('cleaning1', {x=3,y=3}, {x=5, y=3}))
+  table.insert(map.actions, ActionClass.new('cleaning2', nil,       {x=8, y=3}))
+  table.insert(map.actions, ActionClass.new('prepare1',  nil,       {x=6, y=4}))
+  table.insert(map.actions, ActionClass.new('prepare2',  nil,       {x=6, y=6}))
+  table.insert(map.actions, ActionClass.new('prepare3',  nil,       {x=6, y=8}))
+  table.insert(map.actions, ActionClass.new('prepare4',  nil,       {x=9, y=5}))
+  table.insert(map.actions, ActionClass.new('prepare5',  nil,       {x=9, y=7}))
+  table.insert(map.actions, ActionClass.new('prepare6',  nil,       {x=10,y=9}))
+  table.insert(map.actions, ActionClass.new('storage1',  nil,       {x=10,y=4}))
+  table.insert(map.actions, ActionClass.new('storage2',  nil,       {x=10,y=6}))
+  table.insert(map.actions, ActionClass.new('storage3',  nil,       {x=10,y=8}))
+  table.insert(map.actions, ActionClass.new('trash',     nil,       {x=11,y=2}))
 end
 
 function map.create_square(x, y, blocked)
