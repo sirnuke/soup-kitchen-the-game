@@ -85,7 +85,23 @@ function ActionClass:update(dt)
     --if self.progress >= core.constants.max_progress then
     --  self.customer
   elseif self.type == 'food1' then
+    if not customer then return end
+    if not volunteer then
+      table.insert(session.tasks, TaskClass.new('serving', 
+        string.format("Missing volunteer at (%i,%i)", self.volunteer.x, self.volunteer.y)))
+    elseif volunteer:arrived() then
+      self.progress = self.progress + dt * core.constants.execute
+      print("Progress is now", self.progress)
+    end
   elseif self.type == 'food2' then
+    if not customer then return end
+    if not volunteer then
+      table.insert(session.tasks, TaskClass.new('serving', 
+        string.format("Missing volunteer at (%i,%i)", self.volunteer.x, self.volunteer.y)))
+    elseif volunteer:arrived() then
+      self.progress = self.progress + dt * core.constants.execute
+      print("Progress is now", self.progress)
+    end
   elseif self.type == 'food3' then
   elseif self.type == 'food4' then
   elseif self.type == 'cleaning1' then
