@@ -10,6 +10,7 @@ function ingame.enter()
   ingame.paused = false
   ingame.selected = nil
   ingame.gui_font = love.graphics.setNewFont("fonts/Inconsolata-Bold.ttf", core.constants.font_size)
+  ingame.gui_font_small = love.graphics.setNewFont("fonts/Inconsolata-Bold.ttf", core.constants.small_font_size)
   map.create()
   session.start()
 end
@@ -19,6 +20,7 @@ function ingame.exit()
   ingame.warning_icon = nil
   ingame.selected_overlay = nil
   ingame.gui_font = nil
+  ingame.gui_font_small = nil
 end
 
 function ingame.draw()
@@ -28,12 +30,21 @@ function ingame.draw()
 
   -- Draw GUI elements
   love.graphics.setColor(0, 0, 0, 255)
-  love.graphics.setFont(ingame.gui_font)
   if ingame.selected then
     love.graphics.draw(ingame.selected_overlay, ingame.selected.screen.x,
       ingame.selected.screen.y)
   end
+  love.graphics.setFont(ingame.gui_font)
   love.graphics.print(string.format("Day %i %s $%i", session.day, session.format_time(), session.cash), 778, 10)
+  for k,v in ipairs(session.stock) do
+    love.graphics.setFont(ingame.gui_font_small)
+    if k < 14 then
+      love.graphics.print(tostring(v), 778, 330 + ((k - 1) * 32))
+    elseif k == 14 then
+      love.graphics.print("...", 778, 330 + ((k - 1) * 32))
+    else
+    end
+  end
   if ingame.paused then
     love.graphics.setColor(128, 128, 128, 192)
     love.graphics.rectangle("fill", 228, 100, 568, 568)
