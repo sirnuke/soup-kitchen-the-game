@@ -33,7 +33,7 @@ function map.create()
 end
 
 function map.create_square(x, y, blocked)
-  return { x=x, y=y, blocked=blocked, occupant=nil }
+  return { x=x, y=y, blocked=blocked, occupant=nil, action=nil }
 end
 
 function map.blocked(x, y)
