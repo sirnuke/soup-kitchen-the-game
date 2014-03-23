@@ -58,9 +58,7 @@ end
 
 function ingame.update(dt)
   if not ingame.paused then
-    session.player:update(dt)
-    -- update pawns
-    -- update session
+    session.update(dt)
   end
 end
 

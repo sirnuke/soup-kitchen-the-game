@@ -4,8 +4,7 @@
 session = {}
 
 function session.start()
-  session.day = 1
-  session.time = core.constants.day_start
+  session.day = 0
   session.cash = core.constants.money_start
   session.stock = {}
   for i = 1,3 do table.insert(session.stock, StockClass.random('core')) end
@@ -17,6 +16,18 @@ function session.start()
   session.player = PawnClass.new('player', 5, 11)
   session.employees = {}
   session.volunteers = {}
+  session.new_day()
+end
+
+function session.update(dt)
+  session.time = session.time + dt * core.constants.time_scale
+  session.player:update(dt)
+end
+
+function session.new_day()
+  session.day = session.day + 1
+  session.time = core.constants.day_start
+  session.cash = session.cash - #session.employees * core.constants.employee_wage
 end
 
 function session.format_time()
