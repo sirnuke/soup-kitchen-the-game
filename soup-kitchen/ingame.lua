@@ -49,7 +49,7 @@ function ingame.draw()
   end
   -- for kv in ipairs(session.tasks) do
   -- end
-  love.graphics.print("Tasks!", 778, 70)
+  love.graphics.print("Tasks!", 778, 134)
   if ingame.paused then
     love.graphics.setColor(128, 128, 128, 192)
     love.graphics.rectangle("fill", 228, 100, 568, 568)
