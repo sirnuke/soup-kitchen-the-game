@@ -49,7 +49,8 @@ function session.update(dt)
 end
 
 function session.new_stage(stage)
-  local count
+  session.customers = 0
+  local count = 0
   if stage == 'breakfast' then
     count = homeless.spawn()
     print("Homeless count is", count)
@@ -61,6 +62,11 @@ function session.new_stage(stage)
     assert(false, string.format("Unhandled stage %s", stage))
   end
   session.stage = stage
+  session.line = {}
+  session.eating = {}
+  for i = 0,count do
+    table.insert(session.line, CustomerClass.new())
+  end
 end
 
 function session.new_day()
@@ -98,11 +104,11 @@ end
 
 function session.line_count()
   -- TODO: Dis
-  return 0
+  return #session.line
 end
 
 function session.eating_count()
   -- TODO: Dis
-  return 0
+  return #session.eating
 end
 
