@@ -23,45 +23,49 @@ function map.create()
     local data = {}
     for x,v in ipairs(row) do
       if v == ' ' then
-        table.insert(data, map.create_square(x, y, false))
+        table.insert(data, map.create_square(Coordinate.new(x, y), false))
       else
-        table.insert(data, map.create_square(x, y, true))
+        table.insert(data, map.create_square(Coordinate.new(x, y), true))
       end
     end
     table.insert(map.data, data)
   end
   -- Actions
   map.actions = {}
-  map.actions.drinks    = ActionClass.new('drinks',    {x=2,y=9}, {x=3, y=11})
-  map.actions.food1     = ActionClass.new('food1',     {x=3,y=9}, {x=5, y=9})
-  map.actions.food2     = ActionClass.new('food2',     {x=3,y=8}, {x=5, y=8})
-  map.actions.food3     = ActionClass.new('food3',     {x=3,y=6}, {x=5, y=6})
-  map.actions.food4     = ActionClass.new('food4',     {x=3,y=5}, {x=5, y=5})
-  map.actions.cleaning1 = ActionClass.new('cleaning1', {x=3,y=3}, {x=5, y=3})
-  map.actions.cleaning2 = ActionClass.new('cleaning2', nil,       {x=8, y=3})
-  map.actions.prepare1  = ActionClass.new('prepare1',  nil,       {x=6, y=4})
-  map.actions.prepare2  = ActionClass.new('prepare2',  nil,       {x=6, y=6})
-  map.actions.prepare3  = ActionClass.new('prepare3',  nil,       {x=6, y=8})
-  map.actions.prepare4  = ActionClass.new('prepare4',  nil,       {x=9, y=5})
-  map.actions.prepare5  = ActionClass.new('prepare5',  nil,       {x=9, y=7})
-  map.actions.prepare6  = ActionClass.new('prepare6',  nil,       {x=10,y=9})
-  map.actions.storage1  = ActionClass.new('storage1',  nil,       {x=10,y=4})
-  map.actions.storage2  = ActionClass.new('storage2',  nil,       {x=10,y=6})
-  map.actions.storage3  = ActionClass.new('storage3',  nil,       {x=10,y=8})
-  map.actions.trash     = ActionClass.new('trash',     nil,       {x=11,y=2})
+  map.actions.drinks    = ActionClass.new('drinks',    Coordinate.new(2,9), Coordinate.new(3,11))
+  map.actions.food1     = ActionClass.new('food1',     Coordinate.new(3,9), Coordinate.new(5,9))
+  map.actions.food2     = ActionClass.new('food2',     Coordinate.new(3,8), Coordinate.new(5,8))
+  map.actions.food3     = ActionClass.new('food3',     Coordinate.new(3,6), Coordinate.new(5,6))
+  map.actions.food4     = ActionClass.new('food4',     Coordinate.new(3,5), Coordinate.new(5,5))
+  map.actions.cleaning1 = ActionClass.new('cleaning1', nil,                 Coordinate.new(5,3))
+  map.actions.cleaning2 = ActionClass.new('cleaning2', nil,                 Coordinate.new(8,3))
+  map.actions.prepare1  = ActionClass.new('prepare1',  nil,                 Coordinate.new(6,4))
+  map.actions.prepare2  = ActionClass.new('prepare2',  nil,                 Coordinate.new(6,6))
+  map.actions.prepare3  = ActionClass.new('prepare3',  nil,                 Coordinate.new(6,8))
+  map.actions.prepare4  = ActionClass.new('prepare4',  nil,                 Coordinate.new(9,5))
+  map.actions.prepare5  = ActionClass.new('prepare5',  nil,                 Coordinate.new(9,7))
+  map.actions.prepare6  = ActionClass.new('prepare6',  nil,                 Coordinate.new(10,9))
+  map.actions.storage1  = ActionClass.new('storage1',  nil,                 Coordinate.new(10,4))
+  map.actions.storage2  = ActionClass.new('storage2',  nil,                 Coordinate.new(10,6))
+  map.actions.storage3  = ActionClass.new('storage3',  nil,                 Coordinate.new(10,8))
+  map.actions.trash     = ActionClass.new('trash',     nil,                 Coordinate.new(11,2))
 end
 
-function map.create_square(x, y, blocked)
-  return { x=x, y=y, blocked=blocked, occupant=nil, action=nil }
+function map.create_square(coord, blocked)
+  return { coord=coord, blocked=blocked, occupant=nil, action=nil }
 end
 
-function map.blocked(x, y)
-  return map.data[y][x].blocked
+function map.square(coord)
+  return map.data[coord.y][coord.x]
 end
 
-function map.position(x, y)
-  return { x= (x - 1) * core.sizes.square.width  + core.sizes.square.width / 2, 
-           y= (y - 1) * core.sizes.square.height + core.sizes.square.height / 2}
+function map.blocked(coord)
+  return map.square(coord).blocked
+end
+
+function map.position(coord)
+  return { x= (coord.x - 1) * core.sizes.square.width  + core.sizes.square.width / 2, 
+           y= (coord.y - 1) * core.sizes.square.height + core.sizes.square.height / 2}
 end
 
 function map.coordinate(x, y)
@@ -69,31 +73,38 @@ function map.coordinate(x, y)
            y= 1 + (y - (y % core.sizes.square.height)) / core.sizes.square.height }
 end
 
-function map.validcoordinate(x, y)
-  if x >= 1 and x <= core.sizes.map.width and y >= 1 and y <= core.sizes.map.height then
+function map.valid_coordinate(coord)
+  if coord.x >= 1 and coord.x <= constants.sizes.map.w and 
+      coord.y >= 1 and coord.y <= constants.sizes.map.h then
     return true
   else
     return false
   end
 end
 
-function map.occupant(x, y)
-  return map.data[y][x].occupant
+function map.occupant(coord)
+  return map.square(coord).current
 end
 
-function map.setoccupant(x, y, occupant)
-  map.data[y][x].occupant = occupant
+function map.set_occupant(coord, occupant)
+  map.square(coord).occupant = occupant
 end
 
-function map.getneighbors(x, y)
+function map.action(coord)
+  return map.square(coord).action
+end
+
+function map.set_action(coord, action)
+  map.square(coord).action = action
+end
+
+function map.get_neighbors(coord)
   local result, poss = { }, { {x=-1,y=0}, {x=1,y=0}, {x=0,y=-1}, {x=0,y=1} }
-  local nx, ny
+  local c = Coordinate.new(0, 0)
   for k,v in ipairs(poss) do
-    nx, ny = x + v.x, y + v.y
-    if map.validcoordinate(nx, ny) then
-      if not map.blocked(nx, ny) then
-        table.insert(result, { x=nx, y=ny })
-      end
+    c.x, c.y = coord.x + v.x, coord.y + v.y
+    if map.valid_coordinate(c) and not map.blocked(c) then
+      table.insert(result, Coordinate.new(c.x, c.y))
     end
   end
   return result
