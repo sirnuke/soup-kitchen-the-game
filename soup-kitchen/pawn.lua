@@ -8,7 +8,6 @@ PawnClass.types = { player='player', employee='employee', volunteer='volunteer',
 PawnClass.images = { }
 
 function PawnClass.new(type, x, y)
-  print("Spawning pawn at", x, y)
   assert(not map.blocked(x, y))
   assert(not map.occupant(x, y))
   assert(PawnClass.types[type])
@@ -86,11 +85,11 @@ function PawnClass:go(x, y)
 
   PawnClass.pathfinding.map[current.y][current.x] = true
 
-  print("Performing breadth first search...")
+  --print("Performing breadth first search...")
   local queue = { current }
 
   while #queue > 0 and (queue[1].x ~= x or queue[1].y ~= y) do
-    print("Getting neighbors of ", queue[1].x, queue[1].y)
+    --print("Getting neighbors of ", queue[1].x, queue[1].y)
     for k,v in ipairs(map.getneighbors(queue[1].x, queue[1].y)) do
       if not PawnClass.pathfinding.map[v.y][v.x] then
         PawnClass.pathfinding.map[v.y][v.x] = { x=queue[1].x, y=queue[1].y }
@@ -103,11 +102,11 @@ function PawnClass:go(x, y)
   assert(queue[1].x == x and queue[1].y == y, "Top of queue should be the end")
   self.path = { {x=x, y=y} }
   local square = PawnClass.pathfinding.map[y][x]
-  print("Path ends up at ", x, y, type(square))
+  --print("Path ends up at ", x, y, type(square))
   while type(square) ~= "boolean" do
     assert(type(square) == "table")
     table.insert(self.path, { x=square.x, y=square.y })
-    print("Looking up parent of ", square.x, square.y)
+    --print("Looking up parent of ", square.x, square.y)
     square = PawnClass.pathfinding.map[square.y][square.x]
   end
   for y = 1,core.sizes.map.height do for x = 1,core.sizes.map.width do
@@ -129,8 +128,8 @@ function PawnClass:update(dt)
   if self.path then
     assert(#self.path > 0 and self.destination)
     local dx, dy = self.destination.x - self.position.x, self.destination.y - self.position.y
-    print("Current is", self.position.x, self.position.y)
-    print("Destination is", self.destination.x, self.destination.y)
+    --print("Current is", self.position.x, self.position.y)
+    --print("Destination is", self.destination.x, self.destination.y)
     local distance = core.constants.walk * dt
     while distance > 0 do
       if self.destination.x == self.position.x and self.destination.y == self.position.y then
