@@ -57,6 +57,15 @@ function PawnClass:draw()
   love.graphics.draw(PawnClass.images[self.type], self.screen.x, self.screen.y)
 end
 
+function PawnClass:move(x, y)
+  self.path = nil
+  self.destination = nil
+  self.cordinates = { x=x, y=y }
+  self.position = map.position(x, y)
+  self.screen.x = self.position.x - (core.sizes.square.width - core.sizes.pawn.width) / 2
+  self.screen.y = self.position.y - (core.sizes.square.height - core.sizes.pawn.height) / 2
+end
+
 function PawnClass:go(x, y)
   assert(not map.blocked(x, y))
   assert(not map.occupant(x, y))
