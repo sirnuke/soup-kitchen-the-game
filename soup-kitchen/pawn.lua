@@ -7,18 +7,18 @@ PawnClass.types = { player='player', employee='employee', volunteer='volunteer',
   customer='customer' }
 PawnClass.images = { }
 
-function PawnClass.new(type, x, y)
-  assert(not map.blocked(x, y))
-  assert(not map.occupant(x, y))
+function PawnClass.new(type, coord)
+  assert(not map.blocked(coord))
+  assert(not map.occupant(coord))
   assert(PawnClass.types[type])
 
   if not PawnClass.pathfinding then
     PawnClass.pathfinding = { }
     PawnClass.pathfinding.map = { }
 
-    for y = 1,core.sizes.map.height do
+    for y = 1,constants.sizes.map.h do
       local row = { }
-      for x = 1,core.sizes.map.width do
+      for x = 1,constants.sizes.map.w do
         table.insert(row, nil)
       end
       table.insert(PawnClass.pathfinding.map, row)
@@ -28,16 +28,14 @@ function PawnClass.new(type, x, y)
   local instance = {}
   setmetatable(instance, PawnClass)
   instance.type = type
-  instance.position = map.position(x, y)
-  instance.screen = { }
-  instance.screen.x = instance.position.x - (core.sizes.square.width - core.sizes.pawn.width) / 2
-  instance.screen.y = instance.position.y - (core.sizes.square.height - core.sizes.pawn.height) / 2
-  instance.coordinate = { x=x, y=y }
+  instance.position = map.position(coord)
+  instance.coordinate = Coordinate.new(coord.x, coord.y)
   instance.path = nil
   instance.destination = nil
   instance.skills = {}
+  instance:set_screen()
 
-  map.setoccupant(x, y, instance)
+  map.set_occupant(coord, instance)
 
   if type == 'player' then
     if not PawnClass.images.player then
@@ -60,13 +58,18 @@ function PawnClass:draw()
   love.graphics.draw(PawnClass.images[self.type], self.screen.x, self.screen.y)
 end
 
-function PawnClass:move(x, y)
+function PawnClass:set_screen()
+  self.screen = {}
+  self.screen.x = self.position.x - (constants.sizes.square - constants.sizes.pawn) / 2
+  self.screen.y = self.position.y - (constants.sizes.square - constants.sizes.pawn) / 2
+end
+
+function PawnClass:move(coord)
   self.path = nil
   self.destination = nil
-  self.cordinates = { x=x, y=y }
-  self.position = map.position(x, y)
-  self.screen.x = self.position.x - (core.sizes.square.width - core.sizes.pawn.width) / 2
-  self.screen.y = self.position.y - (core.sizes.square.height - core.sizes.pawn.height) / 2
+  self.cordinates = Coordinate.new(coord.x, coord.y)
+  self.position = map.position(coord)
+  self:set_screen()
 end
 
 function PawnClass:arrived()
@@ -77,9 +80,9 @@ function PawnClass:arrived()
   end
 end
 
-function PawnClass:go(x, y)
-  assert(not map.blocked(x, y))
-  assert(not map.occupant(x, y))
+function PawnClass:go(coord)
+  assert(not map.blocked(coord))
+  assert(not map.occupant(coord))
 
   local current = map.coordinate(self.position.x, self.position.y)
 
@@ -88,40 +91,39 @@ function PawnClass:go(x, y)
   --print("Performing breadth first search...")
   local queue = { current }
 
-  while #queue > 0 and (queue[1].x ~= x or queue[1].y ~= y) do
+  while #queue > 0 and queue[1] ~= coord do
     --print("Getting neighbors of ", queue[1].x, queue[1].y)
-    for k,v in ipairs(map.getneighbors(queue[1].x, queue[1].y)) do
+    for k,v in ipairs(map.get_neighbors(queue[1])) do
       if not PawnClass.pathfinding.map[v.y][v.x] then
-        PawnClass.pathfinding.map[v.y][v.x] = { x=queue[1].x, y=queue[1].y }
-        table.insert(queue, { x=v.x, y=v.y })
+        PawnClass.pathfinding.map[v.y][v.x] = Coordinate.new(queue[1].x, queue[1].y) 
+        table.insert(queue, Coordinate.new(v.x, v.y))
       end
     end
     table.remove(queue, 1)
   end
   assert(#queue > 0, "Couldn't find a path!")
-  assert(queue[1].x == x and queue[1].y == y, "Top of queue should be the end")
-  self.path = { {x=x, y=y} }
+  assert(queue[1] == coord, "Top of queue should be the end")
+  self.path = { Coordinate.new(coord.x, coord.y) }
   local square = PawnClass.pathfinding.map[y][x]
   --print("Path ends up at ", x, y, type(square))
   while type(square) ~= "boolean" do
     assert(type(square) == "table")
-    table.insert(self.path, { x=square.x, y=square.y })
+    table.insert(self.path, Coordinate.new(square.x, square.y))
     --print("Looking up parent of ", square.x, square.y)
     square = PawnClass.pathfinding.map[square.y][square.x]
   end
-  for y = 1,core.sizes.map.height do for x = 1,core.sizes.map.width do
+  for y = 1,constants.sizes.map.h do for x = 1,constants.sizes.map.w do
     PawnClass.pathfinding.map[y][x] = nil
   end end
   --print("Removing", self.path[#self.path].x, self.path[#self.path].y)
   --table.remove(self.path)
   --print("Next step is", self.path[#self.path].x, self.path[#self.path].y)
 
-  self.destination = map.position(self.path[#self.path].x, self.path[#self.path].y)
+  self.destination = map.position(self.path[#self.path])
 
-  map.setoccupant(self.coordinate.x, self.coordinate.y, nil)
-  map.setoccupant(x, y, self)
-  self.coordinate.x = x
-  self.coordinate.y = y
+  map.set_occupant(self.coordinate, nil)
+  map.set_occupant(coord, self)
+  self.coordinate = Coordinate.new(coord.x, coord.y)
 end
 
 function PawnClass:update(dt)
@@ -130,12 +132,12 @@ function PawnClass:update(dt)
     local dx, dy = self.destination.x - self.position.x, self.destination.y - self.position.y
     --print("Current is", self.position.x, self.position.y)
     --print("Destination is", self.destination.x, self.destination.y)
-    local distance = core.constants.walk * dt
+    local distance = constants.scale.walk * dt
     while distance > 0 do
       if self.destination.x == self.position.x and self.destination.y == self.position.y then
         table.remove(self.path)
         if #self.path > 0 then
-          self.destination = map.position(self.path[#self.path].x, self.path[#self.path].y)
+          self.destination = map.position(self.path[#self.path])
         else
           self.path = nil
           self.destination = nil
@@ -179,8 +181,7 @@ function PawnClass:walk(distance)
   end
   self.position.x = self.position.x + dx
   self.position.y = self.position.y + dy
-  self.screen.x = self.screen.x + dx
-  self.screen.y = self.screen.y + dy
+  self:set_screen()
   return distance
 end
 
