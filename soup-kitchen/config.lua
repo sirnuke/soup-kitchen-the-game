@@ -6,11 +6,12 @@ function core.config()
   core.constants = {}
   core.constants.eat = 0.25
   core.constants.walk = 100
+  core.constants.execute = 5
+  core.constants.time_scale = 1
 
   core.constants.font_size = 22
   core.constants.small_font_size = 14
 
-  core.constants.time_scale = 1
   core.constants.day_start = 480 -- 8:00am
   core.constants.lunch = 660 -- 11:00am
   core.constants.prepare = 780 -- 1:00pm
