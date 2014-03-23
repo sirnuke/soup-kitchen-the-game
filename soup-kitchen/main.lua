@@ -9,6 +9,7 @@ require "help"
 require "ingame"
 require "mainmenu"
 
+require "coordinate"
 require "action"
 require "customer"
 require "homeless"
