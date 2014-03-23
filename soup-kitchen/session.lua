@@ -49,7 +49,10 @@ function session.update(dt)
 end
 
 function session.new_stage(stage)
+  local count
   if stage == 'breakfast' then
+    count = homeless.spawn()
+    print("Homeless count is", count)
   elseif stage == 'lunch' then
   elseif stage == 'prepare' then
   elseif stage == 'dinner' then
@@ -64,7 +67,7 @@ function session.new_day()
   session.day = session.day + 1
   session.time = core.constants.day_start
   session.cash = session.cash - #session.employees * core.constants.employee_wage
-  session.stage = 'breakfast'
+  session.new_stage('breakfast')
   session.player:move(core.constants.start_location.x, core.constants.start_location.y)
 end
 
