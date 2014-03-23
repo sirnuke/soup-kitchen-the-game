@@ -8,6 +8,7 @@ function core.config()
   core.constants.walk = 100
   core.constants.execute = 5
   core.constants.time_scale = 1
+  core.constants.max_progress = 100
 
   core.constants.font_size = 22
   core.constants.small_font_size = 14
