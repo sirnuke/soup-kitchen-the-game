@@ -64,13 +64,13 @@ function map.blocked(coord)
 end
 
 function map.position(coord)
-  return { x= (coord.x - 1) * core.sizes.square.width  + core.sizes.square.width / 2, 
-           y= (coord.y - 1) * core.sizes.square.height + core.sizes.square.height / 2}
+  return { x= (coord.x - 1) * constants.sizes.square + constants.sizes.square / 2, 
+           y= (coord.y - 1) * constants.sizes.square + constants.sizes.square / 2}
 end
 
 function map.coordinate(x, y)
-  return { x= 1 + (x - (x % core.sizes.square.width))  / core.sizes.square.width,
-           y= 1 + (y - (y % core.sizes.square.height)) / core.sizes.square.height }
+  return { x= 1 + (x - (x % constants.sizes.square))  / constants.sizes.square,
+           y= 1 + (y - (y % constants.sizes.square)) / constants.sizes.square }
 end
 
 function map.valid_coordinate(coord)
