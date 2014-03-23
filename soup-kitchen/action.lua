@@ -3,9 +3,16 @@
 
 ActionClass = {}
 ActionClass.__index = ActionClass
+ActionClass.types = {
+  drinks='drinks', food1='food1', food2='food2', food3='food3', food4='food4',
+  cleaning1='cleaning1', cleaning2='cleaning2', prepare1='prepare1', prepare2='prepare2',
+  prepare3='prepare3', prepare4='prepare4', prepare5='prepare5', prepare6='prepare6',
+  storage1='storage1', storage2='storage2', storage3='storage3', trash='trash'
+}
 
 function ActionClass.new(type, customer, volunteer)
   local instance = {}
+  assert(ActionClass.types[type])
   setmetatable(instance, ActionClass)
   instance.type = type
   if instance.customer then
