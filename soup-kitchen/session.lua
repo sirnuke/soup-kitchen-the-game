@@ -6,15 +6,15 @@ session.stages = { breakfast="breakfast", lunch="lunch", prepare="prepare", dinn
   cleanup="cleanup", done="done" }
 
 local function calc_stage(time)
-  if time >= core.constants.day_end then
+  if time >= constants.time.close then
     return 'done'
-  elseif  time >= core.constants.cleanup then
+  elseif  time >= constants.time.cleanup then
     return 'cleanup'
-  elseif time >= core.constants.dinner then
+  elseif time >= constants.time.dinner then
     return 'dinner'
-  elseif time >= core.constants.prepare then
+  elseif time >= constants.time.prepare then
     return 'prepare'
-  elseif time >= core.constants.lunch then
+  elseif time >= constants.time.lunch then
     return 'lunch'
   else
     return 'breakfast'
@@ -26,20 +26,20 @@ function session.draw()
   for k,v in ipairs(session.line) do
     v:draw()
   end
-  for k,v in ipairs(session.eating) do
-    v:draw()
-  end
+  --for k,v in ipairs(session.eating) do
+  --  v:draw()
+  --end
 end
 
 function session.start()
   session.day = 0
-  session.cash = core.constants.money_start
+  session.cash = constants.money.initial
   session.stock = {}
-  for i = 1,3 do table.insert(session.stock, StockClass.random('core')) end
-  for i = 1,5 do table.insert(session.stock, StockClass.random('side')) end
-  for i = 1,3 do table.insert(session.stock, StockClass.random('drink')) end
-  for i = 1,5 do table.insert(session.stock, StockClass.random('desert')) end
-  for i = 1,2 do table.insert(session.stock, StockClass.random('salad')) end
+  for k,v in pairs(constants.stock.start) do
+    for i = 1,v do
+      table.insert(session.stock, StockClass.random(k))
+    end
+  end
 
   session.player = PawnClass.new('player', core.constants.start_location.x,
     core.constants.start_location.y)
