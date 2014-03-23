@@ -45,6 +45,10 @@ function session.update(dt)
   assert(session.stages[stage])
   if session.stage ~= stage then
     session.new_stage(stage)
+  else
+    if not map.occupant(9, 1) then
+      print("Spawn customer!")
+    end
   end
 end
 
@@ -75,6 +79,7 @@ function session.new_day()
   session.cash = session.cash - #session.employees * core.constants.employee_wage
   session.new_stage('breakfast')
   session.player:move(core.constants.start_location.x, core.constants.start_location.y)
+  session.customers = {}
 end
 
 function session.format_time()
