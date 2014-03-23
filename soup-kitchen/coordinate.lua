@@ -5,7 +5,6 @@ Coordinate = {}
 Coordinate.__index = Coordinate
 
 Coordinate.__eq = function(a, b) 
-  print(a.x, b.x, a.y, b.y)
   if a.x == b.x and a.y == b.y then
     return true
   else
