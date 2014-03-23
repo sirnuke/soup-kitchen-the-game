@@ -1,3 +1,5 @@
+-- Soup Kitchen
+-- Bryan DeGrendel (c) 2014
 
 function core.config()
   love.window.setMode(1024, 768, {})
