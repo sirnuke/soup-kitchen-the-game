@@ -9,8 +9,8 @@ function ingame.enter()
   ingame.selected_overlay = love.graphics.newImage("images/ingame/selected-overlay.png")
   ingame.paused = false
   ingame.selected = nil
-  ingame.gui_font = love.graphics.setNewFont("fonts/Inconsolata-Bold.ttf", core.constants.font_size)
-  ingame.gui_font_small = love.graphics.setNewFont("fonts/Inconsolata-Bold.ttf", core.constants.small_font_size)
+  ingame.font_normal = love.graphics.setNewFont(constants.font.filename, constants.font.normal)
+  ingame.font_small = love.graphics.setNewFont(constants.font.filename, constants.font.small)
   map.create()
   session.start()
 end
@@ -19,8 +19,8 @@ function ingame.exit()
   ingame.background = nil
   ingame.warning_icon = nil
   ingame.selected_overlay = nil
-  ingame.gui_font = nil
-  ingame.gui_font_small = nil
+  ingame.font_normal = nil
+  ingame.font_small = nil
 end
 
 function ingame.draw()
@@ -34,12 +34,12 @@ function ingame.draw()
     love.graphics.draw(ingame.selected_overlay, ingame.selected.screen.x,
       ingame.selected.screen.y)
   end
-  love.graphics.setFont(ingame.gui_font)
+  love.graphics.setFont(ingame.font_normal)
   love.graphics.print(string.format("Day %i %s $%i", session.day, session.format_time(), session.cash), 778, 10)
   love.graphics.print(session.stage, 778, 74)
   love.graphics.print(string.format("#%i Eating", session.eating_count()), 8, 334)
   love.graphics.print(string.format("#%i Queued", session.line_count()), 8, 398)
-  love.graphics.setFont(ingame.gui_font_small)
+  love.graphics.setFont(ingame.font_small)
   for k,v in ipairs(session.stock) do
     if k < 14 then
       love.graphics.print(tostring(v), 778, 330 + ((k - 1) * 32))
