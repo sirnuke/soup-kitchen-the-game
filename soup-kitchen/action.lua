@@ -15,7 +15,7 @@ function ActionClass.new(type, customer, volunteer)
   assert(ActionClass.types[type])
   setmetatable(instance, ActionClass)
   instance.type = type
-  if instance.customer then
+  if customer then
     instance.customer = { x=customer.x,  y=customer.y  }
     assert(not map.blocked(customer.x, custumer.y))
     map.data[customer.y][customer.x].action = instance
@@ -27,7 +27,9 @@ function ActionClass.new(type, customer, volunteer)
 end
 
 function ActionClass:next(stage, current)
-  if current.type == 'drinks' then
+  if current.type == nil then
+    return map.actions.drinks
+  elseif current.type == 'drinks' then
     return map.actions.food1
   elseif current.type == 'food1' then
     return map.actions.food2
