@@ -51,7 +51,7 @@ function map.coordinate(x, y)
 end
 
 function map.validcoordinate(x, y)
-  if x >= 0 and x <= core.sizes.map.width and y >= 0 and y <= core.sizes.map.height then
+  if x >= 1 and x <= core.sizes.map.width and y >= 1 and y <= core.sizes.map.height then
     return true
   else
     return false
@@ -71,13 +71,12 @@ function map.getneighbors(x, y)
   local nx, ny
   for k,v in ipairs(poss) do
     nx, ny = x + v.x, y + v.y
-    print("Checking", nx, ny, map.validcoordinate(nx,ny), map.blocked(nx, ny))
-    if map.validcoordinate(nx, ny) and not map.blocked(nx, ny) then
-      print("Adding", nx, ny)
-      table.insert(result, { x=nx, y=ny })
+    if map.validcoordinate(nx, ny) then
+      if not map.blocked(nx, ny) then
+        table.insert(result, { x=nx, y=ny })
+      end
     end
   end
-  print("Found #valid neighbors", #result)
   return result
 end
 
