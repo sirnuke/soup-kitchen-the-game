@@ -5,7 +5,7 @@ mainmenu = { }
 
 function mainmenu.enter()
   mainmenu.background = love.graphics.newImage("images/mainmenu/background.png")
-  mainmenu.eat = core.constants.eat
+  mainmenu.eat = constants.eat
 end
 
 function mainmenu.exit()
