@@ -42,6 +42,9 @@ function CustomerClass:update(dt)
           self.action:reset()
         else
           self.action:update(dt)
+          if self.action:finished() then
+            self.action = self.action:next(session.stage, self.action)
+          end
         end
       end
     end
