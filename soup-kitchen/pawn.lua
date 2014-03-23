@@ -80,20 +80,20 @@ function PawnClass:arrived()
   end
 end
 
-function PawnClass:go(coord)
-  assert(not map.blocked(coord))
-  assert(not map.occupant(coord))
-
+function PawnClass:pathfind(coord)
   local current = map.coordinate(self.position.x, self.position.y)
 
   PawnClass.pathfinding.map[current.y][current.x] = true
 
-  --print("Performing breadth first search...")
   local queue = { current }
+
+  print(string.format("Pathfinding from (%i,%i) to (%i,%i)", self.coordinate.x,
+    self.coordinate.y, coord.x, coord.y))
 
   while #queue > 0 and queue[1] ~= coord do
     --print("Getting neighbors of ", queue[1].x, queue[1].y)
     for k,v in ipairs(map.get_neighbors(queue[1])) do
+      --print("Checking", v.x, v.y)
       if not PawnClass.pathfinding.map[v.y][v.x] then
         PawnClass.pathfinding.map[v.y][v.x] = Coordinate.new(queue[1].x, queue[1].y) 
         table.insert(queue, Coordinate.new(v.x, v.y))
@@ -104,7 +104,7 @@ function PawnClass:go(coord)
   assert(#queue > 0, "Couldn't find a path!")
   assert(queue[1] == coord, "Top of queue should be the end")
   self.path = { Coordinate.new(coord.x, coord.y) }
-  local square = PawnClass.pathfinding.map[y][x]
+  local square = PawnClass.pathfinding.map[coord.y][coord.x]
   --print("Path ends up at ", x, y, type(square))
   while type(square) ~= "boolean" do
     assert(type(square) == "table")
@@ -115,11 +115,18 @@ function PawnClass:go(coord)
   for y = 1,constants.sizes.map.h do for x = 1,constants.sizes.map.w do
     PawnClass.pathfinding.map[y][x] = nil
   end end
+  self.destination = map.position(self.path[#self.path])
+end
+
+function PawnClass:go(coord)
+  assert(not map.blocked(coord))
+  assert(not map.occupant(coord))
+
   --print("Removing", self.path[#self.path].x, self.path[#self.path].y)
   --table.remove(self.path)
   --print("Next step is", self.path[#self.path].x, self.path[#self.path].y)
 
-  self.destination = map.position(self.path[#self.path])
+  self:pathfind(coord)
 
   map.set_occupant(self.coordinate, nil)
   map.set_occupant(coord, self)
