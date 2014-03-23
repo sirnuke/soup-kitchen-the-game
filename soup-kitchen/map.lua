@@ -69,8 +69,8 @@ function map.position(coord)
 end
 
 function map.coordinate(x, y)
-  return { x= 1 + (x - (x % constants.sizes.square))  / constants.sizes.square,
-           y= 1 + (y - (y % constants.sizes.square)) / constants.sizes.square }
+  return Coordinate.new(1 + (x - (x % constants.sizes.square)) / constants.sizes.square,
+                        1 + (y - (y % constants.sizes.square)) / constants.sizes.square)
 end
 
 function map.valid_coordinate(coord)
