@@ -15,5 +15,7 @@ function session.start()
   for i = 1,2 do table.insert(session.stock, StockClass.random('salad')) end
 
   session.player = PawnClass.new('player', 5, 11)
+  session.employees = {}
+  session.volunteers = {}
 end
 
