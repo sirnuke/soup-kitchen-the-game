@@ -72,7 +72,8 @@ function session.format_time()
   if session.time > core.constants.day_end then 
     return "Late!"
   else
-    local hour, minute = (session.time - (session.time % 60)) / 60, session.time % 60
+    local hour = math.floor((session.time - (session.time % 60)) / 60)
+    local minute = math.floor(session.time % 60)
     local hstr, mstr
     if hour >= 13 then
       hour = hour - 12
