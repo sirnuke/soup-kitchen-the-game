@@ -32,7 +32,7 @@ function map.create()
   end
   -- Actions
   map.actions = {}
-  table.insert(map.actions, ActionClass.new('drinks', {x=9,y=2}, {x=11,y=3}))
+  table.insert(map.actions, ActionClass.new('drinks', {x=2,y=9}, {x=3,y=11}))
 end
 
 function map.create_square(x, y, blocked)
