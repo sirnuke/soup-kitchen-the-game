@@ -5,7 +5,7 @@ homeless = {}
 
 function homeless.spawn()
   if not homeless.demand then
-    homeless.demand = core.constants.homeless_need
+    homeless.demand = constants.homeless_need
   end
   return math.floor(love.math.randomNormal(10, homeless.demand))
 end

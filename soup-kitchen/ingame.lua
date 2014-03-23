@@ -86,9 +86,8 @@ function ingame.mousepressed(x, y, button)
       end
     elseif button == 'r' then
       local coord = map.coordinate(x, y)
-      if ingame.selected and not map.blocked(coord.x, coord.y) 
-        and not map.occupant(coord.x, coord.y) then
-        ingame.selected:go(coord.x, coord.y)
+      if ingame.selected and not map.blocked(coord) and not map.occupant(coord) then
+        ingame.selected:go(coord)
       end
     end
   end

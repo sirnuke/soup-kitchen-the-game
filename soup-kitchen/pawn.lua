@@ -186,8 +186,8 @@ function PawnClass:walk(distance)
 end
 
 function PawnClass:clicked(x, y)
-  if x >= self.screen.x and x < self.screen.x + core.sizes.pawn.width and
-     y >= self.screen.y and y < self.screen.y + core.sizes.pawn.height then
+  if x >= self.screen.x and x < self.screen.x + constants.sizes.pawn and
+     y >= self.screen.y and y < self.screen.y + constants.sizes.pawn then
      return true
    else
      return false
