@@ -26,7 +26,7 @@ end
 function ingame.draw()
   love.graphics.draw(ingame.background)
   -- Draw pawns
-  session.player:draw()
+  session.draw()
 
   -- Draw GUI elements
   love.graphics.setColor(0, 0, 0, 255)
