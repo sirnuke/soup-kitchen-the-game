@@ -5,8 +5,8 @@ function core.config()
 
   core.constants = {}
   core.constants.eat = 0.25
-  core.constants.walk = 100
-  core.constants.execute = 50
+  core.constants.walk = 150
+  core.constants.execute = 70
   core.constants.time_scale = 1
   core.constants.max_progress = 100
 
