@@ -8,6 +8,7 @@ PawnClass.types = { player='player', employee='employee', volunteer='volunteer',
 PawnClass.images = { }
 
 function PawnClass.new(type, x, y)
+  print("Spawning pawn at", x, y)
   assert(not map.blocked(x, y))
   assert(not map.occupant(x, y))
   assert(PawnClass.types[type])
@@ -46,6 +47,9 @@ function PawnClass.new(type, x, y)
   elseif type == 'employee' then
   elseif type == 'volunteer' then
   elseif type == 'customer' then
+    if not PawnClass.images.customer then
+      PawnClass.images.customer = love.graphics.newImage("images/pawns/customer.png")
+    end
   else
     assert(false, string.format("Unhandled pawn type %s", type))
   end
