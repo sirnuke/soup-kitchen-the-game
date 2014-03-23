@@ -5,7 +5,7 @@ function core.config()
 
   core.constants = {}
   core.constants.eat = 0.25
-  core.constants.walk = 50
+  core.constants.walk = 100
   core.sizes = {}
   core.sizes.square = {width=64, height=64}
   core.sizes.pawn = {width=32, height=32}
