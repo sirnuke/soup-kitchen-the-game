@@ -8,8 +8,6 @@ PawnClass.types = { player='player', employee='employee', volunteer='volunteer',
 PawnClass.images = { }
 
 function PawnClass.new(type, coord)
-  assert(not map.blocked(coord))
-  assert(not map.occupant(coord))
   assert(PawnClass.types[type])
 
   if not PawnClass.pathfinding then
@@ -25,18 +23,6 @@ function PawnClass.new(type, coord)
     end
   end
 
-  local instance = {}
-  setmetatable(instance, PawnClass)
-  instance.type = type
-  instance.position = map.position(coord)
-  instance.coordinate = Coordinate.new(coord.x, coord.y)
-  instance.path = nil
-  instance.destination = nil
-  instance.skills = {}
-  instance:set_screen()
-
-  map.set_occupant(coord, instance)
-
   if type == 'player' then
     if not PawnClass.images.player then
       PawnClass.images.player = love.graphics.newImage("images/pawns/player.png")
@@ -50,6 +36,30 @@ function PawnClass.new(type, coord)
   else
     assert(false, string.format("Unhandled pawn type %s", type))
   end
+
+
+  local instance = {}
+  setmetatable(instance, PawnClass)
+  instance.type = type
+  instance.skills = {}
+  if coord == 'enter' then
+    assert(not map.occupant(constants.coords.entrance))
+    instance.position = map.position(constants.coords.entrance)
+    instance.position.x = instance.position.x - constants.sizes.square
+    instance.coordinate = Coordinate.new(constants.coords.entrance.x, constants.coords.entrance.y)
+    instance.path = { Coordinate.new(constants.coords.entrance.x, constants.coords.entrance.y) }
+    instance.destination = map.position(constants.coords.entrance)
+  else
+    assert(not map.blocked(coord))
+    assert(not map.occupant(coord))
+    instance.position = map.position(coord)
+    instance.coordinate = Coordinate.new(coord.x, coord.y)
+    instance.path = nil
+    instance.destination = nil
+  end
+
+  map.set_occupant(instance.coordinate, instance)
+  instance:set_screen()
 
   return instance
 end
