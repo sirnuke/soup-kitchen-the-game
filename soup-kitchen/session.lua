@@ -43,3 +43,13 @@ function session.format_time()
   end
 end
 
+function session.line_count()
+  -- TODO: Dis
+  return 0
+end
+
+function session.eating_count()
+  -- TODO: Dis
+  return 0
+end
+
