@@ -16,6 +16,7 @@ require "map"
 require "pawn"
 require "session"
 require "stock"
+require "task"
 
 function love.load()
   core.config()
