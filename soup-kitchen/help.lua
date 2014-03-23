@@ -5,7 +5,7 @@ help = { }
 
 function help.enter()
   help.background = love.graphics.newImage("images/help/background.png")
-  help.eat = core.eat
+  help.eat = core.constants.eat
 end
 
 function help.exit()
