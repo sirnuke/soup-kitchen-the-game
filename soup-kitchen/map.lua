@@ -99,3 +99,8 @@ function map.getneighbors(x, y)
   return result
 end
 
+function map.update(dt)
+  for k,v in ipairs(map.actions) do
+  end
+end
+

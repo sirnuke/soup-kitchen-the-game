@@ -72,6 +72,7 @@ function session.update(dt)
   for v,y in ipairs(session.eating) do
     v:update(dt)
   end
+  map.update(dt)
 end
 
 function session.new_stage(stage)
