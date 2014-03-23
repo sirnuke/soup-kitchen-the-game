@@ -66,6 +66,9 @@ function session.update(dt)
       end
     end
   end
+  for k,v in ipairs(session.line) do
+    v:update(dt)
+  end
 end
 
 function session.new_stage(stage)
