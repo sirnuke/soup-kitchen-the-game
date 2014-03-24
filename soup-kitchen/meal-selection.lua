@@ -18,58 +18,47 @@ function meal_selection:start(meal)
   assert(not self.active)
   self.active = true
   assert(self.meals[meal])
+
   self.slots = {}
-  self.slots[1] = { 'drink' }
+  self.slots[1] = MealSelectionSlot.new({'drink'})
   if meal == 'breakfast' then
-    self.slots[2] = { 'side', 'core', 'dessert' }
+    self.slots[2] = MealSelectionSlot.new({ 'side', 'core', 'dessert' })
     assert(#self.slots == constants.breakfast_end)
   elseif meal == 'lunch' then
-    self.slots[2] = { 'dessert', 'salad' }
-    self.slots[3] = { 'salad', 'side' }
-    self.slots[4] = { 'side', 'core' }
-    self.slots[5] = { 'core' }
+    self.slots[2] = MealSelectionSlot.new({ 'dessert', 'salad' })
+    self.slots[3] = MealSelectionSlot.new({ 'salad', 'side' })
+    self.slots[4] = MealSelectionSlot.new({ 'side', 'core' })
+    self.slots[5] = MealSelectionSlot.new({ 'core' })
   elseif meal == 'dinner' then
-    self.slots[2] = { 'dessert' }
-    self.slots[3] = { 'salad' }
-    self.slots[4] = { 'side' }
-    self.slots[5] = { 'core' }
+    self.slots[2] = MealSelectionSlot.new({ 'dessert' })
+    self.slots[3] = MealSelectionSlot.new({ 'salad' })
+    self.slots[4] = MealSelectionSlot.new({ 'side' })
+    self.slots[5] = MealSelectionSlot.new({ 'core' })
   else
     assert(false, string.format("Unhandled meal type of %s", meal))
   end
-  self.choices = {}
-  for k,v in ipairs(session.stock) do
-    if v:ready() then
-      table.insert(self.choices, v)
+
+  self.options = {}
+  for id,stock in ipairs(session.stock) do
+    if stock:ready() then
+      table.insert(self.options, MealSelectionOption.new(stock))
     end
   end
-  self.labels = {}
-  local str = ""
-  for k,v in ipairs(self.slots) do
-    str = ""
-    for i,req in ipairs(v) do
-      if i > 1 then str = str .. " OR " end
-      str = str .. req
-    end
-    self.labels[k] = str
+
+  for id,serving in ipairs(map.actions.serving) do
+    if self.slots[id] then self.slots[id]:set_selection(serving.stock_source) end
   end
-  self.selections = {}
-  for k,v in ipairs(map.actions.serving) do
-    if v.stock_source then
-      self.selections[k] = v.stock_source
-    end
-  end
+
   self.meal = meal
 end
 
 function meal_selection:enter()
   assert(not self.active)
   self.active = true
-  self.selections = {}
-  assert(self.meal and self.slots)
-  for k,v in ipairs(map.actions.serving) do
-    if v.stock_source then
-      self.selections[k] = v.stock_source
-    end
+  assert(self.meal and self.slots and self.options)
+
+  for id,serving in ipairs(map.actions.serving) do
+    self.slots[id]:set_selection(serving.stock_source)
   end
 end
 
@@ -86,15 +75,17 @@ function meal_selection:draw()
 
   love.graphics.setColor(0, 0, 0, 224)
   love.graphics.setFont(ingame.font_small)
-  for k,v in ipairs(self.labels) do
-    love.graphics.print(v, 132, 126 + (k - 1) * 32)
-    if self.selections[k] then
-      love.graphics.print(tostring(self.selections[k]), 132, 126 + (k - 1) * 32 + 16)
-    end
-  end
-  for k,v in ipairs(self.choices) do
-    love.graphics.print(tostring(v), 534, 126 + (k - 1) * 32)
-  end
+  for id,slot in ipairs(self.slots) do slot:draw() end
+  for id,option in ipairs(self.options) do option:draw() end
+  --for k,v in ipairs(self.labels) do
+    --love.graphics.print(v, 132, 126 + (k - 1) * 32)
+    --if self.selections[k] then
+      --love.graphics.print(tostring(self.selections[k]), 132, 126 + (k - 1) * 32 + 16)
+    --end
+  --end
+  --for k,v in ipairs(self.choices) do
+    --love.graphics.print(tostring(v), 534, 126 + (k - 1) * 32)
+  --end
 end
 
 function meal_selection:update(dt)

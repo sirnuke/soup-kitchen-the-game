@@ -4,9 +4,13 @@
 MealSelectionOption = {}
 MealSelectionOption.__index = MealSelectionOption
 
-function MealSelectionOption.new()
+function MealSelectionOption.new(stock)
   local instance = {}
   setmetatable(instance, MealSelectionOption)
+  instance.stock = stock
   return instance
+end
+
+function MealSelectionOption:draw()
 end
 
