@@ -58,6 +58,13 @@ function meal_selection:start(meal)
     end
   end
 
+  self:update_slots()
+end
+
+function meal_selection:update_slots()
+  for id,option in ipairs(self.options) do
+    option.slot = nil
+  end
   for id,serving in ipairs(map.actions.serving) do
     if self.slots[id] then
       self.slots[id]:set_selection(serving.stock_source)
@@ -70,14 +77,13 @@ function meal_selection:start(meal)
   end
 end
 
+
 function meal_selection:enter()
   assert(not self.active)
   self.active = true
   assert(self.meal and self.slots and self.options)
 
-  for id,serving in ipairs(map.actions.serving) do
-    self.slots[id]:set_selection(serving.stock_source)
-  end
+  self:update_slots()
 end
 
 function meal_selection:ok()
