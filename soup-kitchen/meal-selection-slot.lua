@@ -11,6 +11,7 @@ function MealSelectionSlot.new(requirements)
   instance.stock = nil
   instance.label = ''
   instance.selection_label = nil
+  instance.valid = false
   for i,req in ipairs(requirements) do
     if i > 1 then instance.label = instance.label .. " OR " end
     instance.label = instance.label .. req
@@ -19,11 +20,14 @@ function MealSelectionSlot.new(requirements)
 end
 
 function MealSelectionSlot:set_selection(stock)
-  self.stock = stock
-  if self.stock then
-    self.selection_label = " - " .. tostring(self.stock)
-  else
-    self.selection_label = nil
+  self.selection = stock
+  self.valid = false
+  self.selection_label = nil
+  if self.selection then
+    for id,req in ipairs(self.requirements) do
+      if req == self.selection.type then self.valid = true end
+    end
+    self.selection_label = " - " .. tostring(self.selection)
   end
 end
 
@@ -31,8 +35,16 @@ function MealSelectionSlot:draw(offset)
   -- bleh
   local imgoffset, txtoffset, height = 130, 134, 30
   local txt2offset = txtoffset + 171
+  local image = nil
+  if self.valid then
+    image = meal_selection.elements.used
+  elseif not self.selection then
+    image = meal_selection.elements.normal
+  else
+    image = meal_selection.elements.invalid
+  end
   love.graphics.setColor(255, 255, 255, 224)
-  love.graphics.draw(meal_selection.elements.normal, imgoffset, imgoffset + (offset - 1) * height)
+  love.graphics.draw(image, imgoffset, imgoffset + (offset - 1) * height)
   love.graphics.setColor(0, 0, 0, 224)
   love.graphics.print(self.label, txtoffset, txtoffset + (offset - 1) * height)
   if self.selection_label then
