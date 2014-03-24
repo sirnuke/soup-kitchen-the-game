@@ -69,8 +69,10 @@ function session.update(dt)
     v:update(dt)
   end
 
-  for k,v in pairs(map.actions) do
-    v:update(dt)
+  for class,table in pairs(map.actions) do
+    for name,action in pairs(table) do
+      action:update(dt)
+    end
   end
 end
 
