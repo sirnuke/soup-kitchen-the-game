@@ -49,6 +49,7 @@ function StockClass:prepare()
 end
 
 function StockClass:ready()
+  if self.quantity <= 0 then return false end
   if self.type == 'core' or self.type == 'side' then
     return self.prepared
   else
