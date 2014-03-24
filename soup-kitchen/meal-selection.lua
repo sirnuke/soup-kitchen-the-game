@@ -83,9 +83,6 @@ function meal_selection:draw()
   love.graphics.setFont(ingame.font_small)
   for id,slot in ipairs(self.slots) do slot:draw(id) end
   for id,option in ipairs(self.options) do option:draw(id) end
-  --for k,v in ipairs(self.choices) do
-    --love.graphics.print(tostring(v), 534, 126 + (k - 1) * 32)
-  --end
 end
 
 function meal_selection:update(dt)
