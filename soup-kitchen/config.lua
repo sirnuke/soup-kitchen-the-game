@@ -54,14 +54,16 @@ function core.config()
   constants.font.small = 14
 
   constants.time = {}
-  constants.time.stage     =  120 -- 2 hours
-  constants.time.start     =  450 --  7:30am
-  constants.time.breakfast =  480 --  8:00am
-  constants.time.lunch     =  660 -- 11:00am
-  constants.time.prepare   =  840 --  2:00pm
-  constants.time.dinner    =  960 --  4:00pm
-  constants.time.cleanup   = 1080 --  6:00pm
-  constants.time.close     = 1200 --  8:00pm
+  constants.time.stage       =  120 -- 2 hours
+  constants.time.start       =  450 --  7:30am
+  constants.time.breakfast   =  480 --  8:00am
+  constants.time.prep_lunch  =  600 -- 10:00am
+  constants.time.lunch       =  660 -- 11:00am
+  constants.time.cook        =  840 --  2:00pm
+  constants.time.prep_dinner =  960 --  4:00pm
+  constants.time.dinner      = 1020 --  5:00pm
+  constants.time.cleanup     = 1140 --  7:00pm
+  constants.time.close       = 1200 --  8:00pm
 
   constants.money = {}
   constants.money.initial = 1000

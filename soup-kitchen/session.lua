@@ -2,24 +2,15 @@
 -- Bryan DeGrendel (c) 2014
 
 session = {}
-session.stages = { start="start", breakfast="breakfast", lunch="lunch", prepare="prepare", 
-  dinner="dinner", cleanup="cleanup", done="done" }
+session.stages = { start="start", breakfast="breakfast", prep_lunch="prep_lunch", lunch="lunch", 
+  cook="cook", prep_dinner="prep_dinner", dinner="dinner", cleanup="cleanup", done="done" }
+session.stage_order = { 'start', 'breakfast', 'prep_lunch', 'lunch', 'cook', 'prep_dinner', 'dinner', 'cleanup', 'done' }
 
 local function calc_stage(time)
-  if time >= constants.time.close then
-    return 'done'
-  elseif  time >= constants.time.cleanup then
-    return 'cleanup'
-  elseif time >= constants.time.dinner then
-    return 'dinner'
-  elseif time >= constants.time.prepare then
-    return 'prepare'
-  elseif time >= constants.time.lunch then
-    return 'lunch'
-  elseif time >= constants.time.breakfast then
-    return 'breakfast'
-  else
-    return 'start'
+  for i = #session.stage_order,1,-1 do
+    if time >= constants.time[session.stage_order[i]] then
+      return session.stage_order[i]
+    end
   end
 end
 
@@ -90,14 +81,20 @@ function session.new_stage(stage)
   print("New stage", stage)
   local count = 0
   if stage == 'start' then
+    meal_selection:start('breakfast')
   elseif stage == 'breakfast' then
     count = homeless.spawn(stage)
     print("Homeless count is", count)
+  elseif stage == 'prep_lunch' then
+    meal_selection:start('lunch')
   elseif stage == 'lunch' then
     -- have everyone in line leave?
-  elseif stage == 'prepare' then
+  elseif stage == 'cook' then
+  elseif stage == 'prep_dinner' then
+    menu_selection:start('dinner')
   elseif stage == 'dinner' then
   elseif stage == 'cleanup' then
+  elseif stage == 'done' then
   else
     assert(false, string.format("Unhandled stage %s", stage))
   end
@@ -166,9 +163,9 @@ function session.name_stage()
   elseif session.time >= constants.time.lunch
     and session.time < constants.time.lunch + constants.time.stage then
     return "Lunch"
-  elseif session.time >= constants.time.prepare
-    and session.time < constants.time.prepare + constants.time.stage then
-    return "Prepare"
+  elseif session.time >= constants.time.cook
+    and session.time < constants.time.cook + constants.time.stage then
+    return "Cook"
   elseif session.time >= constants.time.dinner
     and session.time < constants.time.dinner + constants.time.stage then
     return "Dinner"
