@@ -14,29 +14,34 @@ function meal_selection:destroy()
   self.overlay = nil
 end
 
-function meal_selection:start(meal)
-  assert(not self.active)
-  self.active = true
-  assert(self.meals[meal])
-
+function meal_selection:create_slots()
   self.slots = {}
   self.slots[1] = MealSelectionSlot.new({'drink'})
-  if meal == 'breakfast' then
+  if self.meal == 'breakfast' then
     self.slots[2] = MealSelectionSlot.new({ 'side', 'core', 'dessert' })
     assert(#self.slots == constants.breakfast_end)
-  elseif meal == 'lunch' then
+  elseif self.meal == 'lunch' then
     self.slots[2] = MealSelectionSlot.new({ 'dessert', 'salad' })
     self.slots[3] = MealSelectionSlot.new({ 'salad', 'side' })
     self.slots[4] = MealSelectionSlot.new({ 'side', 'core' })
     self.slots[5] = MealSelectionSlot.new({ 'core' })
-  elseif meal == 'dinner' then
+  elseif self.meal == 'dinner' then
     self.slots[2] = MealSelectionSlot.new({ 'dessert' })
     self.slots[3] = MealSelectionSlot.new({ 'salad' })
     self.slots[4] = MealSelectionSlot.new({ 'side' })
     self.slots[5] = MealSelectionSlot.new({ 'core' })
   else
-    assert(false, string.format("Unhandled meal type of %s", meal))
+    assert(false, string.format("Unhandled meal type of %s", self.meal))
   end
+end
+
+function meal_selection:start(meal)
+  assert(not self.active)
+  self.active = true
+  assert(self.meals[meal])
+  self.meal = meal
+
+  self:create_slots()
 
   self.options = {}
   for id,stock in ipairs(session.stock) do
@@ -48,8 +53,6 @@ function meal_selection:start(meal)
   for id,serving in ipairs(map.actions.serving) do
     if self.slots[id] then self.slots[id]:set_selection(serving.stock_source) end
   end
-
-  self.meal = meal
 end
 
 function meal_selection:enter()
