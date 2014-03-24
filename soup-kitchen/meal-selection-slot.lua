@@ -66,5 +66,11 @@ function MealSelectionSlot:coord()
 end
 
 function MealSelectionSlot:inbounds(x, y)
+  local lx,ly = self:coord()
+  if x >= lx and x < lx + 342 and y >= ly and y < ly + 20 then
+    return true
+  else
+    return false
+  end
 end
 
