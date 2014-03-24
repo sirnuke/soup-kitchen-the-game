@@ -4,17 +4,18 @@
 core = {}
 
 require "config"
+require "coordinate"
 
 require "help"
 require "ingame"
 require "mainmenu"
 
-require "coordinate"
 require "action"
 require "customer"
 require "homeless"
 require "map"
 require "pawn"
+require "serving"
 require "session"
 require "stock"
 require "task"
