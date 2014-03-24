@@ -62,10 +62,16 @@ function meal_selection:enter()
   end
 end
 
-function meal_selection:exit()
+function meal_selection:ok()
   assert(self.active)
   self.active = false
   -- TODO: Save selections
+end
+
+function meal_selection:cancel()
+  assert(self.active)
+  self.active = false
+  -- TODO: Revert back to existing selections
 end
 
 function meal_selection:draw()
