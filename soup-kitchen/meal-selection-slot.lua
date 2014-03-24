@@ -38,7 +38,7 @@ function MealSelectionSlot:draw()
   local image = nil
   if meal_selection.selected then
     image = meal_selection.elements.normal
-    for i,req in ipairse(self.requirements) do
+    for i,req in ipairs(self.requirements) do
       if req == meal_selection.selected.stock.type then
         image = meal_selection.elements.selected
       end
