@@ -17,7 +17,7 @@ function ActionClass.new(type, customer, volunteer)
   instance.type = type
   if customer then
     instance.customer = Coordinate.new(customer.x, customer.y)
-    assert(not map.blocked(instance.customer))
+    assert(not map.blocked(customer))
     map.set_action(customer, instance)
   end
   assert(not map.blocked(volunteer))
@@ -27,49 +27,49 @@ function ActionClass.new(type, customer, volunteer)
   return instance
 end
 
-function ActionClass:next(stage, current)
-  if current.type == nil then
-    return map.actions.drinks
-  elseif current.type == 'drinks' then
+function ActionClass:next(stage)
+  if self.type == 'drinks' then
     return map.actions.food1
-  elseif current.type == 'food1' then
+  elseif self.type == 'food1' then
     return map.actions.food2
-  elseif current.type == 'food2' then
+  elseif self.type == 'food2' then
     if stage == 'breakfast' then
-      return 'exit'
+      return 'done'
     else
       return map.actions.food3
     end
-  elseif current.type == 'food3' then
+  elseif self.type == 'food3' then
     return map.actions.food4
-  elseif current.type == 'food4' then
-    return 'exit'
-  elseif current.type == 'cleaning1' then
+  elseif self.type == 'food4' then
+    return 'done'
+  elseif self.type == 'cleaning1' then
     return map.actions.cleaning2
-  elseif current.type == 'cleaning2' then
+  elseif self.type == 'cleaning2' then
+    return map.actions.cleaning3
+  elseif self.type == 'cleaning3' then
     return 'done'
-  elseif current.type == 'prepare1' then
+  elseif self.type == 'prepare1' then
     return map.actions.storage1
-  elseif current.type == 'prepare2' then
+  elseif self.type == 'prepare2' then
     return map.actions.storage1
-  elseif current.type == 'prepare3' then
+  elseif self.type == 'prepare3' then
     return map.actions.storage2
-  elseif current.type == 'prepare4' then
+  elseif self.type == 'prepare4' then
     return map.actions.storage2
-  elseif current.type == 'prepare5' then
+  elseif self.type == 'prepare5' then
     return map.actions.storage3
-  elseif current.type == 'prepare6' then
+  elseif self.type == 'prepare6' then
     return map.actions.storage3
-  elseif current.type == 'storage1' then
+  elseif self.type == 'storage1' then
     return 'done'
-  elseif current.type == 'storage2' then
+  elseif self.type == 'storage2' then
     return 'done'
-  elseif current.type == 'storage3' then
+  elseif self.type == 'storage3' then
     return 'done'
-  elseif current.type == 'trash' then
+  elseif self.type == 'trash' then
     return 'done'
   else
-    assert(false, string.format("Unhandled type of %s", current.type))
+    assert(false, string.format("Unhandled type of %s", self.type))
   end
 end
 
@@ -81,44 +81,29 @@ function ActionClass:update(dt)
   local customer, volunteer
   if self.customer then customer = map.occupant(self.customer) end
   if self.volunteer then volunteer = map.occupant(self.volunteer) end
-  if self.type == 'drinks' then
-    if not customer then return end
+  if self.type == 'drinks' or self.type == 'food1' or self.type == 'food2' 
+      or self.type == 'food3' or self.type == 'food4' then
+    print("Checking", self.type, customer, volunteer, self.customer, self.volunteer)
+    if not customer or customer.type ~= 'customer' then return end
     if not volunteer then
       table.insert(session.tasks, TaskClass.new('serving', 
         string.format("Missing volunteer at (%i,%i)", self.volunteer.x, self.volunteer.y)))
-    elseif volunteer:arrived() then
+    elseif customer:arrived() and volunteer:arrived() then
       self.progress = self.progress + dt * constants.scale.work
       print("Progress is now", self.progress)
     end
-    --if self.progress >= core.constants.max_progress then
-    --  self.customer
-  elseif self.type == 'food1' then
-    if not customer then return end
-    if not volunteer then
-      table.insert(session.tasks, TaskClass.new('serving', 
-        string.format("Missing volunteer at (%i,%i)", self.volunteer.x, self.volunteer.y)))
-    elseif volunteer:arrived() then
-      self.progress = self.progress + dt * constants.scale.work
-      print("Progress is now", self.progress)
-    end
-  elseif self.type == 'food2' then
-    if not customer then return end
-    if not volunteer then
-      table.insert(session.tasks, TaskClass.new('serving', 
-        string.format("Missing volunteer at (%i,%i)", self.volunteer.x, self.volunteer.y)))
-    elseif volunteer:arrived() then
-      self.progress = self.progress + dt * constants.scale.work
-      print("Progress is now", self.progress)
-    end
-  elseif self.type == 'food3' then
-  elseif self.type == 'food4' then
   elseif self.type == 'cleaning1' then
+  elseif self.type == 'cleaning2' then
+  elseif self.type == 'cleaning3' then
   elseif self.type == 'prepare1' then
   elseif self.type == 'prepare2' then
   elseif self.type == 'prepare3' then
   elseif self.type == 'prepare4' then
   elseif self.type == 'prepare5' then
   elseif self.type == 'prepare6' then
+  elseif self.type == 'storage1' then
+  elseif self.type == 'storage2' then
+  elseif self.type == 'storage3' then
   elseif self.type == 'trash' then
   else
     assert(false, string.format("Unhandled action type of %s", self.type))
