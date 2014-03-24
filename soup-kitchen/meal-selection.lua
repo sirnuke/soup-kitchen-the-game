@@ -79,7 +79,6 @@ function meal_selection:draw()
   love.graphics.setColor(255, 255, 255, 224)
   love.graphics.draw(self.overlay, 100, 100)
 
-  love.graphics.setColor(0, 0, 0, 224)
   love.graphics.setFont(ingame.font_small)
   for id,slot in ipairs(self.slots) do slot:draw(id) end
   for id,option in ipairs(self.options) do option:draw(id) end

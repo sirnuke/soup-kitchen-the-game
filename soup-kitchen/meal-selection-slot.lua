@@ -22,6 +22,7 @@ function MealSelectionSlot:set_selection(stock)
 end
 
 function MealSelectionSlot:draw(offset)
+  love.graphics.setColor(0, 0, 0, 224)
   love.graphics.print(self.label, 132, 126 + (offset - 1) * 32)
   if self.stock then
     love.graphics.print(tostring(self.stock), 132, 126 + (offset - 1) * 32 + 16)

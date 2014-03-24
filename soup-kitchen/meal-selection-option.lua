@@ -13,6 +13,7 @@ function MealSelectionOption.new(stock)
 end
 
 function MealSelectionOption:draw(offset)
+  love.graphics.setColor(0, 0, 0, 224)
   love.graphics.print(self.label, 534, 126 + (offset - 1) * 32)
 end
 
