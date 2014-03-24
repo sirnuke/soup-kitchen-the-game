@@ -118,6 +118,24 @@ end
 
 function meal_selection:mousepressed(x, y, button)
   assert(self.active)
+  if button ~= 'l' then return end
+
+  if self.selected then
+    for id,slot in ipairs(self.slots) do
+      if slot:inbounds(x, y) then
+        self.selected.slot = clicked
+        self.selected = nil
+        return
+      end
+    end
+  end
+  self.selected = nil
+  for id,option in ipairs(self.options) do
+    if option:inbounds(x, y) then
+      self.selected = option
+      break
+    end
+  end
 end
 
 function meal_selection:mousereleased(x, y, button)
