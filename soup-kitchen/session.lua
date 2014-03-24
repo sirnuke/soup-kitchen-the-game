@@ -133,6 +133,27 @@ function session.format_time()
   end
 end
 
+function session.name_stage()
+  if session.time >= constants.time.breakfast 
+    and session.time < constants.time.breakfast + constants.time.stage then
+    return "Breakfast"
+  elseif session.time >= constants.time.lunch
+    and session.time < constants.time.lunch + constants.time.stage then
+    return "Lunch"
+  elseif session.time >= constants.time.prepare
+    and session.time < constants.time.prepare + constants.time.stage then
+    return "Prepare"
+  elseif session.time >= constants.time.dinner
+    and session.time < constants.time.dinner + constants.time.stage then
+    return "Dinner"
+  elseif session.time >= constants.time.cleanup
+    and session.time < constants.time.cleanup + constants.time.stage then
+    return "Cleanup"
+  else
+    return ""
+  end
+end
+
 function session.line_count()
   return #session.line
 end

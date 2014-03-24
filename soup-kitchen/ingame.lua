@@ -36,7 +36,7 @@ function ingame.draw()
   end
   love.graphics.setFont(ingame.font_normal)
   love.graphics.print(string.format("Day %i %s $%i", session.day, session.format_time(), session.cash), 778, 10)
-  love.graphics.print(session.stage, 778, 74)
+  love.graphics.print(session.name_stage(), 778, 74)
   love.graphics.print(string.format("#%i Eating", session.eating_count()), 8, 334)
   love.graphics.print(string.format("#%i Queued", session.line_count()), 8, 398)
   love.graphics.setFont(ingame.font_small)
