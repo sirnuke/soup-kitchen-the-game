@@ -5,9 +5,10 @@ ActionClass = {}
 ActionClass.__index = ActionClass
 ActionClass.types = {
   drinks='drinks', food1='food1', food2='food2', food3='food3', food4='food4',
-  cleaning1='cleaning1', cleaning2='cleaning2', prepare1='prepare1', prepare2='prepare2',
-  prepare3='prepare3', prepare4='prepare4', prepare5='prepare5', prepare6='prepare6',
-  storage1='storage1', storage2='storage2', storage3='storage3', trash='trash'
+  cleaning1='cleaning1', cleaning2='cleaning2', cleaning3='cleaning3', prepare1='prepare1', 
+  prepare2='prepare2', prepare3='prepare3', prepare4='prepare4', prepare5='prepare5',
+  prepare6='prepare6', storage1='storage1', storage2='storage2', storage3='storage3',
+  trash='trash'
 }
 
 function ActionClass.new(type, customer, volunteer)
@@ -31,13 +32,13 @@ function ActionClass:next(stage)
   if self.type == 'drinks' then
     return map.actions.food1
   elseif self.type == 'food1' then
-    return map.actions.food2
-  elseif self.type == 'food2' then
     if stage == 'breakfast' then
       return 'done'
     else
-      return map.actions.food3
+      return map.actions.food2
     end
+  elseif self.type == 'food2' then
+    return map.actions.food3
   elseif self.type == 'food3' then
     return map.actions.food4
   elseif self.type == 'food4' then
