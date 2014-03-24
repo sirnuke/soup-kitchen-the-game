@@ -21,6 +21,7 @@ function core.config()
 
   constants.squelch = 0.25
   constants.max_progress = 100
+  constants.breakfast_end = 2
 
   constants.demand = {}
   constants.demand.initial = 40
