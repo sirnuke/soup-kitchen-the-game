@@ -11,12 +11,14 @@ function ingame.enter()
   ingame.selected = nil
   ingame.font_normal = love.graphics.setNewFont(constants.font.filename, constants.font.normal)
   ingame.font_small = love.graphics.setNewFont(constants.font.filename, constants.font.small)
+  meal_selection:setup()
   ActionClass.setup()
   map.create()
   session.start()
 end
 
 function ingame.exit()
+  meal_selection:destroy()
   ingame.background = nil
   ingame.warning_icon = nil
   ingame.selected_overlay = nil
@@ -30,11 +32,12 @@ function ingame.draw()
   session.draw()
 
   -- Draw GUI elements
-  love.graphics.setColor(0, 0, 0, 255)
+  love.graphics.setColor(255, 255, 255, 255)
   if ingame.selected then
     love.graphics.draw(ingame.selected_overlay, ingame.selected.screen.x,
       ingame.selected.screen.y)
   end
+  love.graphics.setColor(0, 0, 0, 255)
   love.graphics.setFont(ingame.font_normal)
   love.graphics.print(string.format("Day %i %s $%i", session.day, session.format_time(), session.cash), 778, 10)
   love.graphics.print(session.name_stage(), 778, 74)
@@ -56,20 +59,27 @@ function ingame.draw()
       love.graphics.print("...", 778, 138 + ((k - 1) * 32))
     end
   end
-  if ingame.paused then
+  love.graphics.setColor(255, 255, 255, 255)
+  if meal_selection.active then
+    meal_selection:draw()
+  elseif ingame.paused then
     love.graphics.setColor(128, 128, 128, 192)
     love.graphics.rectangle("fill", 228, 100, 568, 568)
   end
 end
 
 function ingame.update(dt)
-  if not ingame.paused then
+  if meal_selection.active then
+    meal_selection:update(dt)
+  elseif not ingame.paused then
     session.update(dt)
   end
 end
 
 function ingame.keypressed(key)
-  if key == 'escape' then
+  if meal_selection.active then
+    meal_selection:keypressed(key)
+  elseif key == 'escape' or key == 'space' then
     ingame.paused = not ingame.paused
   end
 end
@@ -78,7 +88,9 @@ function ingame.keyreleased(key)
 end
 
 function ingame.mousepressed(x, y, button)
-  if not ingame.paused then
+  if meal_selection.active then
+    meal_selection:mousepressed(x, y, button)
+  elseif not ingame.paused then
     if button == 'l' then
       if session.player:clicked(x, y) then
         ingame.selected = session.player
@@ -95,5 +107,8 @@ function ingame.mousepressed(x, y, button)
 end
 
 function ingame.mousereleased(x, y, button)
+  if meal_selection.active then
+    meal_selection:mousereleased(x, y, button)
+  end
 end
 
