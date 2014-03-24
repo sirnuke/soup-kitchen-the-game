@@ -3,7 +3,10 @@
 
 ServingClass = {}
 ServingClass.__index = ServingClass
-ServingClass.states = { inactive='inactive', active='active', halted='halted' }
+ServingClass.serving_states = { potential='potential', active='active', halted='halted',
+  inactive='inactive' }
+ServingClass.stocking_states = { full='full', medium='medium', low='low', empty='empty',
+  inactive='inactive' }
 
 function ServingClass.new(id, location, customer, volunteer)
   assert(not map.blocked(customer))
@@ -23,7 +26,11 @@ function ServingClass.new(id, location, customer, volunteer)
   instance.stock = nil
   instance.quantity = nil
   instance.progress = 0
-  instance.state = 'inactive'
+
+  instance.tasks = {}
+  instance.tasks.stocking = 'inactive'
+  instance.tasks.serving = 'inactive'
+
   return instance
 end
 
@@ -31,7 +38,7 @@ function ServingClass:screen(coord)
   return { x= (coord.x - 1) * constants.sizes.square, y= (coord.y - 1) * constants.sizes.square }
 end
 
-function ServingClass:new_stage(stage)
+function ServingClass:new_stage(stage) 
   assert(stage)
   self.stage = stage
 end
@@ -40,13 +47,39 @@ function ServingClass:reset()
   self.progress = 0
 end
 
-function ServingClass:update(dt)
+function ServingClass:update(dt, line)
   local customer, volunteer = map.occupant(self.customer), map.occupant(self.volunteer)
-  if not customer or customer.action ~= self then return end
+
+  if self.id > constants.breakfast_end 
+    and (self.stage == 'start' or self.stage == 'breakfast') then
+    self.tasks.stocking = 'inactive'
+    self.tasks.serving = 'inactive'
+    return
+  end
+
+  if self.stage == 'cleanup' or self.stage == 'done' then
+    self.tasks.stocking = 'inactive'
+  else
+    -- set tasks.stocking according to stock levels
+    self.tasks.stocking = 'full'
+  end
+
+  if not line then
+    self.tasks.serving = 'inactive'
+    return
+  end
+
+  if not customer or customer.action ~= self then
+    self.tasks.serving = 'potential'
+    return
+  end
+
   if not volunteer or not volunteer:arrived() then
     table.insert(session.tasks, TaskClass.new('serving', 
     string.format("Need help at (%i,%i)", self.volunteer.x, self.volunteer.y)))
+    self.tasks.serving = 'halted'
   elseif customer:arrived() then
+    self.tasks.serving = 'active'
     self.progress = self.progress + dt * constants.scale.work
   end
 end
@@ -68,32 +101,28 @@ function ServingClass:next()
   return self.next_stage
 end
 
-function ServingClass:draw(line)
-  local customer, volunteer = map.occupant(self.customer), map.occupant(self.volunteer)
+function ServingClass:draw()
   local image = nil
-  if self.id > constants.breakfast_end and (self.stage == 'breakfast' or self.stage == 'start') then
-    return
+  assert(ServingClass.serving_states[self.tasks.serving])
+  assert(ServingClass.stocking_states[self.tasks.stocking])
+
+  if self.tasks.stocking ~= 'inactive' then
+    image = ActionClass.images.potential
   end
-  if self.stage == 'breakfast' or self.stage == 'lunch' or self.stage == 'dinner' or line then
-    if not customer then
-      image = ActionClass.images.potential
-    elseif customer.action == self and customer:arrived() then
-      if not volunteer or not volunteer:arrived() then
-        image = ActionClass.images.halted
-      else
-        image = ActionClass.images.active
-      end
-    else
-      image = ActionClass.images.halted
-    end
-    love.graphics.draw(image, self.screen_customer.x, self.screen_customer.y)
+  if image then
     love.graphics.draw(image, self.screen_volunteer.x, self.screen_volunteer.y)
-  elseif self.stage == "start" or self.stage == "prepare" then
-    if not volunteer or not volunteer:arrived() then
-      image = ActionClass.images.halted
-    else
-      image = ActionClass.images.active
-    end
+  end
+
+  image = nil
+  if self.tasks.serving == 'potential' then
+    image = ActionClass.images.potential
+  elseif self.tasks.serving == 'active' then
+    image = ActionClass.images.active
+  elseif self.tasks.serving == 'halted' then
+    image = ActionClass.images.halted
+  end
+  if image then 
+    love.graphics.draw(image, self.screen_customer.x, self.screen_customer.y)
     love.graphics.draw(image, self.screen_volunteer.x, self.screen_volunteer.y)
   end
 end

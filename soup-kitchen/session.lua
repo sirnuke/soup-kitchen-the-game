@@ -24,14 +24,10 @@ local function calc_stage(time)
 end
 
 function session.draw()
-  local line = false
-  if #session.line > 0 then
-    line = true
-  end
   session.player:draw()
   for class,table in pairs(map.actions) do
     for name,action in pairs(table) do
-      action:draw(line)
+      action:draw()
     end
   end
   for k,v in ipairs(session.line) do
@@ -61,6 +57,10 @@ function session.update(dt)
   session.tasks = {}
   session.time = session.time + dt * constants.scale.clock
   session.player:update(dt)
+  local line = false
+  if #session.line > 0 then
+    line = true
+  end
   local stage = calc_stage(session.time)
   local customer
   assert(session.stages[stage])
@@ -81,7 +81,7 @@ function session.update(dt)
 
   for class,table in pairs(map.actions) do
     for name,action in pairs(table) do
-      action:update(dt)
+      action:update(dt, line)
     end
   end
 end

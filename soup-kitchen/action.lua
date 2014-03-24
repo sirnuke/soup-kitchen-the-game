@@ -38,7 +38,7 @@ function ActionClass:new_stage(stage)
   self.stage = stage
 end
 
-function ActionClass:draw(line)
+function ActionClass:draw()
 end
 
 function ActionClass:next()
@@ -77,7 +77,7 @@ function ActionClass:reset()
   self.progress = 0
 end
 
-function ActionClass:update(dt)
+function ActionClass:update(dt, line)
   local customer, volunteer
   if self.customer then customer = map.occupant(self.customer) end
   if self.volunteer then volunteer = map.occupant(self.volunteer) end
