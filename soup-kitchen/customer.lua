@@ -33,15 +33,16 @@ function CustomerClass:update(dt)
       self.action = self.action:next(session.stage)
       self.pawn.action = self.action
       if self.action == 'done' then
-        -- self.pawn:leave()
+        self.pawn:leave()
         self.state = 'gotfood'
       end
     end
   elseif self.state == 'gotfood' then
     self.pawn:update(dt)
-    -- if self.pawn:left() then
-    -- despawn
-    -- end
+    if self.pawn.left then
+      self.pawn = nil
+      self.state = 'eating'
+    end
   elseif self.state == 'eating' then
     -- update eating counter
   else
