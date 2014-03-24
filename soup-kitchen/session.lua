@@ -58,7 +58,12 @@ function session.update(dt)
   for k,v in ipairs(session.line) do
     v:update(dt)
   end
+  -- TODO: Iterate over session.line, if state==eating, put them in eating
   for k,v in ipairs(session.eating) do
+    v:update(dt)
+  end
+
+  for k,v in pairs(map.actions) do
     v:update(dt)
   end
 end
