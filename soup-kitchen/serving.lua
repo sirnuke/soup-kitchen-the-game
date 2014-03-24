@@ -11,13 +11,20 @@ function ServingClass.new(location, customer, volunteer)
   local instance = {}
   setmetatable(instance, ServingClass)
   instance.location = Coordinate.dup(location)
+  instance.screen_location = instance:screen(location)
   instance.customer = Coordinate.dup(customer)
+  instance.screen_customer = instance:screen(customer)
   instance.volunteer = Coordinate.dup(volunteer)
+  instance.screen_volunteer = instance:screen(volunteer)
   instance.next_stage = nil
   instance.stock = nil
   instance.quantity = nil
   instance.progress = 0
   return instance
+end
+
+function ServingClass:screen(coord)
+  return { x= (coord.x - 1) * constants.sizes.square, y= (coord.y - 1) * constants.sizes.square }
 end
 
 function ServingClass:reset()
@@ -50,5 +57,28 @@ function ServingClass:next(stage)
     return 'done'
   end
   return self.next_stage
+end
+
+function ServingClass:draw(stage, line)
+  assert(stage)
+  local customer, volunteer = map.occupant(self.customer), map.occupant(self.volunteer)
+  local image, active = nil, false
+  if stage == 'breakfast' or stage == 'lunch' or stage == 'dinner' or line then
+    if not customer then
+      image = ActionClass.images.potential
+    elseif customer.action == self and customer:arrived() then
+      if not volunteer or not volunteer:arrived() then
+        active = false
+        image = ActionClass.images.halted
+      else
+        active = true
+        image = ActionClass.images.active
+      end
+    else
+      active = false
+      image = ActionClass.images.halted
+    end
+    love.graphics.draw(image, self.screen_customer.x, self.screen_customer.y)
+  end
 end
 

@@ -24,7 +24,16 @@ local function calc_stage(time)
 end
 
 function session.draw()
+  local line = false
+  if #session.line > 0 then
+    line = true
+  end
   session.player:draw()
+  for class,table in pairs(map.actions) do
+    for name,action in pairs(table) do
+      action:draw(session.stage, line)
+    end
+  end
   for k,v in ipairs(session.line) do
     v:draw()
   end
