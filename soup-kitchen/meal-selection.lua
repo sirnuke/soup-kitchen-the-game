@@ -36,14 +36,17 @@ function meal_selection:start(meal)
   else
     assert(false, string.format("Unhandled meal type of %s", meal))
   end
-  self.selections = {}
   self.choices = {}
   for k,v in ipairs(session.stock) do
     if v:ready() then
       table.insert(self.choices, v)
     end
   end
-  for i=1,5 do
+  self.selections = {}
+  for k,v in ipairs(map.actions.serving) do
+    if v.stock_source then
+      self.selections[k] = v.stock_source
+    end
   end
   self.meal = meal
 end
@@ -53,9 +56,9 @@ function meal_selection:enter()
   self.active = true
   self.selections = {}
   assert(self.meal and self.slots)
-  for k,v in ipairs(self.slots) do
-    if map.actions.serving[k].stock_source then
-      self.selections[k] = map.actions.serving[k].stock_source
+  for k,v in ipairs(map.actions.serving) do
+    if v.stock_source then
+      self.selections[k] = v.stock_source
     end
   end
 end
