@@ -14,7 +14,8 @@ function meal_selection:destroy()
   self.overlay = nil
 end
 
-function meal_selection:enter(meal)
+function meal_selection:start(meal)
+  assert(not self.active)
   self.active = true
   assert(self.meals[meal])
   self.slots = {}
@@ -35,10 +36,26 @@ function meal_selection:enter(meal)
   else
     assert(false, string.format("Unhandled meal type of %s", meal))
   end
+  self.selections = {}
+  for i=1,5 do
+  end
   self.meal = meal
 end
 
+function meal_selection:enter()
+  assert(not self.active)
+  self.active = true
+  self.selections = {}
+  assert(self.meal and self.slots)
+  for k,v in ipairs(self.slots) do
+    if map.actions.serving[k].stock_source then
+      self.selections[k] = map.actions.serving[k].stock_source
+    end
+  end
+end
+
 function meal_selection:exit()
+  assert(self.active)
   self.active = false
   -- TODO: Save selections
 end
@@ -47,6 +64,11 @@ function meal_selection:draw()
   assert(self.active)
   love.graphics.setColor(255, 255, 255, 224)
   love.graphics.draw(self.overlay, 100, 100)
+
+  love.graphics.setColor(0, 0, 0, 224)
+  love.graphics.setFont(ingame.font_small)
+  love.graphics.print("hello", 100 + 26, 100 + 26)
+  love.graphics.print("world!", 100 + 428, 100 + 26)
 end
 
 function meal_selection:update(dt)
