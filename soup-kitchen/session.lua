@@ -55,11 +55,15 @@ function session.update(dt)
   if session.stage ~= stage then
     session.new_stage(stage)
   end
-  for k,v in ipairs(session.line) do
+  for k,v in next,session.line,nil do
     v:update(dt)
+    if v.state == 'eating' then
+      table.remove(session.line, k)
+      table.insert(session.eating, v)
+    end
   end
   -- TODO: Iterate over session.line, if state==eating, put them in eating
-  for k,v in ipairs(session.eating) do
+  for k,v in next,session.eating,nil do
     v:update(dt)
   end
 
