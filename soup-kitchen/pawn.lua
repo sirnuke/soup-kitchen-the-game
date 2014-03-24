@@ -164,8 +164,6 @@ function PawnClass:update(dt)
       end
       distance = self:walk(distance)
     end
-  else
-    -- perform task, if any
   end
 end
 
