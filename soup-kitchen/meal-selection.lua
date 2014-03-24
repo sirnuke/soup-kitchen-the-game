@@ -42,6 +42,16 @@ function meal_selection:start(meal)
       table.insert(self.choices, v)
     end
   end
+  self.labels = {}
+  local str = ""
+  for k,v in ipairs(self.slots) do
+    str = ""
+    for i,req in ipairs(v) do
+      if i > 1 then str = str .. " OR " end
+      str = str .. req
+    end
+    self.labels[k] = str
+  end
   self.selections = {}
   for k,v in ipairs(map.actions.serving) do
     if v.stock_source then
@@ -76,8 +86,12 @@ function meal_selection:draw()
 
   love.graphics.setColor(0, 0, 0, 224)
   love.graphics.setFont(ingame.font_small)
-  love.graphics.print("hello", 100 + 26, 100 + 26)
-  love.graphics.print("world!", 100 + 428, 100 + 26)
+  for k,v in ipairs(self.slots) do
+    love.graphics.print(self.labels[k], 132, 126 + (k - 1) * 32)
+  end
+  for k,v in ipairs(self.choices) do
+    love.graphics.print(tostring(v), 534, 126 + (k - 1) * 32)
+  end
 end
 
 function meal_selection:update(dt)
