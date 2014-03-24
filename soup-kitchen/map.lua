@@ -32,24 +32,44 @@ function map.create()
   end
   -- Actions
   map.actions = {}
-  map.actions.drinks    = ActionClass.new('drinks',    Coordinate.new(2,9), Coordinate.new(3,11))
-  map.actions.food1     = ActionClass.new('food1',     Coordinate.new(3,9), Coordinate.new(5,9))
-  map.actions.food2     = ActionClass.new('food2',     Coordinate.new(3,8), Coordinate.new(5,8))
-  map.actions.food3     = ActionClass.new('food3',     Coordinate.new(3,6), Coordinate.new(5,6))
-  map.actions.food4     = ActionClass.new('food4',     Coordinate.new(3,5), Coordinate.new(5,5))
-  map.actions.cleaning1 = ActionClass.new('cleaning1', nil,                 Coordinate.new(5,3))
-  map.actions.cleaning2 = ActionClass.new('cleaning2', nil,                 Coordinate.new(7,3))
-  map.actions.cleaning3 = ActionClass.new('cleaning3', nil,                 Coordinate.new(8,3))
-  map.actions.prepare1  = ActionClass.new('prepare1',  nil,                 Coordinate.new(6,4))
-  map.actions.prepare2  = ActionClass.new('prepare2',  nil,                 Coordinate.new(6,6))
-  map.actions.prepare3  = ActionClass.new('prepare3',  nil,                 Coordinate.new(6,8))
-  map.actions.prepare4  = ActionClass.new('prepare4',  nil,                 Coordinate.new(9,5))
-  map.actions.prepare5  = ActionClass.new('prepare5',  nil,                 Coordinate.new(9,7))
-  map.actions.prepare6  = ActionClass.new('prepare6',  nil,                 Coordinate.new(10,9))
-  map.actions.storage1  = ActionClass.new('storage1',  nil,                 Coordinate.new(10,4))
-  map.actions.storage2  = ActionClass.new('storage2',  nil,                 Coordinate.new(10,6))
-  map.actions.storage3  = ActionClass.new('storage3',  nil,                 Coordinate.new(10,8))
-  map.actions.trash     = ActionClass.new('trash',     nil,                 Coordinate.new(11,2))
+
+  map.actions.serving = {}
+  map.actions.serving[1] = ServingClass.new(
+    Coordinate.new(3,10), Coordinate.new(2,9), Coordinate.new(3,11))
+  map.actions.serving[2] = ServingClass.new(
+    Coordinate.new(4,9), Coordinate.new(3,9), Coordinate.new(5,9))
+  map.actions.serving[3] = ServingClass.new(
+    Coordinate.new(4,8), Coordinate.new(3,8), Coordinate.new(5,8))
+  map.actions.serving[4] = ServingClass.new(
+    Coordinate.new(4,6), Coordinate.new(3,6), Coordinate.new(5,6))
+  map.actions.serving[5] = ServingClass.new(
+    Coordinate.new(4,5), Coordinate.new(3,5), Coordinate.new(5,5))
+
+  for i = 1,4 do
+    map.actions.serving[i].next_stage = map.actions.serving[i + 1]
+  end
+  map.actions.serving[5].next_stage = 'done'
+
+  map.actions.cleaning = {}
+  map.actions.cleaning[1] = ActionClass.new('cleaning1', nil, Coordinate.new(5,3))
+  map.actions.cleaning[2] = ActionClass.new('cleaning2', nil, Coordinate.new(7,3))
+  map.actions.cleaning[3] = ActionClass.new('cleaning3', nil, Coordinate.new(8,3))
+
+  map.actions.prepare = {}
+  map.actions.prepare[1] = ActionClass.new('prepare1', nil, Coordinate.new(6,4))
+  map.actions.prepare[2] = ActionClass.new('prepare2', nil, Coordinate.new(6,6))
+  map.actions.prepare[3] = ActionClass.new('prepare3', nil, Coordinate.new(6,8))
+  map.actions.prepare[4] = ActionClass.new('prepare4', nil, Coordinate.new(9,5))
+  map.actions.prepare[5] = ActionClass.new('prepare5', nil, Coordinate.new(9,7))
+  map.actions.prepare[6] = ActionClass.new('prepare6', nil, Coordinate.new(10,9))
+
+  map.actions.storage = {}
+  map.actions.storage[1] = ActionClass.new('storage1', nil, Coordinate.new(10,4))
+  map.actions.storage[2] = ActionClass.new('storage2', nil, Coordinate.new(10,6))
+  map.actions.storage[3] = ActionClass.new('storage3', nil, Coordinate.new(10,8))
+
+  map.actions.trash = {}
+  map.actions.trash[1] = ActionClass.new('trash', nil, Coordinate.new(11,2))
 end
 
 function map.create_square(coord, blocked)
