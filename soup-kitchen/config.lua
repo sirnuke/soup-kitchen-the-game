@@ -21,7 +21,12 @@ function core.config()
 
   constants.squelch = 0.25
   constants.max_progress = 100
-  constants.homeless_need = 50
+
+  constants.demand = {}
+  constants.demand.initial = 40
+  constants.demand.breakfast = .40
+  constants.demand.lunch = .75
+  constants.demand.dinner = 1.1
 
   constants.stock = {}
   constants.stock.start = {}
