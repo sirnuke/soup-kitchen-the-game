@@ -36,12 +36,21 @@ function MealSelectionSlot:draw(offset)
   local imgoffset, txtoffset, height = 130, 134, 30
   local txt2offset = txtoffset + 171
   local image = nil
-  if self.valid then
-    image = meal_selection.elements.used
-  elseif not self.selection then
+  if meal_selection.selected then
     image = meal_selection.elements.normal
+    for i,req in ipairse(self.requirements) do
+      if req == meal_selection.selected.stock.type then
+        image = meal_selection.elements.selected
+      end
+    end
   else
-    image = meal_selection.elements.invalid
+    if self.valid then
+      image = meal_selection.elements.used
+    elseif not self.selection then
+      image = meal_selection.elements.normal
+    else
+      image = meal_selection.elements.invalid
+    end
   end
   love.graphics.setColor(255, 255, 255, 224)
   love.graphics.draw(image, imgoffset, imgoffset + (offset - 1) * height)
