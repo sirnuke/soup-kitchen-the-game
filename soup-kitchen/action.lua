@@ -84,10 +84,10 @@ function ActionClass:update(dt)
   if self.type == 'drinks' or self.type == 'food1' or self.type == 'food2' 
       or self.type == 'food3' or self.type == 'food4' then
     if not customer or customer.type ~= 'customer' or customer.action ~= self then return end
-    if not volunteer then
+    if not volunteer or not volunteer:arrived() then
       table.insert(session.tasks, TaskClass.new('serving', 
-        string.format("Missing volunteer at (%i,%i)", self.volunteer.x, self.volunteer.y)))
-    elseif customer:arrived() and volunteer:arrived() then
+        string.format("Need help at (%i,%i)", self.volunteer.x, self.volunteer.y)))
+    elseif customer:arrived() then
       self.progress = self.progress + dt * constants.scale.work
       print("Progress is now", self.progress)
     end
