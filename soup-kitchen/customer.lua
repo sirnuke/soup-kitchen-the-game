@@ -5,12 +5,13 @@ CustomerClass = {}
 CustomerClass.__index = CustomerClass
 CustomerClass.states = { waiting='waiting', inline='inline', gotfood='gotfood', eating='eating' }
 
-function CustomerClass.new()
+function CustomerClass.new(stage)
   local instance = {}
   setmetatable(instance, CustomerClass)
   instance.pawn = nil
   instance.action = nil
   instance.state = 'waiting'
+  instance.stage = stage
   return instance
 end
 
@@ -30,7 +31,7 @@ function CustomerClass:update(dt)
       end
     elseif self.action:done() then
       self.action:reset()
-      self.action = self.action:next()
+      self.action = self.action:next(self.stage)
       if session.stage == 'breakfast' and self.action == map.actions.serving[1] then
         self.action = 'done'
       end

@@ -43,9 +43,10 @@ function ServingClass:done()
   end
 end
 
-function ServingClass:next()
+function ServingClass:next(stage)
   assert(self.next_stage)
-  if session.stage == 'breakfast' and self == map.actions.serving[2] then
+  assert(stage)
+  if self == map.actions.serving[2] and stage == 'breakfast' then
     return 'done'
   end
   return self.next_stage
