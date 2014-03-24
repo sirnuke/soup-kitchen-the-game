@@ -31,9 +31,11 @@ function session.start()
   session.cash = constants.money.initial
   session.stock = {}
   homeless.setup()
+  local prepare = false
   for k,v in pairs(constants.stock.start) do
     for i = 1,v do
-      table.insert(session.stock, StockClass.random(k))
+      if i % 2 == 1 then prepare = true else prepare = false end
+      table.insert(session.stock, StockClass.random(k, prepare))
     end
   end
 

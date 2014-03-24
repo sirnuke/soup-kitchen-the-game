@@ -42,7 +42,21 @@ function StockClass:use(amount)
   end
 end
 
-function StockClass.random(type)
+function StockClass:prepare()
+  assert(self.type == 'core' or self.type == 'side')
+  self.prepared = true
+  self.expiration = 3
+end
+
+function StockClass:ready()
+  if self.type == 'core' or self.type == 'side' then
+    return self.prepared
+  else
+    return true
+  end
+end
+
+function StockClass.random(type, prepared)
   assert(StockClass.types[type])
 
   local quantity, expiration = 0, 0
@@ -74,6 +88,10 @@ function StockClass.random(type)
     print(string.format("Generated bad expiration of %i", expiration))
     expiration = 1
   end
-  return StockClass.new(type, quantity, expiration)
+  local stock = StockClass.new(type, quantity, expiration)
+  if prepared and (type == 'core' or type == 'side') then
+    stock:prepare()
+  end
+  return stock
 end
 
