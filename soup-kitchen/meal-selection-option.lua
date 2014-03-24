@@ -4,17 +4,18 @@
 MealSelectionOption = {}
 MealSelectionOption.__index = MealSelectionOption
 
-function MealSelectionOption.new(stock)
+function MealSelectionOption.new(offset, stock)
   local instance = {}
   setmetatable(instance, MealSelectionOption)
+  instance.offset = offset
   instance.stock = stock
   instance.slot = nil
   instance.label = tostring(stock)
   return instance
 end
 
-function MealSelectionOption:draw(offset)
-  local x, y = self:coord(offset)
+function MealSelectionOption:draw()
+  local x, y = self:coord()
   local image = nil
   if meal_selection.selected == self then
     image = meal_selection.elements.selected
@@ -33,10 +34,10 @@ function MealSelectionOption:draw(offset)
   love.graphics.print(self.label, x + 4, y + 4)
 end
 
-function MealSelectionOption:coord(offset)
-  return 534, 130 + (offset - 1) * 30
+function MealSelectionOption:coord()
+  return 534, 130 + (self.offset - 1) * 30
 end
 
-function MealSelectionOption:inbounds(offset, x, y)
+function MealSelectionOption:inbounds(x, y)
 end
 

@@ -22,20 +22,20 @@ end
 
 function meal_selection:create_slots()
   self.slots = {}
-  self.slots[1] = MealSelectionSlot.new({'drink'})
+  self.slots[1] = MealSelectionSlot.new(1, {'drink'})
   if self.meal == 'breakfast' then
-    self.slots[2] = MealSelectionSlot.new({ 'side', 'core', 'dessert' })
+    self.slots[2] = MealSelectionSlot.new(2, { 'side', 'core', 'dessert' })
     assert(#self.slots == constants.breakfast_end)
   elseif self.meal == 'lunch' then
-    self.slots[2] = MealSelectionSlot.new({ 'dessert', 'salad' })
-    self.slots[3] = MealSelectionSlot.new({ 'salad', 'side' })
-    self.slots[4] = MealSelectionSlot.new({ 'side', 'core' })
-    self.slots[5] = MealSelectionSlot.new({ 'core' })
+    self.slots[2] = MealSelectionSlot.new(2, { 'dessert', 'salad' })
+    self.slots[3] = MealSelectionSlot.new(3, { 'salad', 'side' })
+    self.slots[4] = MealSelectionSlot.new(4, { 'side', 'core' })
+    self.slots[5] = MealSelectionSlot.new(5, { 'core' })
   elseif self.meal == 'dinner' then
-    self.slots[2] = MealSelectionSlot.new({ 'dessert' })
-    self.slots[3] = MealSelectionSlot.new({ 'salad' })
-    self.slots[4] = MealSelectionSlot.new({ 'side' })
-    self.slots[5] = MealSelectionSlot.new({ 'core' })
+    self.slots[2] = MealSelectionSlot.new(2, { 'dessert' })
+    self.slots[3] = MealSelectionSlot.new(3, { 'salad' })
+    self.slots[4] = MealSelectionSlot.new(4, { 'side' })
+    self.slots[5] = MealSelectionSlot.new(5, { 'core' })
   else
     assert(false, string.format("Unhandled meal type of %s", self.meal))
   end
@@ -54,7 +54,7 @@ function meal_selection:start(meal)
   self.options = {}
   for id,stock in ipairs(session.stock) do
     if stock:ready() then
-      table.insert(self.options, MealSelectionOption.new(stock))
+      table.insert(self.options, MealSelectionOption.new(#self.options + 1, stock))
     end
   end
 
@@ -104,8 +104,8 @@ function meal_selection:draw()
   love.graphics.draw(self.overlay, 100, 100)
 
   love.graphics.setFont(ingame.font_small)
-  for id,slot in ipairs(self.slots) do slot:draw(id) end
-  for id,option in ipairs(self.options) do option:draw(id) end
+  for id,slot in ipairs(self.slots) do slot:draw() end
+  for id,option in ipairs(self.options) do option:draw() end
 end
 
 function meal_selection:update(dt)

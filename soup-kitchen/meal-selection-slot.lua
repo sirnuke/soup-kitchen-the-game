@@ -4,7 +4,7 @@
 MealSelectionSlot = {}
 MealSelectionSlot.__index = MealSelectionSlot
 
-function MealSelectionSlot.new(requirements)
+function MealSelectionSlot.new(offset, requirements)
   local instance = {}
   setmetatable(instance, MealSelectionSlot)
   instance.requirements = requirements
@@ -12,6 +12,7 @@ function MealSelectionSlot.new(requirements)
   instance.label = ''
   instance.selection_label = nil
   instance.valid = false
+  instance.offset = offset
   for i,req in ipairs(requirements) do
     if i > 1 then instance.label = instance.label .. " OR " end
     instance.label = instance.label .. req
@@ -31,9 +32,9 @@ function MealSelectionSlot:set_selection(stock)
   end
 end
 
-function MealSelectionSlot:draw(offset)
+function MealSelectionSlot:draw()
   -- bleh
-  local x, y = self:coord(offset)
+  local x, y = self:coord()
   local image = nil
   if meal_selection.selected then
     image = meal_selection.elements.normal
@@ -60,9 +61,10 @@ function MealSelectionSlot:draw(offset)
   end
 end
 
-function MealSelectionSlot:coord(offset)
-  return 130, 130 + (offset - 1) * 30
+function MealSelectionSlot:coord()
+  return 130, 130 + (self.offset - 1) * 30
 end
 
-function MealSelectionSlot:inbounds(offset, x, y)
+function MealSelectionSlot:inbounds(x, y)
 end
+
