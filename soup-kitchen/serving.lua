@@ -8,6 +8,8 @@ ServingClass.serving_states = { potential='potential', active='active', halted='
 ServingClass.stocking_states = { full='full', medium='medium', low='low', empty='empty',
   inactive='inactive' }
 
+ServingClass.states = { stock='stock', serve='serve', clean='clean', inactive='inactive' }
+
 function ServingClass.new(id, location, customer, volunteer)
   assert(not map.blocked(customer))
   assert(not map.blocked(volunteer))
@@ -26,6 +28,8 @@ function ServingClass.new(id, location, customer, volunteer)
   instance.stock = nil
   instance.quantity = nil
   instance.progress = 0
+
+  instance.state = 'inactive'
 
   instance.tasks = {}
   instance.tasks.stocking = 'inactive'
