@@ -42,6 +42,7 @@ function PawnClass.new(type, coord)
   setmetatable(instance, PawnClass)
   instance.type = type
   instance.action = nil
+  instance.left = false
   if coord == 'enter' then
     assert(not map.occupant(constants.coords.entrance))
     instance.position = map.position(constants.coords.entrance)
@@ -128,13 +129,16 @@ function PawnClass:pathfind(coord)
   self.destination = map.position(self.path[#self.path])
 end
 
+function PawnClass:leave()
+  self:pathfind(constants.coords.exit)
+  map.set_occupant(self.coordinate, nil)
+  self.coordinate = Coordinate.dup(constants.coords.exit_off)
+  table.insert(self.path, 1, Coordinate.dup(constants.coords.exit_off))
+end
+
 function PawnClass:go(coord)
   assert(not map.blocked(coord))
   assert(not map.occupant(coord))
-
-  --print("Removing", self.path[#self.path].x, self.path[#self.path].y)
-  --table.remove(self.path)
-  --print("Next step is", self.path[#self.path].x, self.path[#self.path].y)
 
   self:pathfind(coord)
 
@@ -147,8 +151,6 @@ function PawnClass:update(dt)
   if self.path then
     assert(#self.path > 0 and self.destination)
     local dx, dy = self.destination.x - self.position.x, self.destination.y - self.position.y
-    --print("Current is", self.position.x, self.position.y)
-    --print("Destination is", self.destination.x, self.destination.y)
     local distance = constants.scale.walk * dt
     while distance > 0 do
       if self.destination.x == self.position.x and self.destination.y == self.position.y then
@@ -159,7 +161,10 @@ function PawnClass:update(dt)
           self.path = nil
           self.destination = nil
           distance = 0
-          -- TODO: Set directions, possibly update task here
+          if self.coordinate == constants.coords.exit_off then
+            print("Pawn has left the board")
+            self.left = true
+          end
         end
       end
       distance = self:walk(distance)
