@@ -19,6 +19,7 @@ function CustomerClass:update(dt)
     if not map.occupant(constants.coords.entrance) then
       self.pawn = PawnClass.new('customer', 'enter')
       self.action = map.actions.drinks
+      self.pawn.action = self.action
       self.state = 'inline'
     end
   elseif self.state == 'inline' then
@@ -30,6 +31,7 @@ function CustomerClass:update(dt)
     elseif self.action:finished() then
       self.action:reset()
       self.action = self.action:next(session.stage)
+      self.pawn.action = self.action
       if self.action == 'done' then
         -- self.pawn:leave()
         self.state = 'gotfood'
