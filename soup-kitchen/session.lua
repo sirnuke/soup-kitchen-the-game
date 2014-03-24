@@ -2,8 +2,8 @@
 -- Bryan DeGrendel (c) 2014
 
 session = {}
-session.stages = { breakfast="breakfast", lunch="lunch", prepare="prepare", dinner="dinner",
-  cleanup="cleanup", done="done" }
+session.stages = { start="start", breakfast="breakfast", lunch="lunch", prepare="prepare", 
+  dinner="dinner", cleanup="cleanup", done="done" }
 
 local function calc_stage(time)
   if time >= constants.time.close then
@@ -16,8 +16,10 @@ local function calc_stage(time)
     return 'prepare'
   elseif time >= constants.time.lunch then
     return 'lunch'
-  else
+  elseif time >= constants.time.breakfast then
     return 'breakfast'
+  else
+    return 'start'
   end
 end
 
@@ -73,12 +75,15 @@ function session.update(dt)
 end
 
 function session.new_stage(stage)
+  print("New stage", stage)
   session.customers = 0
   local count = 0
-  if stage == 'breakfast' then
+  if stage == 'start' then
+  elseif stage == 'breakfast' then
     count = homeless.spawn()
     print("Homeless count is", count)
   elseif stage == 'lunch' then
+    -- have everyone in line leave?
   elseif stage == 'prepare' then
   elseif stage == 'dinner' then
   elseif stage == 'cleanup' then
@@ -86,9 +91,7 @@ function session.new_stage(stage)
     assert(false, string.format("Unhandled stage %s", stage))
   end
   session.stage = stage
-  session.line = {}
-  session.eating = {}
-  for i = 0,count do
+  for i = 1,count do
     table.insert(session.line, CustomerClass.new())
   end
 end
@@ -97,10 +100,12 @@ function session.new_day()
   session.day = session.day + 1
   session.time = constants.time.start
   session.cash = session.cash - #session.employees * constants.money.wage
-  session.new_stage('breakfast')
-  session.player:move(constants.coords.start)
+  session.line = {}
+  session.eating = {}
   session.tasks = {}
   session.customers = {}
+  session.new_stage('start')
+  session.player:move(constants.coords.start)
 end
 
 function session.format_time()
