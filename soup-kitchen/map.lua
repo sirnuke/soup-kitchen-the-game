@@ -34,15 +34,15 @@ function map.create()
   map.actions = {}
 
   map.actions.serving = {}
-  map.actions.serving[1] = ServingClass.new(
+  map.actions.serving[1] = ServingClass.new(1,
     Coordinate.new(3,10), Coordinate.new(2,9), Coordinate.new(3,11))
-  map.actions.serving[2] = ServingClass.new(
+  map.actions.serving[2] = ServingClass.new(2,
     Coordinate.new(4,9), Coordinate.new(3,9), Coordinate.new(5,9))
-  map.actions.serving[3] = ServingClass.new(
+  map.actions.serving[3] = ServingClass.new(3,
     Coordinate.new(4,8), Coordinate.new(3,8), Coordinate.new(5,8))
-  map.actions.serving[4] = ServingClass.new(
+  map.actions.serving[4] = ServingClass.new(4,
     Coordinate.new(4,6), Coordinate.new(3,6), Coordinate.new(5,6))
-  map.actions.serving[5] = ServingClass.new(
+  map.actions.serving[5] = ServingClass.new(5,
     Coordinate.new(4,5), Coordinate.new(3,5), Coordinate.new(5,5))
 
   for i = 1,4 do
