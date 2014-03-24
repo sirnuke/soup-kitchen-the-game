@@ -89,6 +89,10 @@ end
 function meal_selection:ok()
   assert(self.active)
   self.active = false
+  for id,slot in ipairs(self.slots) do
+    if slot.stock then
+    end
+  end
   -- TODO: Save selections
 end
 
