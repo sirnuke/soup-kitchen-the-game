@@ -83,7 +83,7 @@ function map.valid_coordinate(coord)
 end
 
 function map.occupant(coord)
-  return map.square(coord).current
+  return map.square(coord).occupant
 end
 
 function map.set_occupant(coord, occupant)
