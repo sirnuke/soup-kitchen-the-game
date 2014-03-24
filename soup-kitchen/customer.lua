@@ -24,7 +24,7 @@ function CustomerClass:update(dt)
   elseif self.state == 'inline' then
     self.pawn:update(dt)
     if self.pawn.coordinate ~= self.action.customer then
-      if not map.occupant(self.action.customer) and not self.pawn:arrived() then
+      if not map.occupant(self.action.customer) and self.pawn:arrived() then
         self.pawn:go(self.action.customer)
       end
     elseif self.action:finished() then
