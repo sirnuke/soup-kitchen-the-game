@@ -101,13 +101,18 @@ end
 function session.new_day()
   session.day = session.day + 1
   session.time = constants.time.start
-  session.cash = session.cash - #session.employees * constants.money.wage
+  if session.employee then
+    session.cash = session.cash - constants.money.wage
+  end
   session.line = {}
   session.eating = {}
   session.tasks = {}
   session.customers = {}
   session.new_stage('start')
   session.player:move(constants.coords.start)
+  if session.employee then
+    session.employee:move(constants.coords.employee)
+  end
 end
 
 function session.format_time()
