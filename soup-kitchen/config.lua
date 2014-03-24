@@ -12,7 +12,7 @@ function core.config()
   if fast then
     constants.scale.walk = 250
     constants.scale.work = 200
-    constants.scale.clock = 5
+    constants.scale.clock = 7.5
   else
     constants.scale.walk = 150
     constants.scale.work = 70
