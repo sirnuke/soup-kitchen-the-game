@@ -82,7 +82,7 @@ function meal_selection:enter()
   assert(not self.active)
   self.active = true
   assert(self.meal and self.slots and self.options)
-
+  self.selected = nil
   self:update_slots()
 end
 
