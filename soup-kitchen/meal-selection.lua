@@ -17,10 +17,30 @@ end
 function meal_selection:enter(meal)
   self.active = true
   assert(self.meals[meal])
+  self.slots = {}
+  self.slots[1] = { 'drink' }
+  if meal == 'breakfast' then
+    self.slots[2] = { 'side', 'core', 'dessert' }
+    assert(#self.slots == constants.breakfast_end)
+  elseif meal == 'lunch' then
+    self.slots[2] = { 'dessert', 'salad' }
+    self.slots[3] = { 'salad', 'side' }
+    self.slots[4] = { 'side', 'core' }
+    self.slots[5] = { 'core' }
+  elseif meal == 'dinner' then
+    self.slots[2] = { 'dessert' }
+    self.slots[3] = { 'salad' }
+    self.slots[4] = { 'side' }
+    self.slots[5] = { 'core' }
+  else
+    assert(false, string.format("Unhandled meal type of %s", meal))
+  end
+  self.meal = meal
 end
 
 function meal_selection:exit()
   self.active = false
+  -- TODO: Save selections
 end
 
 function meal_selection:draw()
