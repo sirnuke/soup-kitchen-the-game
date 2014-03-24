@@ -63,7 +63,7 @@ function core.config()
   constants.time.prep_dinner =  960 --  4:00pm
   constants.time.dinner      = 1020 --  5:00pm
   constants.time.cleanup     = 1140 --  7:00pm
-  constants.time.close       = 1200 --  8:00pm
+  constants.time.done        = 1200 --  8:00pm
 
   constants.money = {}
   constants.money.initial = 1000

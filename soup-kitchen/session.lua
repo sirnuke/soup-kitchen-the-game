@@ -134,7 +134,7 @@ function session.add_trash(amount)
 end
 
 function session.format_time()
-  if session.time >= constants.time.close then 
+  if session.time >= constants.time.done then 
     return "Late!"
   else
     local hour = math.floor((session.time - (session.time % 60)) / 60)
