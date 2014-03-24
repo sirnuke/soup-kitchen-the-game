@@ -37,6 +37,12 @@ function meal_selection:start(meal)
     assert(false, string.format("Unhandled meal type of %s", meal))
   end
   self.selections = {}
+  self.choices = {}
+  for k,v in ipairs(session.stock) do
+    if v:ready() then
+      table.insert(self.choices, v)
+    end
+  end
   for i=1,5 do
   end
   self.meal = meal
