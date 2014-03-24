@@ -5,7 +5,7 @@ help = { }
 
 function help.enter()
   help.background = love.graphics.newImage("images/help/background.png")
-  help.eat = constants.eat
+  help.squelch = constants.squelch
 end
 
 function help.exit()
@@ -17,13 +17,13 @@ function help.draw()
 end
 
 function help.update(dt)
-  if help.eat > 0 then
-    help.eat = help.eat - dt
+  if help.squelch > 0 then
+    help.squelch = help.squelch - dt
   end
 end
 
 function help.keypressed(key)
-  if help.eat <= 0 then
+  if help.squelch <= 0 then
   end
 end
 
@@ -31,7 +31,7 @@ function help.keyreleased(key)
 end
 
 function help.mousepressed(x, y, button)
-  if help.eat <= 0 and button == 'l' then
+  if help.squelch <= 0 and button == 'l' then
     core.switch("ingame")
   end
 end

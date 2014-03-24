@@ -5,7 +5,7 @@ mainmenu = { }
 
 function mainmenu.enter()
   mainmenu.background = love.graphics.newImage("images/mainmenu/background.png")
-  mainmenu.eat = constants.eat
+  mainmenu.squelch = constants.squelch
 end
 
 function mainmenu.exit()
@@ -17,13 +17,13 @@ function mainmenu.draw()
 end
 
 function mainmenu.update(dt)
-  if mainmenu.eat > 0 then
-    mainmenu.eat = mainmenu.eat - dt
+  if mainmenu.squelch > 0 then
+    mainmenu.squelch = mainmenu.squelch - dt
   end
 end
 
 function mainmenu.keypressed(key)
-  if mainmenu.eat <= 0 then
+  if mainmenu.squelch <= 0 then
   end
 end
 
@@ -31,7 +31,7 @@ function mainmenu.keyreleased(key)
 end
 
 function mainmenu.mousepressed(x, y, button)
-  if mainmenu.eat <= 0 and button == 'l' then
+  if mainmenu.squelch <= 0 and button == 'l' then
     core.switch("help")
   end
 end

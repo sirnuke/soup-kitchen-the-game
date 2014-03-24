@@ -19,7 +19,7 @@ function core.config()
     constants.scale.clock = 1
   end
 
-  constants.eat = 0.25
+  constants.squelch = 0.25
   constants.max_progress = 100
   constants.homeless_need = 50
 
