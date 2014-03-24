@@ -6,7 +6,7 @@ meal_selection.__index = meal_selection
 meal_selection.meals = { breakfast="breakfast", lunch="lunch", dinner="dinner" }
 
 function meal_selection:setup()
-  self.overlay = love.graphics.newImage("images/ingame/meal-selection.png")
+  self.overlay = love.graphics.newImage("images/meal-selection/background.png")
   self.active = false
 end
 
