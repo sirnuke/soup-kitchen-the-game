@@ -57,6 +57,7 @@ function core.config()
 
   constants.coords = {}
   constants.coords.start = Coordinate.new(5, 11)
+  constants.coords.employee = Coordinate.new(6, 8)
   constants.coords.entrance = Coordinate.new(1, 9)
   constants.coords.exit = Coordinate.new(1, 3)
   constants.coords.exit_off = Coordinate.new(0, 3)

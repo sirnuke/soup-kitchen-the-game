@@ -42,7 +42,7 @@ function session.start()
   end
 
   session.player = PawnClass.new('player', constants.coords.start)
-  session.employees = {}
+  session.employee = nil
   session.volunteers = {}
   session.tasks = {}
   session.new_day()
