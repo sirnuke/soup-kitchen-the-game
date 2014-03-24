@@ -34,10 +34,14 @@ function ActionClass.new(type, customer, volunteer)
   return instance
 end
 
-function ActionClass:draw(stage, line)
+function ActionClass:new_stage(stage)
+  self.stage = stage
 end
 
-function ActionClass:next(stage)
+function ActionClass:draw(line)
+end
+
+function ActionClass:next()
   if self.type == 'cleaning1' then
     return map.actions.cleaning2
   elseif self.type == 'cleaning2' then

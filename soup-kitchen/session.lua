@@ -31,7 +31,7 @@ function session.draw()
   session.player:draw()
   for class,table in pairs(map.actions) do
     for name,action in pairs(table) do
-      action:draw(session.stage, line)
+      action:draw(line)
     end
   end
   for k,v in ipairs(session.line) do
@@ -103,6 +103,11 @@ function session.new_stage(stage)
   end
   for i = 1,count do
     table.insert(session.line, CustomerClass.new(stage))
+  end
+  for class,table in pairs(map.actions) do
+    for name,action in pairs(table) do
+      action:new_stage(stage)
+    end
   end
   session.stage = stage
 end

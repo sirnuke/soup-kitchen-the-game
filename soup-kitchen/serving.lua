@@ -19,6 +19,7 @@ function ServingClass.new(id, location, customer, volunteer)
   instance.volunteer = Coordinate.dup(volunteer)
   instance.screen_volunteer = instance:screen(volunteer)
   instance.next_stage = nil
+  instance.stage = nil
   instance.stock = nil
   instance.quantity = nil
   instance.progress = 0
@@ -28,6 +29,11 @@ end
 
 function ServingClass:screen(coord)
   return { x= (coord.x - 1) * constants.sizes.square, y= (coord.y - 1) * constants.sizes.square }
+end
+
+function ServingClass:new_stage(stage)
+  assert(stage)
+  self.stage = stage
 end
 
 function ServingClass:reset()
@@ -53,23 +59,22 @@ function ServingClass:done()
   end
 end
 
-function ServingClass:next(stage)
+function ServingClass:next()
   assert(self.next_stage)
-  assert(stage)
-  if self.id >= constants.breakfast_end and stage == 'breakfast' then
+  assert(self.stage)
+  if self.id >= constants.breakfast_end and self.stage == 'breakfast' then
     return 'done'
   end
   return self.next_stage
 end
 
-function ServingClass:draw(stage, line)
-  assert(stage)
+function ServingClass:draw(line)
   local customer, volunteer = map.occupant(self.customer), map.occupant(self.volunteer)
   local image = nil
-  if self.id > constants.breakfast_end and (stage == 'breakfast' or stage == 'start') then
+  if self.id > constants.breakfast_end and (self.stage == 'breakfast' or self.stage == 'start') then
     return
   end
-  if stage == 'breakfast' or stage == 'lunch' or stage == 'dinner' or line then
+  if self.stage == 'breakfast' or self.stage == 'lunch' or self.stage == 'dinner' or line then
     if not customer then
       image = ActionClass.images.potential
     elseif customer.action == self and customer:arrived() then
@@ -83,7 +88,7 @@ function ServingClass:draw(stage, line)
     end
     love.graphics.draw(image, self.screen_customer.x, self.screen_customer.y)
     love.graphics.draw(image, self.screen_volunteer.x, self.screen_volunteer.y)
-  elseif stage == "start" or stage == "prepare" then
+  elseif self.stage == "start" or self.stage == "prepare" then
     if not volunteer or not volunteer:arrived() then
       image = ActionClass.images.halted
     else
