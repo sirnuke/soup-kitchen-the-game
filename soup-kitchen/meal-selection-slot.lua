@@ -33,8 +33,7 @@ end
 
 function MealSelectionSlot:draw(offset)
   -- bleh
-  local imgoffset, txtoffset, height = 130, 134, 30
-  local txt2offset = txtoffset + 171
+  local x, y = self:coord(offset)
   local image = nil
   if meal_selection.selected then
     image = meal_selection.elements.normal
@@ -53,10 +52,17 @@ function MealSelectionSlot:draw(offset)
     end
   end
   love.graphics.setColor(255, 255, 255, 224)
-  love.graphics.draw(image, imgoffset, imgoffset + (offset - 1) * height)
+  love.graphics.draw(image, x, y)
   love.graphics.setColor(0, 0, 0, 224)
-  love.graphics.print(self.label, txtoffset, txtoffset + (offset - 1) * height)
+  love.graphics.print(self.label, x + 4, y + 4)
   if self.selection_label then
-    love.graphics.print(self.selection_label, txt2offset, txtoffset + (offset - 1) * height)
+    love.graphics.print(self.selection_label, x + 4 + 171, y + 4)
   end
+end
+
+function MealSelectionSlot:coord(offset)
+  return 130, 130 + (offset - 1) * 30
+end
+
+function MealSelectionSlot:inbounds(offset, x, y)
 end

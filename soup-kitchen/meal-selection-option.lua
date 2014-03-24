@@ -14,6 +14,7 @@ function MealSelectionOption.new(stock)
 end
 
 function MealSelectionOption:draw(offset)
+  local x, y = self:coord(offset)
   local image = nil
   if meal_selection.selected == self then
     image = meal_selection.elements.selected
@@ -27,8 +28,15 @@ function MealSelectionOption:draw(offset)
     image = meal_selection.elements.normal
   end
   love.graphics.setColor(255, 255, 255, 224)
-  love.graphics.draw(image, 534, 130 + (offset - 1) * 30)
+  love.graphics.draw(image, x, y)
   love.graphics.setColor(0, 0, 0, 224)
-  love.graphics.print(self.label, 538, 134 + (offset - 1) * 30)
+  love.graphics.print(self.label, x + 4, y + 4)
+end
+
+function MealSelectionOption:coord(offset)
+  return 534, 130 + (offset - 1) * 30
+end
+
+function MealSelectionOption:inbounds(offset, x, y)
 end
 
