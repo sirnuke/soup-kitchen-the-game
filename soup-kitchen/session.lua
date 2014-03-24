@@ -34,6 +34,7 @@ function session.start()
   session.day = 0
   session.cash = constants.money.initial
   session.stock = {}
+  homeless.setup()
   for k,v in pairs(constants.stock.start) do
     for i = 1,v do
       table.insert(session.stock, StockClass.random(k))
@@ -78,11 +79,10 @@ end
 
 function session.new_stage(stage)
   print("New stage", stage)
-  session.customers = 0
   local count = 0
   if stage == 'start' then
   elseif stage == 'breakfast' then
-    count = homeless.spawn()
+    count = homeless.spawn(stage)
     print("Homeless count is", count)
   elseif stage == 'lunch' then
     -- have everyone in line leave?
@@ -92,10 +92,10 @@ function session.new_stage(stage)
   else
     assert(false, string.format("Unhandled stage %s", stage))
   end
-  session.stage = stage
   for i = 1,count do
-    table.insert(session.line, CustomerClass.new())
+    table.insert(session.line, CustomerClass.new(stage))
   end
+  session.stage = stage
 end
 
 function session.new_day()
