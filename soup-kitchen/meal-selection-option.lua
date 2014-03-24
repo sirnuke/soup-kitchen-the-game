@@ -8,9 +8,10 @@ function MealSelectionOption.new(stock)
   local instance = {}
   setmetatable(instance, MealSelectionOption)
   instance.stock = stock
+  instance.label = tostring(stock)
   return instance
 end
 
-function MealSelectionOption:draw()
+function MealSelectionOption:draw(offset)
 end
 

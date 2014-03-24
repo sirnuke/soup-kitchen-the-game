@@ -75,8 +75,8 @@ function meal_selection:draw()
 
   love.graphics.setColor(0, 0, 0, 224)
   love.graphics.setFont(ingame.font_small)
-  for id,slot in ipairs(self.slots) do slot:draw() end
-  for id,option in ipairs(self.options) do option:draw() end
+  for id,slot in ipairs(self.slots) do slot:draw(id) end
+  for id,option in ipairs(self.options) do option:draw(id) end
   --for k,v in ipairs(self.labels) do
     --love.graphics.print(v, 132, 126 + (k - 1) * 32)
     --if self.selections[k] then
