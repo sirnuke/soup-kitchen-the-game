@@ -2,6 +2,8 @@
 -- Bryan DeGrendel (c) 2014
 
 meal_selection = {}
+meal_selection.__index = meal_selection
+meal_selection.meals = { breakfast="breakfast", lunch="lunch", dinner="dinner" }
 
 function meal_selection:setup()
   self.overlay = love.graphics.newImage("images/ingame/meal-selection.png")
@@ -10,6 +12,15 @@ end
 
 function meal_selection:destroy()
   self.overlay = nil
+end
+
+function meal_selection:enter(meal)
+  self.active = true
+  assert(self.meals[meal])
+end
+
+function meal_selection:exit()
+  self.active = false
 end
 
 function meal_selection:draw()
