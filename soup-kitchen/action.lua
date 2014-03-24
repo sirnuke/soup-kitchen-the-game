@@ -4,7 +4,6 @@
 ActionClass = {}
 ActionClass.__index = ActionClass
 ActionClass.types = {
-  drinks='drinks', food1='food1', food2='food2', food3='food3', food4='food4',
   cleaning1='cleaning1', cleaning2='cleaning2', cleaning3='cleaning3', prepare1='prepare1', 
   prepare2='prepare2', prepare3='prepare3', prepare4='prepare4', prepare5='prepare5',
   prepare6='prepare6', storage1='storage1', storage2='storage2', storage3='storage3',
@@ -29,21 +28,7 @@ function ActionClass.new(type, customer, volunteer)
 end
 
 function ActionClass:next(stage)
-  if self.type == 'drinks' then
-    return map.actions.food1
-  elseif self.type == 'food1' then
-    if stage == 'breakfast' then
-      return 'done'
-    else
-      return map.actions.food2
-    end
-  elseif self.type == 'food2' then
-    return map.actions.food3
-  elseif self.type == 'food3' then
-    return map.actions.food4
-  elseif self.type == 'food4' then
-    return 'done'
-  elseif self.type == 'cleaning1' then
+  if self.type == 'cleaning1' then
     return map.actions.cleaning2
   elseif self.type == 'cleaning2' then
     return map.actions.cleaning3
@@ -82,17 +67,7 @@ function ActionClass:update(dt)
   local customer, volunteer
   if self.customer then customer = map.occupant(self.customer) end
   if self.volunteer then volunteer = map.occupant(self.volunteer) end
-  if self.type == 'drinks' or self.type == 'food1' or self.type == 'food2' 
-      or self.type == 'food3' or self.type == 'food4' then
-    if not customer or customer.type ~= 'customer' or customer.action ~= self then return end
-    if not volunteer or not volunteer:arrived() then
-      table.insert(session.tasks, TaskClass.new('serving', 
-        string.format("Need help at (%i,%i)", self.volunteer.x, self.volunteer.y)))
-    elseif customer:arrived() then
-      self.progress = self.progress + dt * constants.scale.work
-      print("Progress is now", self.progress)
-    end
-  elseif self.type == 'cleaning1' then
+  if self.type == 'cleaning1' then
   elseif self.type == 'cleaning2' then
   elseif self.type == 'cleaning3' then
   elseif self.type == 'prepare1' then
@@ -110,7 +85,7 @@ function ActionClass:update(dt)
   end
 end
 
-function ActionClass:finished()
+function ActionClass:done()
   if self.progress >= constants.max_progress then
     return true
   else
