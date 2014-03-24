@@ -8,6 +8,7 @@ function MealSelectionOption.new(stock)
   local instance = {}
   setmetatable(instance, MealSelectionOption)
   instance.stock = stock
+  instance.slot = nil
   instance.label = tostring(stock)
   return instance
 end

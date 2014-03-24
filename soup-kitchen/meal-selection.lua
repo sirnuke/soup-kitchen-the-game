@@ -49,6 +49,8 @@ function meal_selection:start(meal)
 
   self:create_slots()
 
+  self.selected = nil
+
   self.options = {}
   for id,stock in ipairs(session.stock) do
     if stock:ready() then
@@ -57,7 +59,14 @@ function meal_selection:start(meal)
   end
 
   for id,serving in ipairs(map.actions.serving) do
-    if self.slots[id] then self.slots[id]:set_selection(serving.stock_source) end
+    if self.slots[id] then
+      self.slots[id]:set_selection(serving.stock_source)
+      for i,option in ipairs(self.options) do
+        if option.stock == serving.stock_source then
+          option.slot = self.slots[id]
+        end
+      end
+    end
   end
 end
 
