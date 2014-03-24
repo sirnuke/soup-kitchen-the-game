@@ -10,6 +10,13 @@ ActionClass.types = {
   trash='trash'
 }
 
+function ActionClass.setup()
+  ActionClass.images = {}
+  ActionClass.images.active = love.graphics.newImage("images/actions/active.png")
+  ActionClass.images.halted = love.graphics.newImage("images/actions/halted.png")
+  ActionClass.images.potential = love.graphics.newImage("images/actions/potential.png")
+end
+
 function ActionClass.new(type, customer, volunteer)
   local instance = {}
   assert(ActionClass.types[type])

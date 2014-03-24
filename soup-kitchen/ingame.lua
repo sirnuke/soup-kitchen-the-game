@@ -11,6 +11,7 @@ function ingame.enter()
   ingame.selected = nil
   ingame.font_normal = love.graphics.setNewFont(constants.font.filename, constants.font.normal)
   ingame.font_small = love.graphics.setNewFont(constants.font.filename, constants.font.small)
+  ActionClass.setup()
   map.create()
   session.start()
 end
