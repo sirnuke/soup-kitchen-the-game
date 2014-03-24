@@ -12,11 +12,11 @@ function core.config()
   if fast then
     constants.scale.walk = 250
     constants.scale.work = 200
-    constants.scale.clock = 1
+    constants.scale.clock = 5
   else
     constants.scale.walk = 150
     constants.scale.work = 70
-    constants.scale.clock = 1
+    constants.scale.clock = 1.25
   end
 
   constants.squelch = 0.25
@@ -37,6 +37,7 @@ function core.config()
   constants.font.small = 14
 
   constants.time = {}
+  constants.time.stage     =  120 -- 2 hours
   constants.time.start     =  450 --  7:30am
   constants.time.breakfast =  480 --  8:00am
   constants.time.lunch     =  660 -- 11:00am
