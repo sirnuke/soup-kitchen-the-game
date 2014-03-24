@@ -120,6 +120,18 @@ function meal_selection:mousepressed(x, y, button)
   assert(self.active)
   if button ~= 'l' then return end
 
+  if x >= 120 and x <= 200 and y >= 628 and y <= 648 then
+    print("Ok!")
+    self:ok()
+    return
+  end
+
+  if x >= 220 and x <= 320 and y >= 628 and y <= 648 then
+    print("Cancel!")
+    self:cancel()
+    return
+  end
+
   if self.selected then
     for id,slot in ipairs(self.slots) do
       if slot:inbounds(x, y) then
