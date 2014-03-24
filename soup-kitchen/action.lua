@@ -83,7 +83,7 @@ function ActionClass:update(dt)
   if self.volunteer then volunteer = map.occupant(self.volunteer) end
   if self.type == 'drinks' or self.type == 'food1' or self.type == 'food2' 
       or self.type == 'food3' or self.type == 'food4' then
-    if not customer or customer.type ~= 'customer' then return end
+    if not customer or customer.type ~= 'customer' or customer.action ~= self then return end
     if not volunteer then
       table.insert(session.tasks, TaskClass.new('serving', 
         string.format("Missing volunteer at (%i,%i)", self.volunteer.x, self.volunteer.y)))
