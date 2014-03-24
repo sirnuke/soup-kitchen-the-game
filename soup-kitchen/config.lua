@@ -4,13 +4,20 @@
 function core.config()
   love.window.setMode(1024, 768, {})
   love.window.setTitle("Soup Kitchen")
+  local fast = true
 
   constants = {}
 
   constants.scale = {}
-  constants.scale.walk = 150
-  constants.scale.work = 70
-  constants.scale.clock = 1
+  if fast then
+    constants.scale.walk = 250
+    constants.scale.work = 200
+    constants.scale.clock = 1
+  else
+    constants.scale.walk = 150
+    constants.scale.work = 70
+    constants.scale.clock = 1
+  end
 
   constants.eat = 0.25
   constants.max_progress = 100
@@ -45,6 +52,7 @@ function core.config()
   constants.coords.start = Coordinate.new(5, 11)
   constants.coords.entrance = Coordinate.new(1, 9)
   constants.coords.exit = Coordinate.new(1, 3)
+  constants.coords.exit_off = Coordinate.new(0, 3)
   
   constants.sizes = {}
   constants.sizes.square = 64
