@@ -25,7 +25,7 @@ function ServingClass.new(id, location, customer, volunteer)
   instance.screen_volunteer = instance:screen(volunteer)
   instance.next_stage = nil
   instance.stage = nil
-  instance.stock_type = nil
+  instance.stock_source = nil
   instance.quantity = nil
   instance.progress = 0
 
@@ -68,12 +68,12 @@ function ServingClass:update(dt, line)
     return
   end
 
-  if not self.stock_type or self.stage == 'cleanup' or self.stage == 'done' then
+  if not self.stock_source or self.stage == 'cleanup' or self.stage == 'done' then
     self.tasks.stocking = 'inactive'
   else
-    if self.quantity >= constants.stock.serve[self.stock_type] * .67 then
+    if self.quantity >= constants.stock.serve[self.stock_source.type] * .67 then
       self.tasks.stocking = 'full'
-    elseif self.quantity >= constants.stock.server[self.stock_type] * .33 then
+    elseif self.quantity >= constants.stock.server[self.stock_source.type] * .33 then
       self.tasks.stocking = 'medium'
     elseif self.quantity > 0 then
       self.tasks.stocking = 'low'
