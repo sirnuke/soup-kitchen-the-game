@@ -7,11 +7,17 @@ meal_selection.meals = { breakfast="breakfast", lunch="lunch", dinner="dinner" }
 
 function meal_selection:setup()
   self.overlay = love.graphics.newImage("images/meal-selection/background.png")
+  self.elements = {}
+  self.elements.normal = love.graphics.newImage("images/meal-selection/normal.png")
+  self.elements.invalid = love.graphics.newImage("images/meal-selection/invalid.png")
+  self.elements.selected = love.graphics.newImage("images/meal-selection/selected.png")
+  self.elements.used = love.graphics.newImage("images/meal-selection/used.png")
   self.active = false
 end
 
 function meal_selection:destroy()
   self.overlay = nil
+  self.elements = nil
 end
 
 function meal_selection:create_slots()
