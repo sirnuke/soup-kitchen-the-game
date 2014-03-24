@@ -113,6 +113,7 @@ function session.new_stage(stage)
 end
 
 function session.new_day()
+  session.trash = 0
   session.day = session.day + 1
   session.time = constants.time.start
   if session.employee then
@@ -127,6 +128,10 @@ function session.new_day()
   if session.employee then
     session.employee:move(constants.coords.employee)
   end
+end
+
+function session.add_trash(amount)
+  session.trash = session.trash + amount
 end
 
 function session.format_time()

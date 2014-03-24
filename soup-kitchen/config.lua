@@ -23,6 +23,11 @@ function core.config()
   constants.max_progress = 100
   constants.breakfast_end = 2
 
+  constants.trash = {}
+  constants.trash.max = 50
+  constants.trash.food_scale = 0.5
+
+
   constants.demand = {}
   constants.demand.initial = 40
   constants.demand.breakfast = .40

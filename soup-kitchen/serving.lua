@@ -43,6 +43,13 @@ function ServingClass:new_stage(stage)
   self.stage = stage
 end
 
+function ServingClass:stock(quantity)
+  if self.quantity > 0 then
+    session.add_trash(self.quantity * constants.trash.food_scale)
+  end
+  self.quantity = quantity
+end
+
 function ServingClass:reset()
   self.progress = 0
 end
