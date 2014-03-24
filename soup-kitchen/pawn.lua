@@ -46,8 +46,8 @@ function PawnClass.new(type, coord)
     assert(not map.occupant(constants.coords.entrance))
     instance.position = map.position(constants.coords.entrance)
     instance.position.x = instance.position.x - constants.sizes.square
-    instance.coordinate = Coordinate.new(constants.coords.entrance.x, constants.coords.entrance.y)
-    instance.path = { Coordinate.new(constants.coords.entrance.x, constants.coords.entrance.y) }
+    instance.coordinate = Coordinate.dup(constants.coords.entrance)
+    instance.path = { Coordinate.dup(constants.coords.entrance) }
     instance.destination = map.position(constants.coords.entrance)
   else
     assert(not map.blocked(coord))
