@@ -123,6 +123,12 @@ function meal_selection:mousepressed(x, y, button)
   if self.selected then
     for id,slot in ipairs(self.slots) do
       if slot:inbounds(x, y) then
+        if self.selected.slot then
+          self.selected.slot:set_selection(nil)
+        end
+        for id,option in ipairs(self.options) do
+          if option.slot == slot then option.slot = nil end
+        end
         self.selected.slot = slot
         slot:set_selection(self.selected.stock)
         self.selected = nil
