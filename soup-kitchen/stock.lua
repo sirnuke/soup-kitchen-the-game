@@ -3,7 +3,7 @@
 
 StockClass = {}
 StockClass.__index = StockClass
-StockClass.types = { core='core', side='side', drink='drink', desert='desert', salad='salad' }
+StockClass.types = { core='core', side='side', drink='drink', dessert='dessert', salad='salad' }
 
 function StockClass.new(type, quantity, expiration)
   assert(StockClass.types[type])
@@ -56,7 +56,7 @@ function StockClass.random(type)
   elseif type == 'drink' then
     quantity = love.math.randomNormal(10, 30)
     expiration = love.math.randomNormal(2, 7)
-  elseif type == 'desert' then
+  elseif type == 'dessert' then
     quantity = love.math.randomNormal(3, 15)
     expiration = love.math.randomNormal(1, 3)
   elseif type == 'salad' then

@@ -39,8 +39,14 @@ function core.config()
   constants.stock.start.core = 2
   constants.stock.start.side = 4
   constants.stock.start.drink = 2
-  constants.stock.start.desert = 3
+  constants.stock.start.dessert = 3
   constants.stock.start.salad = 1
+  constants.stock.serve = {}
+  constants.stock.serve.core = 10
+  constants.stock.serve.side = 20
+  constants.stock.serve.drink = 40
+  constants.stock.serve.dessert = 20
+  constants.stock.serve.salad = 30
 
   constants.font = {}
   constants.font.filename = "fonts/Inconsolata-Bold.ttf"
