@@ -42,12 +42,10 @@ function session.start()
   session.player = PawnClass.new('player', constants.coords.start)
   session.employee = nil
   session.volunteers = {}
-  session.tasks = {}
   session.new_day()
 end
 
 function session.update(dt)
-  session.tasks = {}
   session.time = session.time + dt * constants.scale.clock
   session.player:update(dt)
   local line = false
