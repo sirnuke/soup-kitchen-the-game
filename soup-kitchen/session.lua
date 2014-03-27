@@ -69,12 +69,6 @@ function session.update(dt)
   for k,v in next,session.eating,nil do
     v:update(dt)
   end
-
-  for class,table in pairs(map.actions) do
-    for name,action in pairs(table) do
-      action:update(dt, line)
-    end
-  end
 end
 
 function session.new_stage(stage)
@@ -100,11 +94,6 @@ function session.new_stage(stage)
   end
   for i = 1,count do
     table.insert(session.line, CustomerClass.new(stage))
-  end
-  for class,table in pairs(map.actions) do
-    for name,action in pairs(table) do
-      action:new_stage(stage)
-    end
   end
   session.stage = stage
 end
