@@ -11,12 +11,13 @@ function ServingClass.new(id, location, customer, volunteer)
   local instance = {}
   setmetatable(instance, ServingClass)
   instance.id = id
+  instance.screen = {}
   instance.location = Coordinate.dup(location)
-  instance.screen_location = instance:screen(location)
+  instance.screen.location = instance:screen_calc(location)
   instance.customer = Coordinate.dup(customer)
-  instance.screen_customer = instance:screen(customer)
+  instance.screen.customer = instance:screen_calc(customer)
   instance.volunteer = Coordinate.dup(volunteer)
-  instance.screen_volunteer = instance:screen(volunteer)
+  instance.screen.volunteer = instance:screen_calc(volunteer)
   instance.next_stage = nil
   instance.stage = nil
   instance.stock = nil
@@ -25,7 +26,7 @@ function ServingClass.new(id, location, customer, volunteer)
   return instance
 end
 
-function ServingClass:screen(coord)
+function ServingClass:screen_calc(coord)
   return { x= (coord.x - 1) * constants.sizes.square, y= (coord.y - 1) * constants.sizes.square }
 end
 
