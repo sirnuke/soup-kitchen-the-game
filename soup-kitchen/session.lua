@@ -68,6 +68,12 @@ function session.update(dt)
   for k,v in next,session.eating,nil do
     v:update(dt)
   end
+  for i,task in next,session.tasks,nil do
+    task:update(dt)
+    if task:done() then
+      table.remove(session.tasks, i)
+    end
+  end
 end
 
 function session.new_stage(stage)
