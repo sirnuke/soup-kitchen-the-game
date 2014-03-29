@@ -4,19 +4,19 @@
 function core.config()
   love.window.setMode(1024, 768, {})
   love.window.setTitle("Soup Kitchen")
-  local fast = true
+  local fast = 3
 
   constants = {}
 
   constants.scale = {}
+  constants.scale.walk = 150
+  constants.scale.work = 70
+  constants.scale.clock = 1.25
+
   if fast then
-    constants.scale.walk = 250
-    constants.scale.work = 200
-    constants.scale.clock = 7.5
-  else
-    constants.scale.walk = 150
-    constants.scale.work = 70
-    constants.scale.clock = 1.25
+    constants.scale.walk = constants.scale.walk * fast
+    constants.scale.work = constants.scale.work * fast
+    constants.scale.clock = constants.scale.clock * fast
   end
 
   constants.squelch = 0.25
