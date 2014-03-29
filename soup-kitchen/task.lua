@@ -53,8 +53,16 @@ function TaskClass:draw()
         self.action.screen.customer.y)
       love.graphics.draw(ActionClass.images.potential, self.action.screen.volunteer.x,
         self.action.screen.volunteer.y)
-    elseif not volunteer or volunteer:arrived() then
+    elseif not volunteer or not volunteer:arrived() then
+      love.graphics.draw(ActionClass.images.potential, self.action.screen.customer.x,
+        self.action.screen.customer.y)
+      love.graphics.draw(ActionClass.images.halted, self.action.screen.volunteer.x,
+        self.action.screen.volunteer.y)
     else
+      love.graphics.draw(ActionClass.images.active, self.action.screen.customer.x,
+        self.action.screen.customer.y)
+      love.graphics.draw(ActionClass.images.active, self.action.screen.volunteer.x,
+        self.action.screen.volunteer.y)
     end
   elseif selt.type == 'stocking' then
   else
