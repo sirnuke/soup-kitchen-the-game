@@ -41,8 +41,8 @@ function PawnClass.new(type, coord)
   local instance = {}
   setmetatable(instance, PawnClass)
   instance.type = type
-  instance.action = nil
   instance.left = false
+  instance.task = false
   if coord == 'enter' then
     assert(not map.occupant(constants.coords.entrance))
     instance.position = map.position(constants.coords.entrance)
