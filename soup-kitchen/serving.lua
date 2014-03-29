@@ -34,10 +34,6 @@ function ServingClass:set_stock(stock, quantity)
   self.quantity = quantity
 end
 
-function ServingClass:reset()
-  self.progress = 0
-end
-
 function ServingClass:next(stage)
   if self.id >= constants.breakfast_end and stage == 'breakfast' then
     return 'done'
