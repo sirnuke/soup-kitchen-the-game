@@ -5,7 +5,7 @@ TaskClass = {}
 TaskClass.__index = TaskClass
 TaskClass.types = { serving='serving', stock='stocking' }
 
-function TaskClass.new(type, locations)
+function TaskClass.new(type, locations, owner)
   assert(TaskClass.types[type])
   assert(locations)
 
@@ -14,8 +14,11 @@ function TaskClass.new(type, locations)
   instance.type = type
   instance.locations = locations
   instance.progress = 0
+  instance.owner = owner
+  print("Creating task", type, owner)
   if type == 'serving' then
     assert(#locations == 2)
+    assert(owner)
   elseif type == 'stocking' then
   else
     assert(false, string.format("Unhandled task type of %s", type))
@@ -36,11 +39,9 @@ function TaskClass:description()
 end
 
 function TaskClass:update(dt)
-  print("Updating task", dt)
   if self.type == 'serving' then
     local customer, volunteer = map.occupant(self.locations[1]), map.occupant(self.locations[2])
-    if customer and volunteer and customer.type == 'customer' and customer:arrived() 
-      and volunteer:arrived() then
+    if customer == self.owner and volunteer and customer:arrived() and volunteer:arrived() then
       self.progress = self.progress + dt * constants.scale.work
     end
   elseif self.type == 'stocking' then
