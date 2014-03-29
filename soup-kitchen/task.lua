@@ -50,3 +50,6 @@ function TaskClass:update(dt)
   end
 end
 
+function TaskClass:draw()
+end
+

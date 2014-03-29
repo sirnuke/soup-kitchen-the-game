@@ -24,6 +24,9 @@ function session.draw()
   for k,v in ipairs(session.line) do
     v:draw()
   end
+  for i,task in ipairs(session.tasks) do
+    task:draw()
+  end
 end
 
 function session.start()
