@@ -19,10 +19,10 @@ end
 function CustomerClass:update(dt)
   if self.state == 'waiting' then
     if not map.occupant(constants.coords.entrance) then
-      self.task = TaskClass.new('serving', { map.actions.serving[1].customer, 
-        map.actions.serving[1].volunteer })
-      table.insert(session.tasks, self.task)
       self.pawn = PawnClass.new('customer', 'enter')
+      self.task = TaskClass.new('serving', { map.actions.serving[1].customer, 
+        map.actions.serving[1].volunteer }, self.pawn)
+      table.insert(session.tasks, self.task)
       self.action = map.actions.serving[1]
       self.pawn.action = self.action
       self.state = 'inline'
