@@ -21,10 +21,9 @@ function CustomerClass:update(dt)
     if not map.occupant(constants.coords.entrance) then
       self.action = map.actions.serving[1]
       self.pawn = PawnClass.new('customer', 'enter')
-      self.task = TaskClass.new('serving', { self.action.customer, self.action.volunteer },
-        self.pawn)
-      table.insert(session.tasks, self.task)
       self.pawn.action = self.action
+      self.task = TaskClass.new('serving', self.action, self.pawn)
+      table.insert(session.tasks, self.task)
       self.state = 'inline'
     end
   elseif self.state == 'inline' then
@@ -40,9 +39,8 @@ function CustomerClass:update(dt)
         self.pawn:leave()
         self.state = 'gotfood'
       else
-      self.task = TaskClass.new('serving', { self.action.customer, self.action.volunteer },
-        self.pawn)
-      table.insert(session.tasks, self.task)
+        self.task = TaskClass.new('serving', self.action, self.pawn)
+        table.insert(session.tasks, self.task)
       end
     end
   elseif self.state == 'gotfood' then
