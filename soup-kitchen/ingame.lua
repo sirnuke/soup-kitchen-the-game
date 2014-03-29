@@ -52,11 +52,17 @@ function ingame.draw()
     else
     end
   end
+  local count, description = 0, nil
   for k,v in ipairs(session.tasks) do
-    if k < 6 then
-      love.graphics.print(v.description, 778, 138 + ((k - 1) * 32))
-    elseif k == 6 then
-      love.graphics.print("...", 778, 138 + ((k - 1) * 32))
+    if count < 6 then
+      description = v:description()
+      if description then
+        love.graphics.print(description, 778, 138 + ((count - 1) * 32))
+        count = count + 1
+      end
+    elseif count == 6 then
+      love.graphics.print("...", 778, 138 + ((count - 1) * 32))
+      count = count + 1
     end
   end
   love.graphics.setColor(255, 255, 255, 255)
