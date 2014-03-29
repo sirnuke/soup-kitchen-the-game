@@ -65,7 +65,6 @@ function session.update(dt)
       table.insert(session.eating, v)
     end
   end
-  -- TODO: Iterate over session.line, if state==eating, put them in eating
   for k,v in next,session.eating,nil do
     v:update(dt)
   end
