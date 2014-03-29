@@ -41,7 +41,7 @@ function PawnClass.new(type, coord)
   local instance = {}
   setmetatable(instance, PawnClass)
   instance.type = type
-  instance.left = false
+  instance.exited = false
   instance.task = false
   if coord == 'enter' then
     assert(not map.occupant(constants.coords.entrance))
@@ -163,7 +163,7 @@ function PawnClass:update(dt)
           distance = 0
           if self.coordinate == constants.coords.exit_off then
             print("Pawn has left the board")
-            self.left = true
+            self.exited = true
           end
         end
       end
