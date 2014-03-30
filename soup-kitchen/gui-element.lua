@@ -8,6 +8,7 @@ function GuiElementClass.new(coord, width, height, images)
   assert(coord and width and height and images)
   assert(type(images) == 'table' and images.normal and images.pressed and images.hover)
   local instance = {}
+  setmetatable(GuiElementClass, instance)
   instance.coord = coord
   instance.width = width
   instance.height = height
