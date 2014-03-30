@@ -51,7 +51,7 @@ end
 
 function GuiElementClass:compare_mouse(x, y)
   if x >= self.screen.x and x < self.screen.x + self.width and y >= self.screen.y 
-    and self.screen.y + self.height then
+      and y < self.screen.y + self.height then
     return true
   else
     return false
