@@ -23,6 +23,15 @@ require "session"
 require "stock"
 require "task"
 
+function inherits(class, instance)
+  assert(type(class) == 'table' and type(instance) == 'table')
+  for k,v in pairs(class) do
+    if not instance[k] then
+      instance[k] = v
+    end
+  end
+end
+
 function love.load()
   core.config()
   core.scenes = { mainmenu=mainmenu, help=help, ingame=ingame }
