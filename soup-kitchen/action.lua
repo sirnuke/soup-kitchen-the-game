@@ -41,41 +41,6 @@ end
 function ActionClass:draw()
 end
 
-function ActionClass:next()
-  if self.type == 'cleaning1' then
-    return map.actions.cleaning2
-  elseif self.type == 'cleaning2' then
-    return map.actions.cleaning3
-  elseif self.type == 'cleaning3' then
-    return 'done'
-  elseif self.type == 'prepare1' then
-    return map.actions.storage1
-  elseif self.type == 'prepare2' then
-    return map.actions.storage1
-  elseif self.type == 'prepare3' then
-    return map.actions.storage2
-  elseif self.type == 'prepare4' then
-    return map.actions.storage2
-  elseif self.type == 'prepare5' then
-    return map.actions.storage3
-  elseif self.type == 'prepare6' then
-    return map.actions.storage3
-  elseif self.type == 'storage1' then
-    return 'done'
-  elseif self.type == 'storage2' then
-    return 'done'
-  elseif self.type == 'storage3' then
-    return 'done'
-  elseif self.type == 'trash' then
-    return 'done'
-  else
-    assert(false, string.format("Unhandled type of %s", self.type))
-  end
-end
-
-function ActionClass:reset()
-  self.progress = 0
-end
 
 function ActionClass:update(dt, line)
   local customer, volunteer
