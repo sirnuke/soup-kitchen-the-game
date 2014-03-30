@@ -5,6 +5,7 @@ core = {}
 
 require "config"
 require "coordinate"
+require "gui-element"
 
 require "help"
 require "ingame"
