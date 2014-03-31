@@ -9,6 +9,7 @@ PawnClass.images = { }
 
 function PawnClass.new(type, coord)
   assert(PawnClass.types[type])
+  local image = nil
 
   if not PawnClass.pathfinding then
     PawnClass.pathfinding = { }
@@ -27,12 +28,14 @@ function PawnClass.new(type, coord)
     if not PawnClass.images.player then
       PawnClass.images.player = love.graphics.newImage("images/pawns/player.png")
     end
+    image = PawnClass.images.player
   elseif type == 'employee' then
   elseif type == 'volunteer' then
   elseif type == 'customer' then
     if not PawnClass.images.customer then
       PawnClass.images.customer = love.graphics.newImage("images/pawns/customer.png")
     end
+    image = PawnClass.images.customer
   else
     assert(false, string.format("Unhandled pawn type %s", type))
   end
@@ -58,10 +61,9 @@ function PawnClass.new(type, coord)
     instance.path = nil
     instance.destination = nil
   end
-
   map.set_occupant(instance.coordinate, instance)
-  instance:set_screen()
-
+  inherits(GuiElementClass.new(instance.coordinate, constants.sizes.pawn, constants.sizes.pawn, 
+    { normal=image, hover=image, pressed=image }), instance)
   return instance
 end
 
