@@ -35,6 +35,8 @@ function State:create()
   self.stock = {}
   self.homeless = Homeless
   self.homeless:setup()
+  self.map = MapClass
+  self.map:create()
   local prepare = false
   for k,v in pairs(C.stock.start) do
     for i = 1,v do
@@ -43,7 +45,8 @@ function State:create()
     end
   end
 
-  self.player = PawnClass.new('player', C.coords.start)
+  -- TODO: Create actual player class
+  self.player = PawnClass.new(self.map, C.coords.start)
   self.employee = nil
   self.volunteers = {}
   self:new_day()
