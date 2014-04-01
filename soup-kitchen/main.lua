@@ -7,9 +7,9 @@ require "config"
 require "coordinate"
 require "gui-element"
 
-require "help"
-require "ingame"
-require "mainmenu"
+require "scenes/help"
+require "scenes/ingame"
+require "scenes/mainmenu"
 
 require "equipment/equipment"
 require "equipment/serving"
