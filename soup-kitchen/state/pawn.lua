@@ -135,7 +135,6 @@ end
 function PawnClass:update(dt)
   if self.path then
     assert(#self.path > 0 and self.destination)
-    local dx, dy = self.destination - self.position
     local distance = C.scale.walk * dt
     while distance > 0 do
       if self.destination == self.position then
@@ -160,30 +159,30 @@ end
 function PawnClass:walk(distance)
   if distance == 0 then return 0 end
 
-  local dx, dy = self.destination - self.position
-  assert(dx == 0 or dy == 0)
-  if math.abs(dx) + math.abs(dy) > distance then
-    if dx ~= 0 then
+  local delta = self.destination - self.position
+  assert(delta.x == 0 or delta.y == 0)
+  if math.abs(delta.x) + math.abs(delta.y) > distance then
+    if delta.x ~= 0 then
       -- TODO: Set directions here
-      if dx < 0 then
-        dx = -distance
+      if delta.x < 0 then
+        delta.x = -distance
       else
-        dx = distance
+        delta.x = distance
       end
     else
-      assert(dy ~= 0)
-      if dy < 0 then
-        dy = -distance
+      assert(delta.y ~= 0)
+      if delta.y < 0 then
+        delta.y = -distance
       else
-        dy = distance
+        delta.y = distance
       end
     end
     distance = 0
   else
-    distance = distance - math.abs(dx) - math.abs(dy)
+    distance = distance - math.abs(delta.x) - math.abs(delta.y)
   end
-  self.position.x = self.position.x + dx
-  self.position.y = self.position.y + dy
+  self.position.x = self.position.x + delta.x
+  self.position.y = self.position.y + delta.y
   self:set_screen()
   return distance
 end

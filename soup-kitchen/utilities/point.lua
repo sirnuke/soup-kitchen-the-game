@@ -13,7 +13,7 @@ Point.__eq = function(a, b)
 end
 
 Point.__sub = function(a, b)
-  return a.x - b.x, a.y - b.y
+  return Point.new(a.x - b.x, a.y - b.y)
 end
 
 Point.__add = function(a, b)
