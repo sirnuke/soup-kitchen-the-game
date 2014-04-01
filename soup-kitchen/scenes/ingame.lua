@@ -11,10 +11,10 @@ function InGame:enter()
   self.selected = nil
   self.font_normal = love.graphics.setNewFont(C.font.filename, C.font.normal)
   self.font_small = love.graphics.setNewFont(C.font.filename, C.font.small)
-  self.meal_selection = MealSelection
-  self.meal_selection:setup()
   self.state = State
   self.state:create()
+  self.meal_selection = MealSelection
+  self.meal_selection:setup(self.state)
 end
 
 function InGame:exit()
@@ -27,28 +27,28 @@ function InGame:exit()
 end
 
 function InGame:draw()
-  love.graphics.draw(ingame.background)
+  love.graphics.draw(self.background)
   -- Draw pawns
-  session.draw()
+  self.state.draw()
 
   -- Draw GUI elements
   love.graphics.setColor(255, 255, 255, 255)
-  if ingame.selected then
-    love.graphics.draw(ingame.selected_overlay, ingame.selected.screen.x,
-      ingame.selected.screen.y)
+  if self.selected then
+    Screen:draw(self.selected_overlay, self.selected.screen)
   end
   love.graphics.setColor(0, 0, 0, 255)
   love.graphics.setFont(ingame.font_normal)
-  love.graphics.print(string.format("Day %i %s $%i", session.day, session.format_time(), session.cash), 778, 10)
-  love.graphics.print(session.name_stage(), 778, 74)
-  love.graphics.print(string.format("#%i Eating", session.eating_count()), 8, 334)
-  love.graphics.print(string.format("#%i Queued", session.line_count()), 8, 398)
+  Screen:print(string.format("Day %i %s $%i", session.day, session.format_time(), session.cash),
+    Point.new(778, 10))
+  Screen:print(self.state.name_stage(), Point.new(778, 74))
+  Screen:print(string.format("#%i Eating", session.eating_count()), Point.new(8, 334))
+  Screen:print(string.format("#%i Queued", session.line_count()), Point.new(8, 398))
   love.graphics.setFont(ingame.font_small)
-  for k,v in ipairs(session.stock) do
+  for k,v in ipairs(self.state.stock) do
     if k < 14 then
-      love.graphics.print(tostring(v), 778, 330 + ((k - 1) * 32))
+      Screen:print(tostring(v), Point.new(778, 330 + ((k - 1) * 32)))
     elseif k == 14 then
-      love.graphics.print("...", 778, 330 + ((k - 1) * 32))
+      Screen:print("...", Point.new(778, 330 + ((k - 1) * 32)))
     else
     end
   end
@@ -57,36 +57,39 @@ function InGame:draw()
     if count < 6 then
       description = v:description()
       if description then
-        love.graphics.print(description, 778, 138 + ((count - 1) * 32))
+        Screen:print(description, Point.new(778, 138 + ((count - 1) * 32)))
         count = count + 1
       end
     elseif count == 6 then
-      love.graphics.print("...", 778, 138 + ((count - 1) * 32))
+      Screen:print("...", Point.new(778, 138 + ((count - 1) * 32)))
       count = count + 1
     end
   end
   love.graphics.setColor(255, 255, 255, 255)
-  if meal_selection.active then
-    meal_selection:draw()
-  elseif ingame.paused then
+  if self.meal_selection.active then
+    self.meal_selection:draw()
+  elseif self.paused then
     love.graphics.setColor(128, 128, 128, 192)
     love.graphics.rectangle("fill", 228, 100, 568, 568)
   end
 end
 
 function InGame:update(dt)
-  if meal_selection.active then
-    meal_selection:update(dt)
-  elseif not ingame.paused then
-    session.update(dt)
+  local stage = self.stage:get_prep_stage()
+  if stage then
+    self.meal_selection:enter(stage)
+  elseif self.meal_selection.active then
+    self.meal_selection:update(dt)
+  elseif not self.paused then
+    self.state.update(dt)
   end
 end
 
 function InGame:keypressed(key)
-  if meal_selection.active then
-    meal_selection:keypressed(key)
+  if self.meal_selection.active then
+    self.meal_selection:keypressed(key)
   elseif key == 'escape' or key == 'space' then
-    ingame.paused = not ingame.paused
+    self.paused = not self.paused
   end
 end
 
@@ -94,27 +97,27 @@ function InGame:keyreleased(key)
 end
 
 function InGame:mousepressed(point, button)
-  if meal_selection.active then
-    meal_selection:mousepressed(x, y, button)
-  elseif not ingame.paused then
+  if self.meal_selection.active then
+    self.meal_selection:mousepressed(point, button)
+  elseif not self.paused then
     if button == 'l' then
-      if session.player:clicked(x, y) then
-        ingame.selected = session.player
-      else
-        ingame.selected = nil
-      end
+      --if self.state.player:clicked(point) then
+        --self.selected = session.player
+      --else
+        --self.selected = nil
+      --end
     elseif button == 'r' then
-      local coord = map.coordinate(x, y)
-      if ingame.selected and not map.blocked(coord) and not map.occupant(coord) then
-        ingame.selected:go(coord)
+      local coord = point:coordinate()
+      if self.selected and not self.map:blocked(coord) and not self.map:occupant(coord) then
+        self.selected:go(coord)
       end
     end
   end
 end
 
-function InGame.mousereleased(point, button)
-  if meal_selection.active then
-    meal_selection:mousereleased(x, y, button)
+function InGame:mousereleased(point, button)
+  if self.meal_selection.active then
+    self.meal_selection:mousereleased(point, button)
   end
 end
 
