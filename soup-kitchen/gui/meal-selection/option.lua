@@ -9,7 +9,7 @@ function MealSelectionOption.new(offset, stock, images)
   setmetatable(instance, MealSelectionOption)
   instance.images = images
   instance.location = Point.new(534, 130 + (offset - 1) * 30)
-  instance.text_location = Point.new(instance.location.x + 4, instance.location.y + 4)
+  instance.label_location = Point.new(instance.location.x + 4, instance.location.y + 4)
   instance.gui = SelectableClass.new(instance.location, 342, 20)
   instance.stock = stock
   instance.slot = nil
@@ -42,7 +42,7 @@ function MealSelectionOption:draw()
   love.graphics.setColor(255, 255, 255, 224)
   Screen:draw(image, self.location)
   love.graphics.setColor(0, 0, 0, 224)
-  Screen:print(self.label, self.text_location)
+  Screen:print(self.label, self.label_location)
 end
 
 function MealSelectionOption:triggered()
