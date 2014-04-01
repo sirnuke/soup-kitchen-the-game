@@ -1,99 +1,99 @@
 -- Soup Kitchen
 -- Bryan DeGrendel (c) 2014
 
-session = {}
-session.stages = { start="start", breakfast="breakfast", prep_lunch="prep_lunch", lunch="lunch", 
+State = {}
+State.stages = { start="start", breakfast="breakfast", prep_lunch="prep_lunch", lunch="lunch", 
   cook="cook", prep_dinner="prep_dinner", dinner="dinner", cleanup="cleanup", done="done" }
-session.stage_order = { 'start', 'breakfast', 'prep_lunch', 'lunch', 'cook', 'prep_dinner', 'dinner', 'cleanup', 'done' }
+State.stage_order = { 'start', 'breakfast', 'prep_lunch', 'lunch', 'cook', 'prep_dinner', 'dinner', 'cleanup', 'done' }
 
-local function calc_stage(time)
-  for i = #session.stage_order,1,-1 do
-    if time >= constants.time[session.stage_order[i]] then
-      return session.stage_order[i]
+function State._calc_stage()
+  for i = #self.stage_order,1,-1 do
+    if self.time >= C.time[self.stage_order[i]] then
+      return self.stage_order[i]
     end
   end
 end
 
-function session.draw()
-  session.player:draw()
-  for class,table in pairs(map.actions) do
-    for name,action in pairs(table) do
-      action:draw()
+function State:draw()
+  self.player:draw()
+  for class,table in pairs(self.map.equipment) do
+    for name,equipment in pairs(table) do
+      equipment:draw()
     end
   end
-  for k,v in ipairs(session.line) do
-    v:draw()
+  for i,customer in ipairs(self.line) do
+    customer:draw()
   end
-  for i,task in ipairs(session.tasks) do
+  for i,task in ipairs(self.tasks) do
     task:draw()
   end
 end
 
-function session.start()
-  session.day = 0
-  session.cash = constants.money.initial
-  session.stock = {}
-  homeless.setup()
+function State:create()
+  self.day = 0
+  self.cash = C.money.initial
+  self.stock = {}
+  self.homeless = Homeless
+  self.homeless:setup()
   local prepare = false
-  for k,v in pairs(constants.stock.start) do
+  for k,v in pairs(C.stock.start) do
     for i = 1,v do
       if i % 2 == 1 then prepare = true else prepare = false end
-      table.insert(session.stock, StockClass.random(k, prepare))
+      table.insert(self.stock, StockClass.random(k, prepare))
     end
   end
 
-  session.player = PawnClass.new('player', constants.coords.start)
-  session.employee = nil
-  session.volunteers = {}
-  session.new_day()
+  self.player = PawnClass.new('player', C.coords.start)
+  self.employee = nil
+  self.volunteers = {}
+  self:new_day()
 end
 
-function session.update(dt)
-  session.time = session.time + dt * constants.scale.clock
-  session.player:update(dt)
+function State:update(dt)
+  self.time = session.time + dt * C.scale.clock
+  self.player:update(dt)
+
   local line = false
-  if #session.line > 0 then
-    line = true
+  if #self.line > 0 then line = true end
+
+  local stage = self:_calc_stage()
+  assert(self.stages[stage])
+  if self.stage ~= stage then
+    self:new_stage(stage)
   end
-  local stage = calc_stage(session.time)
-  local customer
-  assert(session.stages[stage])
-  if session.stage ~= stage then
-    session.new_stage(stage)
-  end
-  for k,v in next,session.line,nil do
-    v:update(dt)
-    if v.state == 'eating' then
-      table.remove(session.line, k)
-      table.insert(session.eating, v)
+  for id,customer in next,self.line,nil do
+    customer:update(dt)
+    if customer.state == 'eating' then
+      table.remove(self.line, id)
+      table.insert(self.eating, customer)
     end
   end
-  for k,v in next,session.eating,nil do
-    v:update(dt)
+  for id,customer in next,session.eating,nil do
+    customer:update(dt)
   end
-  for i,task in next,session.tasks,nil do
+  for id,task in next,session.tasks,nil do
     task:update(dt)
     if task:done() then
-      table.remove(session.tasks, i)
+      table.remove(session.tasks, id)
     end
   end
 end
 
-function session.new_stage(stage)
+function State:new_stage(stage)
   print("New stage", stage)
   local count = 0
   if stage == 'start' then
-    meal_selection:start('breakfast')
+    InGame.meal_selection:start('breakfast')
   elseif stage == 'breakfast' then
     count = homeless.spawn(stage)
     print("Homeless count is", count)
   elseif stage == 'prep_lunch' then
-    meal_selection:start('lunch')
+    InGame.meal_selection:start('lunch')
   elseif stage == 'lunch' then
     -- have everyone in line leave?
   elseif stage == 'cook' then
   elseif stage == 'prep_dinner' then
-    menu_selection:start('dinner')
+    InGame.meal_selection:start('dinner')
   elseif stage == 'dinner' then
   elseif stage == 'cleanup' then
   elseif stage == 'done' then
@@ -101,39 +101,37 @@ function session.new_stage(stage)
     assert(false, string.format("Unhandled stage %s", stage))
   end
   for i = 1,count do
-    table.insert(session.line, CustomerClass.new(stage))
+    table.insert(self.line, CustomerClass.new(stage))
   end
-  session.stage = stage
+  self.stage = stage
 end
 
-function session.new_day()
-  session.trash = 0
-  session.day = session.day + 1
-  session.time = constants.time.start
-  if session.employee then
-    session.cash = session.cash - constants.money.wage
-  end
-  session.line = {}
-  session.eating = {}
-  session.tasks = {}
-  session.customers = {}
-  session.new_stage('start')
-  session.player:move(constants.coords.start)
-  if session.employee then
-    session.employee:move(constants.coords.employee)
+function State:new_day()
+  self.trash = 0
+  self.day = self.day + 1
+  self.time = C.time.start
+  if self.employee then self.cash = self.cash - C.money.wage end
+  self.line = {}
+  self.eating = {}
+  self.tasks = {}
+  self.customers = {}
+  self:new_stage('start')
+  self.player:move(C.coords.start)
+  if self.employee then
+    self.employee:move(C.coords.employee)
   end
 end
 
-function session.add_trash(amount)
-  session.trash = session.trash + amount
+function State:add_trash(amount)
+  self.trash = self.trash + amount
 end
 
-function session.format_time()
-  if session.time >= constants.time.done then 
+function State:format_time()
+  if self.time >= C.time.done then 
     return "Late!"
   else
-    local hour = math.floor((session.time - (session.time % 60)) / 60)
-    local minute = math.floor(session.time % 60)
+    local hour = math.floor((self.time - (self.time % 60)) / 60)
+    local minute = math.floor(self.time % 60)
     local hstr, mstr
     if hour >= 13 then
       hour = hour - 12
@@ -153,32 +151,27 @@ function session.format_time()
   end
 end
 
-function session.name_stage()
-  if session.time >= constants.time.breakfast 
-    and session.time < constants.time.breakfast + constants.time.stage then
+function State:name_stage()
+  if self.time >= C.time.breakfast and self.time < C.time.breakfast + C.time.stage then
     return "Breakfast"
-  elseif session.time >= constants.time.lunch
-    and session.time < constants.time.lunch + constants.time.stage then
+  elseif self.time >= C.time.lunch and self.time < C.time.lunch + C.time.stage then
     return "Lunch"
-  elseif session.time >= constants.time.cook
-    and session.time < constants.time.cook + constants.time.stage then
+  elseif self.time >= C.time.cook and self.time < C.time.cook + C.time.stage then
     return "Cook"
-  elseif session.time >= constants.time.dinner
-    and session.time < constants.time.dinner + constants.time.stage then
+  elseif self.time >= C.time.dinner and self.time < C.time.dinner + C.time.stage then
     return "Dinner"
-  elseif session.time >= constants.time.cleanup
-    and session.time < constants.time.cleanup + constants.time.stage then
+  elseif self.time >= C.time.cleanup and self.time < C.time.cleanup + C.time.stage then
     return "Cleanup"
   else
     return ""
   end
 end
 
-function session.line_count()
-  return #session.line
+function State:line_count()
+  return #self.line
 end
 
-function session.eating_count()
-  return #session.eating
+function State:eating_count()
+  return #self.eating
 end
 
