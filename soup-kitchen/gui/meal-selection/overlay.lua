@@ -68,7 +68,7 @@ function MealSelection:update_slots()
   for id,option in ipairs(self.options) do
     option.slot = nil
   end
-  for id,serving in ipairs(Map.equipment.serving) do
+  for id,serving in ipairs(self.state.map.equipment.serving) do
     if self.slots[id] then
       self.slots[id]:set_stock(serving.stock_source)
       for i,option in ipairs(self.options) do
