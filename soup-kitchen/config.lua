@@ -2,11 +2,20 @@
 -- Bryan DeGrendel (c) 2014
 
 function core.config()
+
   love.window.setMode(1024, 768, {})
   love.window.setTitle("Soup Kitchen")
   local fast = 3
 
   constants = {}
+
+  constants.screen = {}
+  constants.screen.dimensions = { width=1280, height=720 }
+  constants.screen.size = { width=1280, height=720 }
+  constants.screen.fullscreen = false
+  constants.screen.scale = {}
+  constants.screen.scale.width = constants.screen.dimensions.width / constants.screen.size.width
+  constants.screen.scale.height = constants.screen.dimensions.height / constants.screen.size.height
 
   constants.scale = {}
   constants.scale.walk = 150
