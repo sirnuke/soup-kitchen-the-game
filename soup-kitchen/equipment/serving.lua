@@ -4,42 +4,21 @@
 ServingClass = {}
 ServingClass.__index = ServingClass
 
-function ServingClass.new(id, location, customer, volunteer)
-  assert(not map.blocked(customer))
-  assert(not map.blocked(volunteer))
-  assert(map.blocked(location))
+function ServingClass.new(id, location, volunteer)
   local instance = {}
   setmetatable(instance, ServingClass)
+  inherits(EquipmentClass.new(location, volunteer), instance)
   instance.id = id
-  instance.screen = {}
-  instance.location = Coordinate.dup(location)
-  instance.screen.location = instance:screen_calc(location)
-  instance.customer = Coordinate.dup(customer)
-  instance.screen.customer = instance:screen_calc(customer)
-  instance.volunteer = Coordinate.dup(volunteer)
-  instance.screen.volunteer = instance:screen_calc(volunteer)
-  instance.next_stage = nil
-  instance.stage = nil
   instance.stock = nil
   instance.quantity = nil
+  instance.screen = location:screen()
 
   return instance
 end
 
-function ServingClass:screen_calc(coord)
-  return { x= (coord.x - 1) * constants.sizes.square, y= (coord.y - 1) * constants.sizes.square }
-end
-
-function ServingClass:set_stock(stock, quantity)
+function ServingClass:restock(stock, quantity)
   self.stock = stock
   self.quantity = quantity
-end
-
-function ServingClass:next(stage)
-  if self.id >= constants.breakfast_end and stage == 'breakfast' then
-    return 'done'
-  end
-  return self.next_stage
 end
 
 function ServingClass:draw()
@@ -59,8 +38,6 @@ function ServingClass:draw()
       -- image = empty
     end
   end
-  if image then
-    love.graphics.draw(image, self.screen_location.x, self.screen_location.y)
-  end
+  if image then Screen:draw(image, self.screen) end
 end
 
