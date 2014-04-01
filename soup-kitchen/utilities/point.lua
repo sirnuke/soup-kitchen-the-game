@@ -22,3 +22,8 @@ function Point:duplicate()
   return Point.new(self.x, self.y)
 end
 
+function Point:coordinate()
+  return Coordinate.new(1 + (self.x - (self.x % C.sizes.square)) / C.sizes.square,
+                        1 + (self.y - (self.y % C.sizes.square)) / C.sizes.square)
+end
+
