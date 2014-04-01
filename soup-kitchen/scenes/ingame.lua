@@ -29,7 +29,7 @@ end
 function InGame:draw()
   love.graphics.draw(self.background)
   -- Draw pawns
-  self.state.draw()
+  self.state:draw()
 
   -- Draw GUI elements
   love.graphics.setColor(255, 255, 255, 255)
@@ -37,13 +37,13 @@ function InGame:draw()
     Screen:draw(self.selected_overlay, self.selected.screen)
   end
   love.graphics.setColor(0, 0, 0, 255)
-  love.graphics.setFont(ingame.font_normal)
-  Screen:print(string.format("Day %i %s $%i", session.day, session.format_time(), session.cash),
-    Point.new(778, 10))
-  Screen:print(self.state.name_stage(), Point.new(778, 74))
-  Screen:print(string.format("#%i Eating", session.eating_count()), Point.new(8, 334))
-  Screen:print(string.format("#%i Queued", session.line_count()), Point.new(8, 398))
-  love.graphics.setFont(ingame.font_small)
+  love.graphics.setFont(self.font_normal)
+  Screen:print(string.format("Day %i %s $%i", self.state.day, self.state:format_time(), 
+    self.state.cash), Point.new(778, 10))
+  Screen:print(self.state:name_stage(), Point.new(778, 74))
+  Screen:print(string.format("#%i Eating", self.state:eating_count()), Point.new(8, 334))
+  Screen:print(string.format("#%i Queued", self.state:line_count()), Point.new(8, 398))
+  love.graphics.setFont(self.font_small)
   for k,v in ipairs(self.state.stock) do
     if k < 14 then
       Screen:print(tostring(v), Point.new(778, 330 + ((k - 1) * 32)))
@@ -53,7 +53,7 @@ function InGame:draw()
     end
   end
   local count, description = 0, nil
-  for k,v in ipairs(session.tasks) do
+  for k,v in ipairs(self.state.tasks) do
     if count < 6 then
       description = v:description()
       if description then
@@ -75,7 +75,7 @@ function InGame:draw()
 end
 
 function InGame:update(dt)
-  local stage = self.stage:get_prep_stage()
+  local stage = self.state:get_prep_stage()
   if stage then
     self.meal_selection:enter(stage)
   elseif self.meal_selection.active then
@@ -102,7 +102,7 @@ function InGame:mousepressed(point, button)
   elseif not self.paused then
     if button == 'l' then
       --if self.state.player:clicked(point) then
-        --self.selected = session.player
+        --self.selected = self.state.player
       --else
         --self.selected = nil
       --end
