@@ -13,7 +13,8 @@ function InGame:enter()
   self.font_small = love.graphics.setNewFont(C.font.filename, C.font.small)
   self.meal_selection = MealSelection
   self.meal_selection:setup()
-  session.start()
+  self.state = State
+  self.state:create()
 end
 
 function InGame:exit()
