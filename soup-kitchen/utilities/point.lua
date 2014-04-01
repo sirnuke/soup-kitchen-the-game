@@ -16,6 +16,10 @@ Point.__sub = function(a, b)
   return a.x - b.x, a.y - b.y
 end
 
+Point.__add = function(a, b)
+  return Point.new(a.x + b.x, a.y + b.y)
+end
+
 function Point.new(x, y)
   local instance = { x=x, y=y }
   setmetatable(instance, Point)
