@@ -13,8 +13,12 @@ function MealSelection:setup(state)
   self.images.invalid = love.graphics.newImage("images/meal-selection/invalid.png")
   self.images.selected = love.graphics.newImage("images/meal-selection/selected.png")
   self.images.used = love.graphics.newImage("images/meal-selection/used.png")
-  self.button_ok = InteractableClass.new(Point.new(120, 628), 80, 20)
-  self.button_cancel = InteractableClass.new(Point.new(220, 628), 80, 20)
+  self.button_ok = InteractableClass.new(
+    C.layout.meal_selection.ok.offset + C.layout.meal_selection.overlay,
+    C.layout.meal_selection.ok.width, C.layout.meal_selection.ok.height)
+  self.button_cancel = InteractableClass.new(
+    C.layout.meal_selection.cancel.offset + C.layout.meal_selection.overlay,
+    C.layout.meal_selection.cancel.width, C.layout.meal_selection.ok.height)
   self.active = false
 end
 
@@ -107,7 +111,7 @@ end
 function MealSelection:draw()
   assert(self.active)
   love.graphics.setColor(255, 255, 255, 224)
-  Screen:draw(self.overlay, Point.new(100, 100))
+  Screen:draw(self.overlay, C.layout.meal_selection.overlay)
 
   love.graphics.setFont(InGame.font_small)
   for id,slot in pairs(self.slots) do slot:draw() end

@@ -82,5 +82,12 @@ function C:setup()
 
   self.layout = {}
   self.layout.map = {x=256, y=-24}
+  self.layout.ingame = {}
+
+  self.layout.meal_selection = {}
+  self.layout.meal_selection.overlay = Point.new(228, 76)
+  self.layout.meal_selection.ok     = {offset=Point.new( 20, 528), width=80, height=20}
+  self.layout.meal_selection.cancel = {offset=Point.new(120, 528), width=80, height=20}
+
 end
 
