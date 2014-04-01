@@ -4,46 +4,48 @@
 MealSelectionOption = {}
 MealSelectionOption.__index = MealSelectionOption
 
-function MealSelectionOption.new(offset, stock)
+function MealSelectionOption.new(offset, stock, images)
   local instance = {}
   setmetatable(instance, MealSelectionOption)
-  instance.offset = offset
+  instance.images =  images
+  instance.location = Point.new(534, 130 + (offset - 1) * 30)
+  instance.text_location = Point.new(instance.location.x + 4, instance.location.y + 4)
+  instance.gui = SelectableClass.new(instance.location, 342, 20)
   instance.stock = stock
   instance.slot = nil
   instance.label = tostring(stock)
+  instance.selected = false
   return instance
 end
 
+function MealSelectionOption:update(dt)
+  self.gui:update()
+end
+
+function MealSelectionOption:mousepressed(point)
+  self.gui:mousepressed()
+end
+
 function MealSelectionOption:draw()
-  local x, y = self:coord()
   local image = nil
-  if meal_selection.selected == self then
-    image = meal_selection.elements.selected
+  if self.selected then
+    image = self.images.selected
   elseif self.slot then
     if self.slot.valid then
-      image = meal_selection.elements.used
+      image = self.images.used
     else
-      image = meal_selection.elements.invalid
+      image = self.images.invalid
     end
   else
-    image = meal_selection.elements.normal
+    image = self.images.normal
   end
   love.graphics.setColor(255, 255, 255, 224)
-  love.graphics.draw(image, x, y)
+  Screen:draw(image, self.location)
   love.graphics.setColor(0, 0, 0, 224)
-  love.graphics.print(self.label, x + 4, y + 4)
+  Screen:print(self.label, self.text_location)
 end
 
-function MealSelectionOption:coord()
-  return 534, 130 + (self.offset - 1) * 30
-end
-
-function MealSelectionOption:inbounds(x, y)
-  local lx,ly = self:coord()
-  if x >= lx and x < lx + 342 and y >= ly and y < ly + 20 then
-    return true
-  else
-    return false
-  end
+function MealSelectionOption:triggered()
+  return self.gui:triggered()
 end
 
