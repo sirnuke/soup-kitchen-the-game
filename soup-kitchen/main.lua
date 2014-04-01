@@ -28,7 +28,7 @@ require "session"
 require "stock"
 require "task"
 
-core = {}
+Core = {}
 
 function inherits(class, instance)
   assert(type(class) == 'table' and type(instance) == 'table')
@@ -43,48 +43,48 @@ function love.load()
   C:setup()
   Config:load()
   Screen:setup()
-  core.scenes = { MainMenu=MainMenu, Help=Help, InGame=InGame }
-  core.next = nil
-  core.scene = MainMenu
-  core.scene:enter()
+  Core.scenes = { MainMenu=MainMenu, Help=Help, InGame=InGame }
+  Core.next = nil
+  Core.scene = MainMenu
+  Core.scene:enter()
 end
 
 function love.draw()
   love.graphics.setColor(255, 255, 255, 255)
-  core.scene:draw()
+  Core.scene:draw()
 end
 
 function love.keypressed(key)
   if key == "q" then
     love.event.quit()
   else
-    core.scene:keypressed(key)
+    Core.scene:keypressed(key)
   end
 end
 
 function love.keyreleased(key)
-  core.scene:keyreleased(key)
+  Core.scene:keyreleased(key)
 end
 
 function love.update(dt)
-  core.scene.update(dt)
-  if core.next then
-    core.scene:exit()
-    core.scene = core.scenes[core.next]
-    core.scene:enter()
-    core.next = nil
+  Core.scene.update(dt)
+  if Core.next then
+    Core.scene:exit()
+    Core.scene = Core.scenes[Core.next]
+    Core.scene:enter()
+    Core.next = nil
   end
 end
 
 function love.mousepressed(x, y, button)
-  core.scene:mousepressed(Screen:translate(x, y), button)
+  Core.scene:mousepressed(Screen:translate(x, y), button)
 end
 
 function love.mousereleased(x, y, button)
-  core.scene:mousereleased(Screen:translate(x, y), button)
+  Core.scene:mousereleased(Screen:translate(x, y), button)
 end
 
-function core.switch(scene)
-  core.next = scene
+function Core.switch(scene)
+  Core.next = scene
 end
 
