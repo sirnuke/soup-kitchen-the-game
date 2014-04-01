@@ -7,7 +7,7 @@ InteractableClass.__index = InteractableClass
 function InteractableClass.new(point, width, height)
   assert(width and height)
   local instance = {}
-  setmetatable(InteractableClass, instance)
+  setmetatable(instance, InteractableClass)
   if point then instance.point = point:duplicate() end
   instance.width = width
   instance.height = height
