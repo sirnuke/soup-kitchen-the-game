@@ -4,10 +4,16 @@
 CustomerClass = {}
 CustomerClass.__index = CustomerClass
 CustomerClass.states = { waiting='waiting', inline='inline', gotfood='gotfood', eating='eating' }
+CustomerClass.image = nil
 
-function CustomerClass.new(stage)
+function CustomerClass.new(map, stage)
+  if not CustomerClass.image then
+    CustomerClass.image = love.graphics.newImage("images/pawns/customer.png")
+  end
+
   local instance = {}
   setmetatable(instance, CustomerClass)
+  inherits(PawnClass.new(map, nil), instance)
   instance.pawn = nil
   instance.action = nil
   instance.state = 'waiting'
