@@ -15,17 +15,17 @@ function Screen:setup()
   self.letterbox.height = Config.letterboxheight
 
   self.scale = {}
-  self.scale.width = C.screen.size.width / (self.size.width - self.letterbox.width)
-  self.scale.height = C.screen.size.height / (self.size.height - self.letterbox.height)
+  self.scale.width = C.screen.width / (self.size.width - self.letterbox.width)
+  self.scale.height = C.screen.height / (self.size.height - self.letterbox.height)
 
-  if self.scale.width != self.scale.height then
+  if self.scale.width ~= self.scale.height then
     Warn("Screen:setup", string.format("Differing scales of (w:%f h:%f)", self.scale.width,
       self.scale.height))
   else
-    if self.scale.width != 0 then
+    if self.scale.width ~= 1 then
       Log("Screen:setup", string.format("Scaling width to (%f)", self.scale.width))
     end
-    if self.scale.height != 0 then
+    if self.scale.height ~= 1 then
       Log("Screen:setup", string.format("Scaling height to (%f)", self.scale.height))
     end
   end
