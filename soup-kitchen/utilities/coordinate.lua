@@ -28,8 +28,7 @@ end
 
 function Coordinate:screen()
   local point = self:point()
-  -- TODO: Add x,y for the map offset here
-  return point
+  return point:screen()
 end
 
 function Coordinate:valid()

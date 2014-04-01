@@ -31,3 +31,7 @@ function Point:coordinate()
                         1 + (self.y - (self.y % C.sizes.square)) / C.sizes.square)
 end
 
+function Point:screen()
+  return Point.new(self.x + C.layout.map.x, self.y + C.layout.map.y)
+end
+
