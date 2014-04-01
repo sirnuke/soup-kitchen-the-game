@@ -77,7 +77,7 @@ end
 function InGame:update(dt)
   local stage = self.state:get_prep_stage()
   if stage then
-    self.meal_selection:enter(stage)
+    self.meal_selection:start(stage)
   elseif self.meal_selection.active then
     self.meal_selection:update(dt)
   elseif not self.paused then
