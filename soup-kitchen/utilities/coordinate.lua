@@ -22,3 +22,7 @@ function Coordinate:duplicate()
   return Coordinate.new(self.x, self.y)
 end
 
+function Coordinate:point()
+  return Point.new((self.x - 1) * constants.sizes.square, (self.y - 1) * constants.sizes.square)
+end
+
