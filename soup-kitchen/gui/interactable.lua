@@ -33,7 +33,7 @@ function InteractableClass:mousepressed()
   self.pressed = self.hover
 end
 
-function InteractableClass:trigger()
+function InteractableClass:triggered()
   if self.pressed and self.hover then
     return true
   else
