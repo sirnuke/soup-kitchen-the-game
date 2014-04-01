@@ -67,7 +67,7 @@ function love.keyreleased(key)
 end
 
 function love.update(dt)
-  Core.scene.update(dt)
+  Core.scene:update(dt)
   if Core.next then
     Core.scene:exit()
     Core.scene = Core.scenes[Core.next]
@@ -84,7 +84,7 @@ function love.mousereleased(x, y, button)
   Core.scene:mousereleased(Screen:translate(x, y), button)
 end
 
-function Core.switch(scene)
-  Core.next = scene
+function Core:switch(scene)
+  self.next = scene
 end
 
