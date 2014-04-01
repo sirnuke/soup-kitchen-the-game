@@ -4,8 +4,9 @@
 core = {}
 
 require "config"
-require "coordinate"
-require "point"
+
+require "utils/coordinate"
+require "utils/point"
 
 require "gui/interactable"
 
