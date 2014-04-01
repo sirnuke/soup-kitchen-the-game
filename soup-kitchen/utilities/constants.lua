@@ -78,6 +78,6 @@ function C:setup()
   self.sizes = {}
   self.sizes.square = 64
   self.sizes.pawn = 32
-  self.sizes.map = {w=12, h=12}
+  self.sizes.map = {width=12, height=12}
 end
 
