@@ -20,13 +20,13 @@ require "scenes/mainmenu"
 require "equipment/equipment"
 require "equipment/serving"
 
-require "customer"
-require "homeless"
-require "map"
-require "pawn"
-require "session"
-require "stock"
-require "task"
+require "state/customer"
+require "state/homeless"
+require "state/map"
+require "state/pawn"
+require "state/state"
+require "state/stock"
+require "state/task"
 
 Core = {}
 
