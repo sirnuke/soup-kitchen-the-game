@@ -1,41 +1,41 @@
 -- Soup Kitchen
 -- Bryan DeGrendel (c) 2014
 
-help = { }
+Help = {}
 
-function help.enter()
-  help.background = love.graphics.newImage("images/help/background.png")
-  help.squelch = constants.squelch
+function Help:enter()
+  self.background = love.graphics.newImage("images/help/background.png")
+  self.squelch = C.squelch
 end
 
-function help.exit()
-  help.background = nil
+function Help:exit()
+  self.background = nil
 end
 
-function help.draw()
-  love.graphics.draw(help.background)
+function Help:draw()
+  Screen:draw(self.background)
 end
 
-function help.update(dt)
-  if help.squelch > 0 then
-    help.squelch = help.squelch - dt
+function Help:update(dt)
+  if self.squelch > 0 then
+    self.squelch = self.squelch - dt
   end
 end
 
-function help.keypressed(key)
-  if help.squelch <= 0 then
+function Help:keypressed(key)
+  if self.squelch <= 0 then
   end
 end
 
-function help.keyreleased(key)
+function Help:keyreleased(key)
 end
 
-function help.mousepressed(x, y, button)
-  if help.squelch <= 0 and button == 'l' then
-    core.switch("ingame")
+function Help:mousepressed(point, button)
+  if self.squelch <= 0 and button == 'l' then
+    Core:switch("InGame")
   end
 end
 
-function help.mousereleased(x, y, button)
+function Help:mousereleased(point, button)
 end
 
