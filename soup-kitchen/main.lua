@@ -5,7 +5,9 @@ core = {}
 
 require "config"
 require "coordinate"
-require "gui-element"
+require "point"
+
+require "gui/interactable"
 
 require "scenes/help"
 require "scenes/ingame"
