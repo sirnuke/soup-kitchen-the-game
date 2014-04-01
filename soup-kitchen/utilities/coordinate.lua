@@ -23,6 +23,15 @@ function Coordinate:duplicate()
 end
 
 function Coordinate:point()
-  return Point.new((self.x - 1) * constants.sizes.square, (self.y - 1) * constants.sizes.square)
+  return Point.new((self.x - 1) * C.sizes.square, (self.y - 1) * C.sizes.square)
+end
+
+function Coordinate:valid()
+  if self.x >= 1 and self.x <= C.sizes.map.width and self.y >= 1
+    and self.y <= C.sizes.map.height then
+    return true
+  else
+    return false
+  end
 end
 
