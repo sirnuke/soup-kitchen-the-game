@@ -3,9 +3,9 @@
 
 core = {}
 
-require "utils/configuration"
-require "utils/coordinate"
-require "utils/point"
+require "utilities/configuration"
+require "utilities/coordinate"
+require "utilities/point"
 
 require "gui/interactable"
 
