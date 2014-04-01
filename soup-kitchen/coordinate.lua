@@ -18,7 +18,7 @@ function Coordinate.new(x, y)
   return instance
 end
 
-function Coordinate.dup(coord)
-  return Coordinate.new(coord.x, coord.y)
+function Coordinate:duplicate()
+  return Coordinate.new(self.x, self.y)
 end
 
