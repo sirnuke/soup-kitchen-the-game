@@ -4,15 +4,20 @@
 MealSelectionSlot = {}
 MealSelectionSlot.__index = MealSelectionSlot
 
-function MealSelectionSlot.new(offset, requirements)
+function MealSelectionSlot.new(offset, requirements, images)
   local instance = {}
   setmetatable(instance, MealSelectionSlot)
   instance.requirements = requirements
+  instance.images = images
+  instance.location = Point.new(130, 130 + (offset - 1) * 30)
+  instance.label_location = Point.new(instance.location.x + 4, instance.location.y + 4)
+  instance.stock_label_location = Point.new(instance.location.x + 4 + 171,
+    instance.location.y + 4)
+  instance.gui = SelectableClass.new(instance.location, 342, 20)
   instance.stock = nil
   instance.label = ''
-  instance.selection_label = nil
+  instance.stock_label = nil
   instance.valid = false
-  instance.offset = offset
   for i,req in ipairs(requirements) do
     if i > 1 then instance.label = instance.label .. " OR " end
     instance.label = instance.label .. req
@@ -20,57 +25,55 @@ function MealSelectionSlot.new(offset, requirements)
   return instance
 end
 
-function MealSelectionSlot:set_selection(stock)
-  self.selection = stock
+function MealSelectionSlot:set_stock(stock)
+  self.stock = stock
   self.valid = false
-  self.selection_label = nil
-  if self.selection then
+  if self.stock then
     for id,req in ipairs(self.requirements) do
-      if req == self.selection.type then self.valid = true end
+      if req == stock.type then self.valid = true end
     end
-    self.selection_label = " - " .. tostring(self.selection)
+    self.stock_label = " - " .. tostring(stock)
+  else
+    self.stock_label = nil
   end
 end
 
-function MealSelectionSlot:draw()
-  -- bleh
-  local x, y = self:coord()
+function MealSelectionSlot:update(dt)
+  self.gui:update()
+end
+
+function MealSelectionSlot:mousepressed(point)
+  self.gui:mousepressed()
+end
+
+function MealSelectionSlot:draw(selected_option)
   local image = nil
-  if meal_selection.selected then
-    image = meal_selection.elements.normal
+  if selected_option then
+    image = self.images.normal
     for i,req in ipairs(self.requirements) do
-      if req == meal_selection.selected.stock.type then
-        image = meal_selection.elements.selected
+      if req == selected_option then
+        image = self.images.selected
       end
     end
   else
     if self.valid then
-      image = meal_selection.elements.used
-    elseif not self.selection then
-      image = meal_selection.elements.normal
+      image = self.images.used
+    elseif not self.stock then
+      image = self.images.normal
     else
-      image = meal_selection.elements.invalid
+      image = self.images.invalid
     end
   end
   love.graphics.setColor(255, 255, 255, 224)
-  love.graphics.draw(image, x, y)
+  Screen:draw(image, self.location)
   love.graphics.setColor(0, 0, 0, 224)
-  love.graphics.print(self.label, x + 4, y + 4)
-  if self.selection_label then
-    love.graphics.print(self.selection_label, x + 4 + 171, y + 4)
+  Screen:print(self.label, self.label_location)
+  if self.stock_label then
+    Screen:print(self.stock_label, self.stock_label_location)
   end
 end
 
-function MealSelectionSlot:coord()
-  return 130, 130 + (self.offset - 1) * 30
-end
-
-function MealSelectionSlot:inbounds(x, y)
-  local lx,ly = self:coord()
-  if x >= lx and x < lx + 342 and y >= ly and y < ly + 20 then
-    return true
-  else
-    return false
-  end
+function MealSelectionSlot:triggered()
+  return self.gui:triggered()
 end
 
