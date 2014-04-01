@@ -26,6 +26,12 @@ function Coordinate:point()
   return Point.new((self.x - 1) * C.sizes.square, (self.y - 1) * C.sizes.square)
 end
 
+function Coordinate:screen()
+  local point = self:point()
+  -- TODO: Add x,y for the map offset here
+  return point
+end
+
 function Coordinate:valid()
   if self.x >= 1 and self.x <= C.sizes.map.width and self.y >= 1
     and self.y <= C.sizes.map.height then
