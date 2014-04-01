@@ -79,5 +79,8 @@ function C:setup()
   self.sizes.square = 64
   self.sizes.pawn = 32
   self.sizes.map = {width=12, height=12}
+
+  self.layout = {}
+  self.layout.map = {x=256, y=-24}
 end
 
