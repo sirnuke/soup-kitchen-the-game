@@ -5,8 +5,9 @@ MealSelection = {}
 MealSelection.__index = MealSelection
 MealSelection.meals = { breakfast="breakfast", lunch="lunch", dinner="dinner" }
 
-function MealSelection:setup()
+function MealSelection:setup(state)
   self.overlay = love.graphics.newImage("images/meal-selection/background.png")
+  self.state = state
   self.images = {}
   self.images.normal = love.graphics.newImage("images/meal-selection/normal.png")
   self.images.invalid = love.graphics.newImage("images/meal-selection/invalid.png")
@@ -27,7 +28,7 @@ function MealSelection:create_slots()
   self.slots[1] = MealSelectionSlot.new(1, {'drink'}, self.images)
   if self.meal == 'breakfast' then
     self.slots[2] = MealSelectionSlot.new(2, { 'side', 'core', 'dessert' }, self.images)
-    assert(#self.slots == constants.breakfast_end)
+    assert(#self.slots == C.breakfast_end)
   elseif self.meal == 'lunch' then
     self.slots[2] = MealSelectionSlot.new(2, { 'dessert', 'salad' }, self.images)
     self.slots[3] = MealSelectionSlot.new(3, { 'salad', 'side' }, self.images)
@@ -54,7 +55,7 @@ function MealSelection:start(meal)
   self.selected = nil
 
   self.options = {}
-  for id,stock in ipairs(session.stock) do
+  for id,stock in ipairs(self.state.stock) do
     if stock:ready() then
       table.insert(self.options, MealSelectionOption.new(#self.options + 1, stock, self.images))
     end
