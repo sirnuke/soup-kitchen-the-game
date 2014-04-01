@@ -4,12 +4,11 @@
 InteractableClass = {}
 InteractableClass.__index = InteractableClass
 
-function InteractableClass.new(x, y, width, height)
-  assert(coord and width and height)
+function InteractableClass.new(point, width, height)
+  assert(point and width and height)
   local instance = {}
   setmetatable(InteractableClass, instance)
-  instance.x = x
-  instance.y = y
+  instance.point = point:duplicate()
   instance.width = width
   instance.height = height
   instance.pressed = false
