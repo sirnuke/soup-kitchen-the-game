@@ -8,7 +8,7 @@ function MapClass:create()
     { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'T', 'X' },
     { ' ', ' ', ' ', 'X', 'C', 'C', 'C', 'C', ' ', ' ', ' ', 'X' },
     { ' ', ' ', ' ', 'C', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-    { ' ', ' ', ' ', 'X', ' ', ' ', 'P', 'P', ' ', ' ', 'S', 'S' },
+    { ' ', ' ', ' ', 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
     { ' ', ' ', ' ', 'F', ' ', ' ', 'P', 'P', ' ', ' ', 'S', 'S' },
     { 'X', 'X', ' ', 'F', ' ', ' ', 'P', 'P', ' ', ' ', 'S', 'S' },
     { 'X', 'X', ' ', 'X', ' ', ' ', 'P', 'P', ' ', ' ', 'S', 'S' },
@@ -34,37 +34,40 @@ function MapClass:create()
   self.equipment = {}
 
   self.equipment.serving = {}
-  self.equipment.serving[1] = ServingClass.new(1,
-    Coordinate.new(3,10), Coordinate.new(2,9), Coordinate.new(3,11))
-  self.equipment.serving[2] = ServingClass.new(2,
-    Coordinate.new(4,9), Coordinate.new(3,9), Coordinate.new(5,9))
-  self.equipment.serving[3] = ServingClass.new(3,
-    Coordinate.new(4,8), Coordinate.new(3,8), Coordinate.new(5,8))
-  self.equipment.serving[4] = ServingClass.new(4,
-    Coordinate.new(4,6), Coordinate.new(3,6), Coordinate.new(5,6))
-  self.equipment.serving[5] = ServingClass.new(5,
-    Coordinate.new(4,5), Coordinate.new(3,5), Coordinate.new(5,5))
+  self.equipment.serving[1] = ServingClass.new(1, Coordinate.new(3,10), Coordinate.new(3,11))
+  self.equipment.serving[2] = ServingClass.new(2, Coordinate.new(4,9), Coordinate.new(5,9))
+  self.equipment.serving[3] = ServingClass.new(3, Coordinate.new(4,8), Coordinate.new(5,8))
+  self.equipment.serving[4] = ServingClass.new(4, Coordinate.new(4,6), Coordinate.new(5,6))
+  self.equipment.serving[5] = ServingClass.new(5, Coordinate.new(4,5), Coordinate.new(5,5))
+
+  self.equipment.receiving = {}
+  self.equipment.receiving[1] = EquipmentClass.new(Coordinate.new(3,10), Coordinate.new(2,9))
+  self.equipment.receiving[2] = EquipmentClass.new(Coordinate.new(4,9), Coordinate.new(3,9))
+  self.equipment.receiving[3] = EquipmentClass.new(Coordinate.new(4,8), Coordinate.new(3,8))
+  self.equipment.receiving[4] = EquipmentClass.new(Coordinate.new(4,6), Coordinate.new(3,6))
+  self.equipment.receiving[5] = EquipmentClass.new(Coordinate.new(4,5), Coordinate.new(3,5))
 
   self.equipment.cleaning = {}
-  self.equipment.cleaning[1] = ActionClass.new('cleaning1', nil, Coordinate.new(5,3))
-  self.equipment.cleaning[2] = ActionClass.new('cleaning2', nil, Coordinate.new(7,3))
-  self.equipment.cleaning[3] = ActionClass.new('cleaning3', nil, Coordinate.new(8,3))
+  self.equipment.cleaning[1] = EquipmentClass.new(Coordinate.new(4,3), Coordinate.new(5,3))
+  self.equipment.cleaning[2] = EquipmentClass.new(Coordinate.new(6,2), Coordinate.new(6,3))
+  self.equipment.cleaning[3] = EquipmentClass.new(Coordinate.new(8,2), Coordinate.new(8,3))
 
   self.equipment.prepare = {}
-  self.equipment.prepare[1] = ActionClass.new('prepare1', nil, Coordinate.new(6,4))
-  self.equipment.prepare[2] = ActionClass.new('prepare2', nil, Coordinate.new(6,6))
-  self.equipment.prepare[3] = ActionClass.new('prepare3', nil, Coordinate.new(6,8))
-  self.equipment.prepare[4] = ActionClass.new('prepare4', nil, Coordinate.new(9,5))
-  self.equipment.prepare[5] = ActionClass.new('prepare5', nil, Coordinate.new(9,7))
-  self.equipment.prepare[6] = ActionClass.new('prepare6', nil, Coordinate.new(10,9))
+  self.equipment.prepare[1] = EquipmentClass.new(Coordinate.new(8,4), Coordinate.new(9,4))
+  self.equipment.prepare[2] = EquipmentClass.new(Coordinate.new(8,5), Coordinate.new(9,5))
+  self.equipment.prepare[3] = EquipmentClass.new(Coordinate.new(8,6), Coordinate.new(9,6))
+  self.equipment.prepare[4] = EquipmentClass.new(Coordinate.new(8,7), Coordinate.new(9,7))
+  self.equipment.prepare[5] = EquipmentClass.new(Coordinate.new(8,8), Coordinate.new(9,8))
 
   self.equipment.storage = {}
-  self.equipment.storage[1] = ActionClass.new('storage1', nil, Coordinate.new(10,4))
-  self.equipment.storage[2] = ActionClass.new('storage2', nil, Coordinate.new(10,6))
-  self.equipment.storage[3] = ActionClass.new('storage3', nil, Coordinate.new(10,8))
+  self.equipment.storage[1] = EquipmentClass.new(Coordinate.new(11,4), Coordinate.new(10,4))
+  self.equipment.storage[2] = EquipmentClass.new(Coordinate.new(11,5), Coordinate.new(10,5))
+  self.equipment.storage[3] = EquipmentClass.new(Coordinate.new(11,6), Coordinate.new(10,6))
+  self.equipment.storage[3] = EquipmentClass.new(Coordinate.new(11,7), Coordinate.new(10,7))
+  self.equipment.storage[3] = EquipmentClass.new(Coordinate.new(11,8), Coordinate.new(10,8))
 
   self.equipment.trash = {}
-  self.equipment.trash[1] = ActionClass.new('trash', nil, Coordinate.new(11,2))
+  self.equipment.trash[1] = EquipmentClass.new(Coordinate.new(11,1), Coordinate.new(11,2))
 end
 
 function MapClass:square(coord)
