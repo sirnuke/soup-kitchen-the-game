@@ -26,15 +26,15 @@ function PawnClass.new(map, coord)
   instance.map = map
   if coord == 'enter' then
     assert(not map:occupant(C.coords.entrance))
-    instance.position = C.coords.entrance:position()
+    instance.position = C.coords.entrance:point()
     instance.position.x = instance.position.x - C.sizes.square
     instance.coordinate = C.coords.entrance:duplicate()
     instance.path = { C.coords.entrance:duplicate() }
-    instance.destination = C.coords.entrance:position()
+    instance.destination = C.coords.entrance:point()
     map:set_occupant(instance.coordinate, instance)
   elseif coord then
     assert(not map:blocked(coord) and not map:occupant(coord))
-    instance.position = coord:position()
+    instance.position = coord:point()
     instance.coordinate = coord:duplicate()
     instance.path = nil
     instance.destination = nil
@@ -64,7 +64,7 @@ function PawnClass:jump(coordinate)
   self.path = nil
   self.destination = nil
   self.cordinate = coordinate:duplicate()
-  self.position = coordinate:position()
+  self.position = coordinate:point()
   self:set_screen()
 end
 
@@ -111,7 +111,7 @@ function PawnClass:pathfind(coord)
   for y = 1,C.sizes.map.height do for x = 1,C.sizes.map.width do
     PawnClass.pathfinding.map[y][x] = nil
   end end
-  self.destination = self.path[#self.path]:position()
+  self.destination = self.path[#self.path]:point()
 end
 
 function PawnClass:leave()
@@ -141,7 +141,7 @@ function PawnClass:update(dt)
       if self.destination == self.position then
         table.remove(self.path)
         if #self.path > 0 then
-          self.destination = self.path[#self.path]:position()
+          self.destination = self.path[#self.path]:point()
         else
           self.path = nil
           self.destination = nil
