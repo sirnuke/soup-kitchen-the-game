@@ -5,10 +5,10 @@ InteractableClass = {}
 InteractableClass.__index = InteractableClass
 
 function InteractableClass.new(point, width, height)
-  assert(point and width and height)
+  assert(width and height)
   local instance = {}
   setmetatable(InteractableClass, instance)
-  instance.point = point:duplicate()
+  if point then instance.point = point:duplicate() end
   instance.width = width
   instance.height = height
   instance.pressed = false
@@ -21,8 +21,17 @@ function InteractableClass:update()
   self.hover = self:compare_mouse(x, y)
 end
 
+function InteractableClass:set_point(point)
+  if point then
+    self.point = point:duplicate()
+  else
+    self.point = nil
+  end
+end
+
 function InteractableClass:compare_mouse(x, y)
-  if x >= self.x and x < self.x + self.width and y >= self.y and y < self.y + self.height then
+  if self.point and x >= self.point.x and x < self.point.x + self.width and y >= self.point.y
+      and y < self.point.y + self.height then
     return true
   else
     return false
