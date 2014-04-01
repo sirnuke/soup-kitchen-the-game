@@ -3,7 +3,7 @@
 
 core = {}
 
-require "utils/config"
+require "utils/configuration"
 require "utils/coordinate"
 require "utils/point"
 
