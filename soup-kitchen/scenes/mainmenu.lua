@@ -1,41 +1,41 @@
 -- Soup Kitchen
 -- Bryan DeGrendel (c) 2014
 
-mainmenu = { }
+MainMenu = {}
 
-function mainmenu.enter()
-  mainmenu.background = love.graphics.newImage("images/mainmenu/background.png")
-  mainmenu.squelch = constants.squelch
+function MainMenu:enter()
+  self.background = love.graphics.newImage("images/mainmenu/background.png")
+  self.squelch = C.squelch
 end
 
-function mainmenu.exit()
-  mainmenu.background = nil
+function MainMenu:exit()
+  self.background = nil
 end
 
-function mainmenu.draw()
-  love.graphics.draw(mainmenu.background)
+function MainMenu:draw()
+  Screen:draw(self.background)
 end
 
-function mainmenu.update(dt)
-  if mainmenu.squelch > 0 then
-    mainmenu.squelch = mainmenu.squelch - dt
+function MainMenu:update(dt)
+  if self.squelch > 0 then
+    self.squelch = self.squelch - dt
   end
 end
 
-function mainmenu.keypressed(key)
-  if mainmenu.squelch <= 0 then
+function MainMenu:keypressed(key)
+  if self.squelch <= 0 then
   end
 end
 
-function mainmenu.keyreleased(key)
+function MainMenu:keyreleased(key)
 end
 
-function mainmenu.mousepressed(x, y, button)
-  if mainmenu.squelch <= 0 and button == 'l' then
-    core.switch("help")
+function MainMenu:mousepressed(point, button)
+  if self.squelch <= 0 and button == 'l' then
+    Core:switch("Help")
   end
 end
 
-function mainmenu.mousereleased(x, y, button)
+function MainMenu:mousereleased(point, button)
 end
 
