@@ -10,7 +10,7 @@ function MealSelectionOption.new(offset, stock, images)
   instance.images = images
   instance.location = Point.new(534, 130 + (offset - 1) * 30)
   instance.label_location = Point.new(instance.location.x + 4, instance.location.y + 4)
-  instance.gui = SelectableClass.new(instance.location, 342, 20)
+  instance.gui = InteractableClass.new(instance.location, 342, 20)
   instance.stock = stock
   instance.slot = nil
   instance.label = tostring(stock)
