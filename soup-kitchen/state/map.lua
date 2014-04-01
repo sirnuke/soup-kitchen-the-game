@@ -1,9 +1,9 @@
 -- Soup Kitchen
 -- Bryan DeGrendel (c) 2014
 
-Map = {}
+MapClass = {}
 
-function Map:create()
+function MapClass:create()
   local structure = {
     { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'T', 'X' },
     { ' ', ' ', ' ', 'X', 'C', 'C', 'C', 'C', ' ', ' ', ' ', 'X' },
@@ -67,27 +67,27 @@ function Map:create()
   self.equipment.trash[1] = ActionClass.new('trash', nil, Coordinate.new(11,2))
 end
 
-function Map:square(coord)
+function MapClass:square(coord)
   return self.data[coord.y][coord.x]
 end
 
-function Map:blocked(coord)
+function MapClass:blocked(coord)
   return self:square(coord).blocked
 end
 
-function Map:occupant(coord)
+function MapClass:occupant(coord)
   return self:square(coord).occupant
 end
 
-function Map:set_occupant(coord, occupant)
+function MapClass:set_occupant(coord, occupant)
   self:square(coord).occupant = occupant
 end
 
-function Map.equipment(coord)
+function MapClass.equipment(coord)
   return self:square(coord).equipment
 end
 
-function Map:get_neighbors(coord)
+function MapClass:get_neighbors(coord)
   local result, poss = { }, { {x=-1,y=0}, {x=1,y=0}, {x=0,y=-1}, {x=0,y=1} }
   local c = Coordinate.new(0, 0)
   for k,v in ipairs(poss) do
