@@ -1,16 +1,17 @@
 -- Soup Kitchen
 -- Bryan DeGrendel (c) 2014
 
-homeless = {}
+Homeless = {}
 
-function homeless.setup()
-  homeless.demand = constants.demand.initial
+-- demand defaults to the Constant demand.initial
+function Homeless:setup(demand)
+  self.demand = demand or C.demand.initial
 end
 
-function homeless.spawn(stage)
-  local demand, scale = 0, constants.demand[stage]
+function Homeless:spawn(stage)
+  local demand, scale = 0, C.demand[stage]
   assert(scale, string.format("Unable to find demand scale for %s", stage))
-  demand = math.floor(love.math.randomNormal(10, homeless.demand * scale))
+  demand = math.floor(love.math.randomNormal(10, self.demand * scale))
   if demand <= 0 then
     print("Warning, bad demand of", demand)
     demand = 1
@@ -18,9 +19,9 @@ function homeless.spawn(stage)
   return demand
 end
 
-function homeless.complete(served)
-  local delta = homeless.demand - served
-  homeless.demand = homeless.demand + love.math.randomNormal(delta / 5, delta)
-  print("New demand is", homeless.demand)
+function Homeless:complete(served)
+  local delta = self.demand - served
+  self.demand = self.demand + love.math.randomNormal(delta / 5, delta)
+  print("New demand is", self.demand)
 end
 
