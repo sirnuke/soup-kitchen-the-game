@@ -2,7 +2,7 @@
 -- Bryan DeGrendel (c) 2014
 
 MealSelectionSlot = {}
-MealSelectionSlot.__index = Mealpoint
+MealSelectionSlot.__index = MealSelectionSlot
 
 function MealSelectionSlot.new(offset, requirements, images)
   local instance = {}
