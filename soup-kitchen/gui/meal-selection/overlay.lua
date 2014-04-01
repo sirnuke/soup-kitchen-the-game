@@ -109,7 +109,7 @@ function MealSelection:draw()
   love.graphics.setColor(255, 255, 255, 224)
   Screen:draw(self.overlay, Point.new(100, 100))
 
-  love.graphics.setFont(ingame.font_small)
+  love.graphics.setFont(InGame.font_small)
   for id,slot in pairs(self.slots) do slot:draw() end
   for id,option in pairs(self.options) do option:draw(self.selected) end
   -- TODO: Draw buttonzz
@@ -146,7 +146,7 @@ function MealSelection:mousereleased(point, button)
     Log("MealSelection:update", "Ok!")
     self:ok()
     return
-  elseif self.button_cancel:trigger() then
+  elseif self.button_cancel:triggered() then
     Log("MealSelection:update", "Cancel!")
     self:cancel()
     return
