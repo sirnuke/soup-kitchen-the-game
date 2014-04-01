@@ -14,6 +14,6 @@ function EquipmentClass.new(location, hotspot)
 end
 
 function EquipmentClass:draw()
-  assert(false, "EquipmentClass instance doesn't override draw()")
+  --assert(false, "EquipmentClass instance doesn't override draw()")
 end
 
