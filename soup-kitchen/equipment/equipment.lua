@@ -7,7 +7,7 @@ EquipmentClass.__index = EquipmentClass
 function EquipmentClass.new(location, hotspot)
   assert(location, hotspot)
   local instance = {}
-  setmetatable(instace, EquipmentClass)
+  setmetatable(instance, EquipmentClass)
   instance.location = location
   instance.hotspot = hotspot
   return instance
