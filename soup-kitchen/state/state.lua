@@ -48,6 +48,7 @@ function State:create()
 
   -- TODO: Create actual player class
   self.player = PawnClass.new(self.map, C.coords.start)
+  self.player.image = love.graphics.newImage("images/pawns/player.png")
   self.employee = nil
   self.volunteers = {}
   self:new_day()
