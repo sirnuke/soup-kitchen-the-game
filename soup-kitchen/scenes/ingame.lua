@@ -1,9 +1,9 @@
 -- Soup Kitchen
 -- Bryan DeGrendel (c) 2014
 
-ingame = { }
+InGame = {}
 
-function ingame.enter()
+function InGame:enter()
   ingame.background = love.graphics.newImage("images/ingame/background.png")
   ingame.warning_icon = love.graphics.newImage("images/ingame/warning-icon.png")
   ingame.selected_overlay = love.graphics.newImage("images/ingame/selected-overlay.png")
@@ -17,7 +17,7 @@ function ingame.enter()
   session.start()
 end
 
-function ingame.exit()
+function InGame:exit()
   meal_selection:destroy()
   ingame.background = nil
   ingame.warning_icon = nil
@@ -26,7 +26,7 @@ function ingame.exit()
   ingame.font_small = nil
 end
 
-function ingame.draw()
+function InGame:draw()
   love.graphics.draw(ingame.background)
   -- Draw pawns
   session.draw()
@@ -74,7 +74,7 @@ function ingame.draw()
   end
 end
 
-function ingame.update(dt)
+function InGame:update(dt)
   if meal_selection.active then
     meal_selection:update(dt)
   elseif not ingame.paused then
@@ -82,7 +82,7 @@ function ingame.update(dt)
   end
 end
 
-function ingame.keypressed(key)
+function InGame:keypressed(key)
   if meal_selection.active then
     meal_selection:keypressed(key)
   elseif key == 'escape' or key == 'space' then
@@ -90,10 +90,10 @@ function ingame.keypressed(key)
   end
 end
 
-function ingame.keyreleased(key)
+function InGame:keyreleased(key)
 end
 
-function ingame.mousepressed(x, y, button)
+function InGame:mousepressed(point, button)
   if meal_selection.active then
     meal_selection:mousepressed(x, y, button)
   elseif not ingame.paused then
@@ -112,7 +112,7 @@ function ingame.mousepressed(x, y, button)
   end
 end
 
-function ingame.mousereleased(x, y, button)
+function InGame.mousereleased(point, button)
   if meal_selection.active then
     meal_selection:mousereleased(x, y, button)
   end
