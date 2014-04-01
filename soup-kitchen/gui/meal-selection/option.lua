@@ -5,12 +5,17 @@ MealSelectionOption = {}
 MealSelectionOption.__index = MealSelectionOption
 
 function MealSelectionOption.new(offset, stock, images)
+  local text_buffer = C.layout.meal_selection.options.text_buffer
+
   local instance = {}
   setmetatable(instance, MealSelectionOption)
   instance.images = images
-  instance.location = Point.new(534, 130 + (offset - 1) * 30)
-  instance.label_location = Point.new(instance.location.x + 4, instance.location.y + 4)
-  instance.gui = InteractableClass.new(instance.location, 342, 20)
+  instance.location = C.layout.meal_selection.overlay + C.layout.meal_selection.options.offset
+  instance.location.y = instance.location.y + (offset - 1) * C.layout.meal_selection.options.skip
+  instance.label_location = Point.new(instance.location.x + text_buffer,
+    instance.location.y + text_buffer)
+  instance.gui = InteractableClass.new(instance.location, C.layout.meal_selection.options.width,
+    C.layout.meal_selection.options.height)
   instance.stock = stock
   instance.slot = nil
   instance.label = tostring(stock)

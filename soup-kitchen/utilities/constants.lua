@@ -88,6 +88,19 @@ function C:setup()
   self.layout.meal_selection.overlay = Point.new(228, 76)
   self.layout.meal_selection.ok     = {offset=Point.new( 20, 528), width=80, height=20}
   self.layout.meal_selection.cancel = {offset=Point.new(120, 528), width=80, height=20}
+  self.layout.meal_selection.slots = {}
+  self.layout.meal_selection.slots.offset = Point.new(30, 30)
+  self.layout.meal_selection.slots.text_buffer = 4
+  self.layout.meal_selection.slots.width = 342
+  self.layout.meal_selection.slots.height = 20
+  self.layout.meal_selection.slots.skip = 30
+  self.layout.meal_selection.options = {}
+  self.layout.meal_selection.options.offset = Point.new(432, 30)
+  self.layout.meal_selection.options.text_buffer = 4
+  self.layout.meal_selection.options.width = 342
+  self.layout.meal_selection.options.height = 20
+  self.layout.meal_selection.options.skip = 30
+
 
 end
 

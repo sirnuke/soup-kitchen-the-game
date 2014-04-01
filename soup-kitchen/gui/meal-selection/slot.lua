@@ -5,15 +5,28 @@ MealSelectionSlot = {}
 MealSelectionSlot.__index = MealSelectionSlot
 
 function MealSelectionSlot.new(offset, requirements, images)
+  local width = C.layout.meal_selection.slots.width
+  local text_buffer = C.layout.meal_selection.slots.text_buffer
+
   local instance = {}
   setmetatable(instance, MealSelectionSlot)
   instance.requirements = requirements
   instance.images = images
-  instance.location = Point.new(130, 130 + (offset - 1) * 30)
-  instance.label_location = Point.new(instance.location.x + 4, instance.location.y + 4)
-  instance.stock_label_location = Point.new(instance.location.x + 4 + 171,
-    instance.location.y + 4)
-  instance.gui = InteractableClass.new(instance.location, 342, 20)
+
+  instance.location = C.layout.meal_selection.overlay + C.layout.meal_selection.slots.offset
+  instance.location.y = instance.location.y + (offset - 1) * C.layout.meal_selection.slots.skip
+
+  print("x,y", instance.location.x, instance.location.y)
+
+
+  instance.label_location = Point.new(instance.location.x + text_buffer,
+    instance.location.y + text_buffer)
+
+  instance.stock_label_location = Point.new(instance.location.x + text_buffer + width / 2,
+    instance.location.y + text_buffer)
+
+  instance.gui = InteractableClass.new(instance.location, width,
+    C.layout.meal_selection.slots.height)
   instance.stock = nil
   instance.label = ''
   instance.stock_label = nil
