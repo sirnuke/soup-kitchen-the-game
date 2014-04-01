@@ -1,26 +1,28 @@
 -- Soup Kitchen
 -- Bryan DeGrendel (c) 2014
 
-meal_selection = {}
-meal_selection.__index = meal_selection
-meal_selection.meals = { breakfast="breakfast", lunch="lunch", dinner="dinner" }
+MealSelection = {}
+MealSelection.__index = MealSelection
+MealSelection.meals = { breakfast="breakfast", lunch="lunch", dinner="dinner" }
 
-function meal_selection:setup()
+function MealSelection:setup()
   self.overlay = love.graphics.newImage("images/meal-selection/background.png")
   self.elements = {}
   self.elements.normal = love.graphics.newImage("images/meal-selection/normal.png")
   self.elements.invalid = love.graphics.newImage("images/meal-selection/invalid.png")
   self.elements.selected = love.graphics.newImage("images/meal-selection/selected.png")
   self.elements.used = love.graphics.newImage("images/meal-selection/used.png")
+  self.button_ok = InteractableClass.new(Point.new(120, 628), 80, 20)
+  self.button_cancel = InteractableClass.new(Point.new(220, 628), 80, 20)
   self.active = false
 end
 
-function meal_selection:destroy()
+function MealSelection:destroy()
   self.overlay = nil
   self.elements = nil
 end
 
-function meal_selection:create_slots()
+function MealSelection:create_slots()
   self.slots = {}
   self.slots[1] = MealSelectionSlot.new(1, {'drink'})
   if self.meal == 'breakfast' then
@@ -41,7 +43,7 @@ function meal_selection:create_slots()
   end
 end
 
-function meal_selection:start(meal)
+function MealSelection:start(meal)
   assert(not self.active)
   self.active = true
   assert(self.meals[meal])
@@ -61,7 +63,7 @@ function meal_selection:start(meal)
   self:update_slots()
 end
 
-function meal_selection:update_slots()
+function MealSelection:update_slots()
   for id,option in ipairs(self.options) do
     option.slot = nil
   end
@@ -78,7 +80,7 @@ function meal_selection:update_slots()
 end
 
 
-function meal_selection:enter()
+function MealSelection:enter()
   assert(not self.active)
   self.active = true
   assert(self.meal and self.slots and self.options)
@@ -86,7 +88,7 @@ function meal_selection:enter()
   self:update_slots()
 end
 
-function meal_selection:ok()
+function MealSelection:ok()
   assert(self.active)
   self.active = false
   for id,slot in ipairs(self.slots) do
@@ -96,72 +98,51 @@ function meal_selection:ok()
   -- TODO: Save selections
 end
 
-function meal_selection:cancel()
+function MealSelection:cancel()
   assert(self.active)
   self.active = false
   -- TODO: Revert back to existing selections
 end
 
-function meal_selection:draw()
+function MealSelection:draw()
   assert(self.active)
   love.graphics.setColor(255, 255, 255, 224)
-  love.graphics.draw(self.overlay, 100, 100)
+  Screen:draw(self.overlay, Point.new(100, 100))
 
   love.graphics.setFont(ingame.font_small)
   for id,slot in ipairs(self.slots) do slot:draw() end
   for id,option in ipairs(self.options) do option:draw() end
+  -- TODO: Draw buttonzz
 end
 
-function meal_selection:update(dt)
+function MealSelection:update(dt)
+  assert(self.active)
+  self.button_ok:update()
+  self.button_cancel:update()
+  if self.button_ok:triggered() then
+    Log("MealSelection:update", "Ok!")
+    self:ok()
+  elseif self.button_cancel:trigger() then
+    Log("MealSelection:update", "Cancel!")
+    self:cancel()
+  end
+  -- TODO: Update slots and options here
+end
+
+function MealSelection:keypressed(key)
   assert(self.active)
 end
 
-function meal_selection:keypressed(key)
-  assert(self.active)
-end
-
-function meal_selection:mousepressed(x, y, button)
+function MealSelection:mousepressed(point, button)
   assert(self.active)
   if button ~= 'l' then return end
 
-  if x >= 120 and x <= 200 and y >= 628 and y <= 648 then
-    print("Ok!")
-    self:ok()
-    return
-  end
-
-  if x >= 220 and x <= 320 and y >= 628 and y <= 648 then
-    print("Cancel!")
-    self:cancel()
-    return
-  end
-
-  if self.selected then
-    for id,slot in ipairs(self.slots) do
-      if slot:inbounds(x, y) then
-        if self.selected.slot then
-          self.selected.slot:set_selection(nil)
-        end
-        for id,option in ipairs(self.options) do
-          if option.slot == slot then option.slot = nil end
-        end
-        self.selected.slot = slot
-        slot:set_selection(self.selected.stock)
-        self.selected = nil
-        return
-      end
-    end
-  end
-  self.selected = nil
-  for id,option in ipairs(self.options) do
-    if option:inbounds(x, y) then
-      self.selected = option
-      break
-    end
-  end
+  self.button_ok:mousepressed()
+  self.button_cancel:mousepressed()
+  -- TODO: Update slots and options here
 end
 
-function meal_selection:mousereleased(x, y, button)
+function MealSelection:mousereleased(x, y, button)
   assert(self.active)
 end
 
