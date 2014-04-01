@@ -57,7 +57,7 @@ end
 
 function PawnClass:set_screen()
   self.screen = self.coordinate:screen()
-  self.gui.set_point(self.screen)
+  self.gui:set_point(self.screen)
 end
 
 function PawnClass:jump(coordinate)
