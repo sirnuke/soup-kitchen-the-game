@@ -4,26 +4,25 @@
 InGame = {}
 
 function InGame:enter()
-  ingame.background = love.graphics.newImage("images/ingame/background.png")
-  ingame.warning_icon = love.graphics.newImage("images/ingame/warning-icon.png")
-  ingame.selected_overlay = love.graphics.newImage("images/ingame/selected-overlay.png")
-  ingame.paused = false
-  ingame.selected = nil
-  ingame.font_normal = love.graphics.setNewFont(constants.font.filename, constants.font.normal)
-  ingame.font_small = love.graphics.setNewFont(constants.font.filename, constants.font.small)
-  meal_selection:setup()
-  ActionClass.setup()
-  map.create()
+  self.background = love.graphics.newImage("images/ingame/background.png")
+  self.warning_icon = love.graphics.newImage("images/ingame/warning-icon.png")
+  self.selected_overlay = love.graphics.newImage("images/ingame/selected-overlay.png")
+  self.paused = false
+  self.selected = nil
+  self.font_normal = love.graphics.setNewFont(constants.font.filename, constants.font.normal)
+  self.font_small = love.graphics.setNewFont(constants.font.filename, constants.font.small)
+  self.meal_selection = MealSelection
+  self.meal_selection:setup()
   session.start()
 end
 
 function InGame:exit()
-  meal_selection:destroy()
-  ingame.background = nil
-  ingame.warning_icon = nil
-  ingame.selected_overlay = nil
-  ingame.font_normal = nil
-  ingame.font_small = nil
+  self.meal_selection:destroy()
+  self.background = nil
+  self.warning_icon = nil
+  self.selected_overlay = nil
+  self.font_normal = nil
+  self.font_small = nil
 end
 
 function InGame:draw()
