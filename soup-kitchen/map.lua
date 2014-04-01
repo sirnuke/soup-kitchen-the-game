@@ -1,9 +1,9 @@
 -- Soup Kitchen
 -- Bryan DeGrendel (c) 2014
 
-map = {}
+Map = {}
 
-function map.create()
+function Map:create()
   local structure = {
     { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'T', 'X' },
     { ' ', ' ', ' ', 'X', 'C', 'C', 'C', 'C', ' ', ' ', ' ', 'X' },
@@ -18,113 +18,81 @@ function map.create()
     { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
     { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' }
   }
-  map.data = {}
+  self.data = {}
   for y,row in ipairs(structure) do
     local data = {}
     for x,v in ipairs(row) do
       if v == ' ' then
-        table.insert(data, map.create_square(Coordinate.new(x, y), false))
+        table.insert(data, {coord=Coordinate.new(x, y), blocked=false, occupant=nil, equipment=nil})
       else
-        table.insert(data, map.create_square(Coordinate.new(x, y), true))
+        table.insert(data, {coord=Coordinate.new(x, y), blocked=true,  occupant=nil, equipment=nil})
       end
     end
-    table.insert(map.data, data)
+    table.insert(self.data, data)
   end
-  -- Actions
-  map.actions = {}
 
-  map.actions.serving = {}
-  map.actions.serving[1] = ServingClass.new(1,
+  self.equipment = {}
+
+  self.equipment.serving = {}
+  self.equipment.serving[1] = ServingClass.new(1,
     Coordinate.new(3,10), Coordinate.new(2,9), Coordinate.new(3,11))
-  map.actions.serving[2] = ServingClass.new(2,
+  self.equipment.serving[2] = ServingClass.new(2,
     Coordinate.new(4,9), Coordinate.new(3,9), Coordinate.new(5,9))
-  map.actions.serving[3] = ServingClass.new(3,
+  self.equipment.serving[3] = ServingClass.new(3,
     Coordinate.new(4,8), Coordinate.new(3,8), Coordinate.new(5,8))
-  map.actions.serving[4] = ServingClass.new(4,
+  self.equipment.serving[4] = ServingClass.new(4,
     Coordinate.new(4,6), Coordinate.new(3,6), Coordinate.new(5,6))
-  map.actions.serving[5] = ServingClass.new(5,
+  self.equipment.serving[5] = ServingClass.new(5,
     Coordinate.new(4,5), Coordinate.new(3,5), Coordinate.new(5,5))
 
-  for i = 1,4 do
-    map.actions.serving[i].next_stage = map.actions.serving[i + 1]
-  end
-  map.actions.serving[5].next_stage = 'done'
+  self.equipment.cleaning = {}
+  self.equipment.cleaning[1] = ActionClass.new('cleaning1', nil, Coordinate.new(5,3))
+  self.equipment.cleaning[2] = ActionClass.new('cleaning2', nil, Coordinate.new(7,3))
+  self.equipment.cleaning[3] = ActionClass.new('cleaning3', nil, Coordinate.new(8,3))
 
-  map.actions.cleaning = {}
-  map.actions.cleaning[1] = ActionClass.new('cleaning1', nil, Coordinate.new(5,3))
-  map.actions.cleaning[2] = ActionClass.new('cleaning2', nil, Coordinate.new(7,3))
-  map.actions.cleaning[3] = ActionClass.new('cleaning3', nil, Coordinate.new(8,3))
+  self.equipment.prepare = {}
+  self.equipment.prepare[1] = ActionClass.new('prepare1', nil, Coordinate.new(6,4))
+  self.equipment.prepare[2] = ActionClass.new('prepare2', nil, Coordinate.new(6,6))
+  self.equipment.prepare[3] = ActionClass.new('prepare3', nil, Coordinate.new(6,8))
+  self.equipment.prepare[4] = ActionClass.new('prepare4', nil, Coordinate.new(9,5))
+  self.equipment.prepare[5] = ActionClass.new('prepare5', nil, Coordinate.new(9,7))
+  self.equipment.prepare[6] = ActionClass.new('prepare6', nil, Coordinate.new(10,9))
 
-  map.actions.prepare = {}
-  map.actions.prepare[1] = ActionClass.new('prepare1', nil, Coordinate.new(6,4))
-  map.actions.prepare[2] = ActionClass.new('prepare2', nil, Coordinate.new(6,6))
-  map.actions.prepare[3] = ActionClass.new('prepare3', nil, Coordinate.new(6,8))
-  map.actions.prepare[4] = ActionClass.new('prepare4', nil, Coordinate.new(9,5))
-  map.actions.prepare[5] = ActionClass.new('prepare5', nil, Coordinate.new(9,7))
-  map.actions.prepare[6] = ActionClass.new('prepare6', nil, Coordinate.new(10,9))
+  self.equipment.storage = {}
+  self.equipment.storage[1] = ActionClass.new('storage1', nil, Coordinate.new(10,4))
+  self.equipment.storage[2] = ActionClass.new('storage2', nil, Coordinate.new(10,6))
+  self.equipment.storage[3] = ActionClass.new('storage3', nil, Coordinate.new(10,8))
 
-  map.actions.storage = {}
-  map.actions.storage[1] = ActionClass.new('storage1', nil, Coordinate.new(10,4))
-  map.actions.storage[2] = ActionClass.new('storage2', nil, Coordinate.new(10,6))
-  map.actions.storage[3] = ActionClass.new('storage3', nil, Coordinate.new(10,8))
-
-  map.actions.trash = {}
-  map.actions.trash[1] = ActionClass.new('trash', nil, Coordinate.new(11,2))
+  self.equipment.trash = {}
+  self.equipment.trash[1] = ActionClass.new('trash', nil, Coordinate.new(11,2))
 end
 
-function map.create_square(coord, blocked)
-  return { coord=coord, blocked=blocked, occupant=nil, action=nil }
+function Map:square(coord)
+  return self.data[coord.y][coord.x]
 end
 
-function map.square(coord)
-  return map.data[coord.y][coord.x]
+function Map:blocked(coord)
+  return self:square(coord).blocked
 end
 
-function map.blocked(coord)
-  return map.square(coord).blocked
+function Map:occupant(coord)
+  return self:square(coord).occupant
 end
 
-function map.position(coord)
-  return { x= (coord.x - 1) * constants.sizes.square + constants.sizes.square / 2, 
-           y= (coord.y - 1) * constants.sizes.square + constants.sizes.square / 2}
+function Map:set_occupant(coord, occupant)
+  self:square(coord).occupant = occupant
 end
 
-function map.coordinate(x, y)
-  return Coordinate.new(1 + (x - (x % constants.sizes.square)) / constants.sizes.square,
-                        1 + (y - (y % constants.sizes.square)) / constants.sizes.square)
+function Map.equipment(coord)
+  return self:square(coord).equipment
 end
 
-function map.valid_coordinate(coord)
-  if coord.x >= 1 and coord.x <= constants.sizes.map.w and 
-      coord.y >= 1 and coord.y <= constants.sizes.map.h then
-    return true
-  else
-    return false
-  end
-end
-
-function map.occupant(coord)
-  return map.square(coord).occupant
-end
-
-function map.set_occupant(coord, occupant)
-  map.square(coord).occupant = occupant
-end
-
-function map.action(coord)
-  return map.square(coord).action
-end
-
-function map.set_action(coord, action)
-  map.square(coord).action = action
-end
-
-function map.get_neighbors(coord)
+function Map:get_neighbors(coord)
   local result, poss = { }, { {x=-1,y=0}, {x=1,y=0}, {x=0,y=-1}, {x=0,y=1} }
   local c = Coordinate.new(0, 0)
   for k,v in ipairs(poss) do
     c.x, c.y = coord.x + v.x, coord.y + v.y
-    if map.valid_coordinate(c) and not map.blocked(c) then
+    if self:valid_coordinate(c) and not self:blocked(c) then
       table.insert(result, Coordinate.new(c.x, c.y))
     end
   end
