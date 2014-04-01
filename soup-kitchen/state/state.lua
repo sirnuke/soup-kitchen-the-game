@@ -36,6 +36,7 @@ function State:create()
   self.homeless = Homeless
   self.homeless:setup()
   self.map = MapClass
+  self.prep_stage = nil
   self.map:create()
   local prepare = false
   for k,v in pairs(C.stock.start) do
@@ -53,7 +54,7 @@ function State:create()
 end
 
 function State:update(dt)
-  self.time = session.time + dt * C.scale.clock
+  self.time = self.time + dt * C.scale.clock
   self.player:update(dt)
 
   local line = false
@@ -71,13 +72,13 @@ function State:update(dt)
       table.insert(self.eating, customer)
     end
   end
-  for id,customer in next,session.eating,nil do
+  for id,customer in next,self.eating,nil do
     customer:update(dt)
   end
-  for id,task in next,session.tasks,nil do
+  for id,task in next,self.tasks,nil do
     task:update(dt)
     if task:done() then
-      table.remove(session.tasks, id)
+      table.remove(self.tasks, id)
     end
   end
 end
@@ -86,17 +87,17 @@ function State:new_stage(stage)
   print("New stage", stage)
   local count = 0
   if stage == 'start' then
-    InGame.meal_selection:start('breakfast')
+    self.prep_stage = 'breakfast'
   elseif stage == 'breakfast' then
     count = homeless.spawn(stage)
     print("Homeless count is", count)
   elseif stage == 'prep_lunch' then
-    InGame.meal_selection:start('lunch')
+    self.prep_stage = 'lunch'
   elseif stage == 'lunch' then
     -- have everyone in line leave?
   elseif stage == 'cook' then
   elseif stage == 'prep_dinner' then
-    InGame.meal_selection:start('dinner')
+    self.prep_stage = 'dinner'
   elseif stage == 'dinner' then
   elseif stage == 'cleanup' then
   elseif stage == 'done' then
@@ -119,9 +120,9 @@ function State:new_day()
   self.tasks = {}
   self.customers = {}
   self:new_stage('start')
-  self.player:move(C.coords.start)
+  self.player:jump(C.coords.start)
   if self.employee then
-    self.employee:move(C.coords.employee)
+    self.employee:jump(C.coords.employee)
   end
 end
 
@@ -168,6 +169,12 @@ function State:name_stage()
   else
     return ""
   end
+end
+
+function State:get_prep_stage()
+  local prep = self.prep_stage
+  self.prep_stage = nil
+  return prep
 end
 
 function State:line_count()
