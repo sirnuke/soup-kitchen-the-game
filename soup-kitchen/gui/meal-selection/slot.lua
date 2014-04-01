@@ -51,7 +51,7 @@ function MealSelectionSlot:draw(selected_option)
   if selected_option then
     image = self.images.normal
     for i,req in ipairs(self.requirements) do
-      if req == selected_option then
+      if req == selected_option.stock.type then
         image = self.images.selected
       end
     end
