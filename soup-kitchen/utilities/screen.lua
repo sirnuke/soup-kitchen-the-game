@@ -55,4 +55,11 @@ function Screen:draw(drawable, location, rotation)
     self.letterbox.width, self.letterbox.height)
 end
 
+-- location defaults to (0,0), rotation defaults to 0
+function Screen:print(text, location, rotation)
+  local loc, rot = location or { x=0, y=0 }, rotation or 0
+  love.graphics.print(text, loc.x, loc.y, rot, self.scale.width, self.scale.height,
+    self.letterbox.width, self.letterbox.height)
+end
+
 
