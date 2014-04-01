@@ -2,7 +2,7 @@
 -- Bryan DeGrendel (c) 2014
 
 MealSelectionSlot = {}
-MealSelectionSlot.__index = MealSelectionSlot
+MealSelectionSlot.__index = Mealpoint
 
 function MealSelectionSlot.new(offset, requirements, images)
   local instance = {}
@@ -13,7 +13,7 @@ function MealSelectionSlot.new(offset, requirements, images)
   instance.label_location = Point.new(instance.location.x + 4, instance.location.y + 4)
   instance.stock_label_location = Point.new(instance.location.x + 4 + 171,
     instance.location.y + 4)
-  instance.gui = SelectableClass.new(instance.location, 342, 20)
+  instance.gui = InteractableClass.new(instance.location, 342, 20)
   instance.stock = nil
   instance.label = ''
   instance.stock_label = nil
