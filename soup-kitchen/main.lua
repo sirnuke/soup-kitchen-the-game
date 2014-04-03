@@ -41,16 +41,20 @@ function inherits(class, instance)
   end
 end
 
-function love.load()
-  if not love.getVersion then
-    Warn(tag, "no love.getVersion(), love runtime may be out of date (requires 0.9.0+)")
-  else
-    local major, minor, revision = love.getVersion()
-    if major < 0 or minor < 9 then
-      Warn(tag, string.format("Love may be out of date (requires 0.9.0, got %i.%i.%i)", major,
-        minor, revision))
-    end
+local function version_check()
+  if not love.math then
+    Error(tag, "love runtime appears to be out of date (requires 0.9.0+)")
   end
+  if love.getVersion then
+    local major, minor, revision = love.getVersion()
+    Log(tag, string.format("Love runtime is (%i.%i.%i)", major, minor, revision))
+  else
+    Log(tag, "Love runtime appears to be (0.9.0)")
+  end
+end
+
+function love.load()
+  version_check()
   C:setup()
   Config:load()
   Screen:setup()
