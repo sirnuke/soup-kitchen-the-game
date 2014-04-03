@@ -28,7 +28,7 @@ require "state/state"
 require "state/stock"
 require "state/task"
 
-local tag = "CORE"
+local tag = "Core"
 
 Core = {}
 
