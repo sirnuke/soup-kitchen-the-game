@@ -1,15 +1,15 @@
 -- Soup Kitchen
 -- Bryan DeGrendel (c) 2014
 
-function Error(func, msg)
-  io.write(string.format("[E][%s]: %s\n", func, msg))
+function Error(tag, msg)
+  io.write(string.format("[E][%s]: %s\n", tag, msg))
 end
 
-function Warn(func, msg)
-  io.write(string.format("[W][%s]: %s\n", func, msg))
+function Warn(tag, msg)
+  io.write(string.format("[W][%s]: %s\n", tag, msg))
 end
 
-function Log(func, msg)
-  io.write(string.format("[L][%s]: %s\n", func, msg))
+function Log(tag, msg)
+  io.write(string.format("[L][%s]: %s\n", tag, msg))
 end
 
