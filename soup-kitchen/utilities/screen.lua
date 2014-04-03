@@ -1,6 +1,8 @@
 -- Soup Kitchen
 -- Bryan DeGrendel (c) 2014
 
+local tag = "Screen"
+
 Screen = {}
 
 function Screen:setup()
@@ -19,14 +21,13 @@ function Screen:setup()
   self.scale.height = C.screen.height / (self.size.height - self.letterbox.height)
 
   if self.scale.width ~= self.scale.height then
-    Warn("Screen:setup", string.format("Differing scales of (w:%f h:%f)", self.scale.width,
-      self.scale.height))
+    Warn(tag, string.format("Differing scales of (w:%f h:%f)", self.scale.width, self.scale.height))
   else
     if self.scale.width ~= 1 then
-      Log("Screen:setup", string.format("Scaling width to (%f)", self.scale.width))
+      Log(tag, string.format("Scaling width to (%f)", self.scale.width))
     end
     if self.scale.height ~= 1 then
-      Log("Screen:setup", string.format("Scaling height to (%f)", self.scale.height))
+      Log(tag, string.format("Scaling height to (%f)", self.scale.height))
     end
   end
 
@@ -61,5 +62,4 @@ function Screen:print(text, location, rotation)
   love.graphics.print(text, loc.x, loc.y, rot, self.scale.width, self.scale.height,
     self.letterbox.width, self.letterbox.height)
 end
-
 
