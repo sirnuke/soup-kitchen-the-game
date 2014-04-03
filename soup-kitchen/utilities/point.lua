@@ -4,22 +4,6 @@
 Point = {}
 Point.__index = Point
 
-Point.__eq = function(a, b)
-  if a.x == b.x and a.y == b.y then
-    return true
-  else
-    return false
-  end
-end
-
-Point.__sub = function(a, b)
-  return Point.new(a.x - b.x, a.y - b.y)
-end
-
-Point.__add = function(a, b)
-  return Point.new(a.x + b.x, a.y + b.y)
-end
-
 function Point.new(x, y)
   local instance = { x=x, y=y }
   setmetatable(instance, Point)
@@ -37,5 +21,21 @@ end
 
 function Point:screen()
   return Point.new(self.x + C.layout.map.x, self.y + C.layout.map.y)
+end
+
+function Point.__eq(a, b)
+  if a.x == b.x and a.y == b.y then
+    return true
+  else
+    return false
+  end
+end
+
+function Point.__sub(a, b)
+  return Point.new(a.x - b.x, a.y - b.y)
+end
+
+function Point.__add(a, b)
+  return Point.new(a.x + b.x, a.y + b.y)
 end
 

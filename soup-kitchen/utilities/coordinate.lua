@@ -4,14 +4,6 @@
 Coordinate = {}
 Coordinate.__index = Coordinate
 
-Coordinate.__eq = function(a, b) 
-  if a.x == b.x and a.y == b.y then
-    return true
-  else
-    return false
-  end
-end
-
 function Coordinate.new(x, y)
   local instance = { x=x, y=y }
   setmetatable(instance, Coordinate)
@@ -34,6 +26,14 @@ end
 function Coordinate:valid()
   if self.x >= 1 and self.x <= C.sizes.map.width and self.y >= 1
     and self.y <= C.sizes.map.height then
+    return true
+  else
+    return false
+  end
+end
+
+function Coordinate.__eq(a, b) 
+  if a.x == b.x and a.y == b.y then
     return true
   else
     return false
