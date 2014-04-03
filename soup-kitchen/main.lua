@@ -28,6 +28,8 @@ require "state/state"
 require "state/stock"
 require "state/task"
 
+local tag = "CORE"
+
 Core = {}
 
 function inherits(class, instance)
@@ -40,6 +42,15 @@ function inherits(class, instance)
 end
 
 function love.load()
+  if not love.getVersion then
+    Warn(tag, "no love.getVersion(), love runtime may be out of date (requires 0.9.0+)")
+  else
+    local major, minor, revision = love.getVersion()
+    if major < 0 or minor < 9 then
+      Warn(tag, string.format("Love may be out of date (requires 0.9.0, got %i.%i.%i)", major,
+        minor, revision))
+    end
+  end
   C:setup()
   Config:load()
   Screen:setup()
