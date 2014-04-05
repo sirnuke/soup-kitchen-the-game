@@ -4,6 +4,7 @@
 require "utilities/configuration"
 require "utilities/constants"
 require "utilities/coordinate"
+require "utilities/font"
 require "utilities/logging"
 require "utilities/point"
 require "utilities/screen"
