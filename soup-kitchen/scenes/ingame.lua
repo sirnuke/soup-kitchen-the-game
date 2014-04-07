@@ -9,8 +9,8 @@ function InGame:enter()
   self.selected_overlay = love.graphics.newImage("images/ingame/selected-overlay.png")
   self.paused = false
   self.selected = nil
-  self.font_normal = love.graphics.setNewFont(C.font.filename, C.font.normal)
-  self.font_small = love.graphics.setNewFont(C.font.filename, C.font.small)
+  self.font_normal = Font.load(C.font.normal)
+  self.font_small = Font.load(C.font.small)
   self.state = State
   self.state:create()
   self.meal_selection = MealSelection
