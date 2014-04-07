@@ -9,6 +9,8 @@ require "utilities/logging"
 require "utilities/point"
 require "utilities/screen"
 
+require "objects/object"
+
 require "gui/interactable"
 require "gui/meal-selection/option"
 require "gui/meal-selection/overlay"
