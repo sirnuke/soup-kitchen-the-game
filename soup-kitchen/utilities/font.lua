@@ -9,7 +9,7 @@ function Font.load(pointsize)
   if Font.loaded[pointsize] then
     return Font.loaded[pointsize]
   else
-    local font = love.graphics.setNetFont(C.font.filename, pointsize)
+    local font = love.graphics.newFont(C.font.filename, pointsize)
     Font.loaded[pointsize] = font
     return font
   end
