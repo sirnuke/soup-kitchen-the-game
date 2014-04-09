@@ -4,6 +4,7 @@
 Font = {}
 Font.loaded = {}
 
+-- Size must be a positive integer, style may be unset (nil)
 function Font.load(size, style)
   assert(type(size) == 'number' and size > 0)
   if not style then style = 'normal' end
