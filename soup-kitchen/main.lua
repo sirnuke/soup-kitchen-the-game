@@ -6,6 +6,7 @@ require "utilities/constants"
 require "utilities/coordinate"
 require "utilities/font"
 require "utilities/logging"
+require "utilities/oop"
 require "utilities/point"
 require "utilities/screen"
 
@@ -34,15 +35,6 @@ require "state/task"
 local tag = "Core"
 
 Core = {}
-
-function inherits(class, instance)
-  assert(type(class) == 'table' and type(instance) == 'table')
-  for k,v in pairs(class) do
-    if not instance[k] then
-      instance[k] = v
-    end
-  end
-end
 
 local function version_check()
   if not love.math then
