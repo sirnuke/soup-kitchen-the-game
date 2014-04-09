@@ -48,7 +48,9 @@ function C:setup()
   self.stock.serve.salad = 30
 
   self.font = {}
-  self.font.filename = "fonts/Inconsolata-Bold.ttf"
+  self.font.files = {}
+  self.font.files.normal = "fonts/Inconsolata-Regular.ttf"
+  self.font.files.bold = "fonts/Inconsolata-Bold.ttf"
   self.font.normal = 22
   self.font.small = 14
 
