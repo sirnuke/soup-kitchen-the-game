@@ -23,6 +23,7 @@ require "scenes/mainmenu"
 
 require "equipment/equipment"
 require "equipment/serving"
+require "equipment/dispensing"
 
 require "state/customer"
 require "state/homeless"
