@@ -34,11 +34,16 @@ function MapClass:create()
   self.equipment = {}
 
   self.equipment.serving = {}
-  self.equipment.serving[1] = ServingClass.new(1, Coordinate.new(3,10), Coordinate.new(3,11))
-  self.equipment.serving[2] = ServingClass.new(2, Coordinate.new(4,9), Coordinate.new(5,9))
-  self.equipment.serving[3] = ServingClass.new(3, Coordinate.new(4,8), Coordinate.new(5,8))
-  self.equipment.serving[4] = ServingClass.new(4, Coordinate.new(4,6), Coordinate.new(5,6))
-  self.equipment.serving[5] = ServingClass.new(5, Coordinate.new(4,5), Coordinate.new(5,5))
+  self.equipment.serving.drinks 
+    = ServingClass.new('drinks', Coordinate.new(3,10), Coordinate.new(3,11))
+  self.equipment.serving.food1
+    = ServingClass.new('food1', Coordinate.new(4,9), Coordinate.new(5,9))
+  self.equipment.serving.food2
+    = ServingClass.new('food2', Coordinate.new(4,8), Coordinate.new(5,8))
+  self.equipment.serving.food3
+    = ServingClass.new('food3', Coordinate.new(4,6), Coordinate.new(5,6))
+  self.equipment.serving.food4
+    = ServingClass.new('food4', Coordinate.new(4,5), Coordinate.new(5,5))
 
   self.equipment.receiving = {}
   self.equipment.receiving[1] = EquipmentClass.new(Coordinate.new(3,10), Coordinate.new(2,9))
