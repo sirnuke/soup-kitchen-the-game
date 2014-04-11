@@ -7,12 +7,9 @@ ServingClass.__index = ServingClass
 function ServingClass.new(type, location, volunteer)
   local instance = {}
   setmetatable(instance, ServingClass)
-  inherits(EquipmentClass.new(location, volunteer), instance)
-  instance.type = type
+  inherits(EquipmentClass.new('volunteer', type, location, volunteer), instance)
   instance.stock = nil
   instance.quantity = nil
-  instance.screen = location:screen()
-
   return instance
 end
 

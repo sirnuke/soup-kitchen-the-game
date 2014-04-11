@@ -4,12 +4,17 @@
 EquipmentClass = {}
 EquipmentClass.__index = EquipmentClass
 
-function EquipmentClass.new(location, hotspot)
-  assert(location, hotspot)
+function EquipmentClass.new(class, type, location, hotspot)
+  assert(class == 'customer' or class == 'volunteer',
+    string.format("Unknown equipment class of %s", class))
+  assert(type and location and hotspot)
   local instance = {}
   setmetatable(instance, EquipmentClass)
+  instance.class = class
+  instance.type = type
   instance.location = location
   instance.hotspot = hotspot
+  instance.screen = location:screen()
   return instance
 end
 
