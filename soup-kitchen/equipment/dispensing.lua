@@ -16,3 +16,7 @@ function DispensingClass.new(type, location, customer)
   return instance
 end
 
+function DispensingClass:draw()
+  -- TODO: dis
+end
+
