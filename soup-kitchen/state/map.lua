@@ -32,47 +32,59 @@ function MapClass:create()
   end
 
   self.equipment = {}
+  local equipment = {}
+  equipment.serving = {}
+  equipment.serving.drinks = {Coordinate.new(3,10), Coordinate.new(3,11)}
+  equipment.serving.salad  = {Coordinate.new(4,9),  Coordinate.new(5,9)}
+  equipment.serving.desert = {Coordinate.new(4,8),  Coordinate.new(5,8)}
+  equipment.serving.side   = {Coordinate.new(4,6),  Coordinate.new(5,6)}
+  equipment.serving.dinner = {Coordinate.new(4,5),  Coordinate.new(5,5)}
 
-  self.equipment.serving = {}
-  self.equipment.serving.drinks 
-    = ServingClass.new('drinks', Coordinate.new(3,10), Coordinate.new(3,11))
-  self.equipment.serving.food1
-    = ServingClass.new('food1', Coordinate.new(4,9), Coordinate.new(5,9))
-  self.equipment.serving.food2
-    = ServingClass.new('food2', Coordinate.new(4,8), Coordinate.new(5,8))
-  self.equipment.serving.food3
-    = ServingClass.new('food3', Coordinate.new(4,6), Coordinate.new(5,6))
-  self.equipment.serving.food4
-    = ServingClass.new('food4', Coordinate.new(4,5), Coordinate.new(5,5))
+  equipment.dispensing = {}
+  equipment.dispensing.trays  = {Coordinate.new(2,10), Coordinate.new(2,9)}
+  equipment.dispensing.drinks = {Coordinate.new(3,10), Coordinate.new(3,9)}
+  equipment.dispensing.salad  = {Coordinate.new(4,8), Coordinate.new(3,8)}
+  equipment.dispensing.desert = {Coordinate.new(4,7), Coordinate.new(3,7)}
+  equipment.dispensing.side   = {Coordinate.new(4,6), Coordinate.new(3,6)}
+  equipment.dispensing.dinner = {Coordinate.new(4,5), Coordinate.new(3,5)}
 
-  self.equipment.receiving = {}
-  self.equipment.receiving[1] = EquipmentClass.new(Coordinate.new(3,10), Coordinate.new(2,9))
-  self.equipment.receiving[2] = EquipmentClass.new(Coordinate.new(4,9), Coordinate.new(3,9))
-  self.equipment.receiving[3] = EquipmentClass.new(Coordinate.new(4,8), Coordinate.new(3,8))
-  self.equipment.receiving[4] = EquipmentClass.new(Coordinate.new(4,6), Coordinate.new(3,6))
-  self.equipment.receiving[5] = EquipmentClass.new(Coordinate.new(4,5), Coordinate.new(3,5))
+  for k,v in pairs(equipment) do
+    local class = nil
+    self.equipment[k] = {}
+    if k == 'serving' then class = ServingClass
+    elseif k == 'dispensing' then class = DispensingClass
+    else assert(false, string.format("Unhandled equipment type of %s", k))
+    end
+    for id,data in pairs(v) do
+      self.equipment[k][id] = class.new(id, data[1], data[2])
+    end
+  end
 
-  self.equipment.cleaning = {}
-  self.equipment.cleaning[1] = EquipmentClass.new(Coordinate.new(4,3), Coordinate.new(5,3))
-  self.equipment.cleaning[2] = EquipmentClass.new(Coordinate.new(6,2), Coordinate.new(6,3))
-  self.equipment.cleaning[3] = EquipmentClass.new(Coordinate.new(8,2), Coordinate.new(8,3))
+  --self.equipment.cleaning = {}
+  --self.equipment.cleaning[1] = EquipmentClass.new(Coordinate.new(4,3), Coordinate.new(5,3))
+  --self.equipment.cleaning[2] = EquipmentClass.new(Coordinate.new(6,2), Coordinate.new(6,3))
+  --self.equipment.cleaning[3] = EquipmentClass.new(Coordinate.new(8,2), Coordinate.new(8,3))
 
-  self.equipment.prepare = {}
-  self.equipment.prepare[1] = EquipmentClass.new(Coordinate.new(8,4), Coordinate.new(9,4))
-  self.equipment.prepare[2] = EquipmentClass.new(Coordinate.new(8,5), Coordinate.new(9,5))
-  self.equipment.prepare[3] = EquipmentClass.new(Coordinate.new(8,6), Coordinate.new(9,6))
-  self.equipment.prepare[4] = EquipmentClass.new(Coordinate.new(8,7), Coordinate.new(9,7))
-  self.equipment.prepare[5] = EquipmentClass.new(Coordinate.new(8,8), Coordinate.new(9,8))
+  --self.equipment.return = {}
 
-  self.equipment.storage = {}
-  self.equipment.storage[1] = EquipmentClass.new(Coordinate.new(11,4), Coordinate.new(10,4))
-  self.equipment.storage[2] = EquipmentClass.new(Coordinate.new(11,5), Coordinate.new(10,5))
-  self.equipment.storage[3] = EquipmentClass.new(Coordinate.new(11,6), Coordinate.new(10,6))
-  self.equipment.storage[3] = EquipmentClass.new(Coordinate.new(11,7), Coordinate.new(10,7))
-  self.equipment.storage[3] = EquipmentClass.new(Coordinate.new(11,8), Coordinate.new(10,8))
+  --self.equipment.cook = {}
+  --self.equipment.cook[1] = EquipmentClass.new(Coordinate.new(8,4), Coordinate.new(9,4))
+  --self.equipment.cook[2] = EquipmentClass.new(Coordinate.new(8,5), Coordinate.new(9,5))
+  --self.equipment.cook[3] = EquipmentClass.new(Coordinate.new(8,6), Coordinate.new(9,6))
+  --self.equipment.cook[4] = EquipmentClass.new(Coordinate.new(8,7), Coordinate.new(9,7))
+  --self.equipment.cook[5] = EquipmentClass.new(Coordinate.new(8,8), Coordinate.new(9,8))
 
-  self.equipment.trash = {}
-  self.equipment.trash[1] = EquipmentClass.new(Coordinate.new(11,1), Coordinate.new(11,2))
+  --self.equipment.staging = {}
+
+  --self.equipment.storage = {}
+  --self.equipment.storage[1] = EquipmentClass.new(Coordinate.new(11,4), Coordinate.new(10,4))
+  --self.equipment.storage[2] = EquipmentClass.new(Coordinate.new(11,5), Coordinate.new(10,5))
+  --self.equipment.storage[3] = EquipmentClass.new(Coordinate.new(11,6), Coordinate.new(10,6))
+  --self.equipment.storage[3] = EquipmentClass.new(Coordinate.new(11,7), Coordinate.new(10,7))
+  --self.equipment.storage[3] = EquipmentClass.new(Coordinate.new(11,8), Coordinate.new(10,8))
+
+  --self.equipment.trash = {}
+  --self.equipment.trash[1] = EquipmentClass.new(Coordinate.new(11,1), Coordinate.new(11,2))
 end
 
 function MapClass:square(coord)
