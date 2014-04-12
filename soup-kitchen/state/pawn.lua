@@ -25,13 +25,7 @@ function PawnClass.new(map, coord)
   instance.task = false
   instance.map = map
   if coord == 'enter' then
-    assert(not map:occupant(C.coords.entrance))
-    instance.position = C.coords.entrance:point()
-    instance.position.x = instance.position.x - C.sizes.square
-    instance.coordinate = C.coords.entrance:duplicate()
-    instance.path = { C.coords.entrance:duplicate() }
-    instance.destination = C.coords.entrance:point()
-    map:set_occupant(instance.coordinate, instance)
+    instance:enter()
   elseif coord then
     assert(not map:blocked(coord) and not map:occupant(coord))
     instance.position = coord:point()
@@ -47,6 +41,16 @@ function PawnClass.new(map, coord)
   end
   instance.gui = InteractableClass.new(instance.coordinate, C.sizes.pawn, C.sizes.pawn)
   return instance
+end
+
+function PawnClass:enter()
+  assert(not map:occupant(C.coords.entrance))
+  self.position = C.coords.entrance:point()
+  self.position.x = self.position.x - C.sizes.square
+  self.coordinate = C.coords.entrance:duplicate()
+  self.path = { C.coords.entrance:duplicate() }
+  self.destination = C.coords.entrance:point()
+  map:set_occupant(instance.coordinate, instance)
 end
 
 function PawnClass:draw()
