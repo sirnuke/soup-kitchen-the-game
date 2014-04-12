@@ -1,0 +1,3 @@
+- Should Pathfinding move towards the goal and not require the end destination to be empty?
+- Sort out the issues with changing directions in pathfinding
+- Enable moving at angles, eventually
