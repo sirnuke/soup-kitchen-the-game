@@ -32,6 +32,7 @@ require "state/pawn"
 require "state/state"
 require "state/stock"
 
+require "tasks/getfood"
 require "tasks/task"
 
 local tag = "Core"
