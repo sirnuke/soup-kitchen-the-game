@@ -14,8 +14,7 @@ function CustomerClass.new(map, stage)
   local instance = {}
   setmetatable(instance, CustomerClass)
   inherits(PawnClass.new(map, nil), instance)
-  instance.pawn = nil
-  instance.action = nil
+  instance.equipment = nil
   instance.state = 'waiting'
   instance.stage = stage
   instance.task = nil
@@ -25,10 +24,8 @@ end
 function CustomerClass:update(dt)
   if self.state == 'waiting' then
     if not map.occupant(constants.coords.entrance) then
-      self.action = map.actions.serving[1]
-      self.pawn = PawnClass.new('customer', 'enter')
-      self.pawn.action = self.action
-      self.task = TaskClass.new('serving', self.action, self.pawn)
+      self.equipment = map.equipment.dispensing.trays
+      self.task = GetFoodTaskClass.new(self.equipment, self)
       table.insert(session.tasks, self.task)
       self.state = 'inline'
     end
