@@ -31,7 +31,8 @@ require "state/map"
 require "state/pawn"
 require "state/state"
 require "state/stock"
-require "state/task"
+
+require "tasks/task"
 
 local tag = "Core"
 
