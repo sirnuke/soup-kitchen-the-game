@@ -6,7 +6,7 @@ State.stages = { start="start", breakfast="breakfast", prep_lunch="prep_lunch", 
   cook="cook", prep_dinner="prep_dinner", dinner="dinner", cleanup="cleanup", done="done" }
 State.stage_order = { 'start', 'breakfast', 'prep_lunch', 'lunch', 'cook', 'prep_dinner', 'dinner', 'cleanup', 'done' }
 
-function State._calc_stage()
+function State:_calc_stage()
   for i = #self.stage_order,1,-1 do
     if self.time >= C.time[self.stage_order[i]] then
       return self.stage_order[i]

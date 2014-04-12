@@ -81,7 +81,7 @@ function InGame:update(dt)
   elseif self.meal_selection.active then
     self.meal_selection:update(dt)
   elseif not self.paused then
-    self.state.update(dt)
+    self.state:update(dt)
   end
 end
 
