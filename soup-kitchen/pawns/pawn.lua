@@ -74,7 +74,7 @@ end
 function PawnClass:jump(coordinate)
   self.path = nil
   self.destination = nil
-  self.cordinate = coordinate:duplicate()
+  self.coordinate = coordinate:duplicate()
   self.position = coordinate:point()
   self:set_screen()
 end
