@@ -60,6 +60,10 @@ function PawnClass:spawned()
   end
 end
 
+function PawnClass:update(dt)
+  assert(false, "Class doesn't implement update(dt)!")
+end
+
 function PawnClass:draw()
   -- TODO: This function will almost certainly be overridden in the future
   assert(self.image, "Child didn't load an image!")
