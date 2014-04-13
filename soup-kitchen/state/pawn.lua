@@ -24,9 +24,7 @@ function PawnClass.new(map, coord)
   instance.exited = false
   instance.task = false
   instance.map = map
-  if coord == 'enter' then
-    instance:enter()
-  elseif coord then
+  if coord then
     assert(not map:blocked(coord) and not map:occupant(coord))
     instance.position = coord:point()
     instance.coordinate = coord:duplicate()
@@ -43,14 +41,23 @@ function PawnClass.new(map, coord)
   return instance
 end
 
-function PawnClass:enter()
-  assert(not map:occupant(C.coords.entrance))
-  self.position = C.coords.entrance:point()
+function PawnClass:enter(coordinate)
+  assert(coordinate)
+  assert(not map:occupied(ccordinate))
+  self.position = coordinate:point()
   self.position.x = self.position.x - C.sizes.square
-  self.coordinate = C.coords.entrance:duplicate()
-  self.path = { C.coords.entrance:duplicate() }
-  self.destination = C.coords.entrance:point()
-  map:set_occupant(instance.coordinate, instance)
+  self.coordinate = coordinate:duplicate()
+  self.path = { coordinate:duplicate() }
+  self.destination = coordinate:point()
+  map:set_occupant(self.coordinate, self)
+end
+
+function PawnClass:spawned()
+  if not self.position then
+    return false
+  else
+    return true
+  end
 end
 
 function PawnClass:draw()
@@ -118,11 +125,13 @@ function PawnClass:pathfind(coord)
   self.destination = self.path[#self.path]:point()
 end
 
-function PawnClass:leave()
-  self:pathfind(C.coords.exit)
+function PawnClass:leave(coordinate)
+  assert(coordinate and coordinate.x == 1)
+  self:pathfind(coordinate)
   self.map:set_occupant(self.coordinate, nil)
-  self.coordinate = C.coords.exit_off:duplicate()
-  table.insert(self.path, 1, C.coords.exit_off:duplicate())
+  self.coordinate = coordinate:duplicate()
+  self.coordinate.x = 0
+  table.insert(self.path, 1, self.coordinate:duplicate())
 end
 
 function PawnClass:go(coord)
@@ -136,7 +145,7 @@ function PawnClass:go(coord)
   self.coordinate = coord:duplicate()
 end
 
-function PawnClass:update(dt)
+function PawnClass:move(dt)
   if self.path then
     assert(#self.path > 0 and self.destination)
     local distance = C.scale.walk * dt
@@ -149,7 +158,7 @@ function PawnClass:update(dt)
           self.path = nil
           self.destination = nil
           distance = 0
-          if self.coordinate == C.coords.exit_off then
+          if self.coordinate.x == 0 then
             print("Pawn has left the board")
             self.exited = true
           end
