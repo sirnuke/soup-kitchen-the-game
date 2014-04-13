@@ -27,6 +27,7 @@ require "equipment/dispensing"
 
 require "pawns/customer"
 require "pawns/pawn"
+require "pawns/player"
 require "pawns/volunteer"
 
 require "state/homeless"
