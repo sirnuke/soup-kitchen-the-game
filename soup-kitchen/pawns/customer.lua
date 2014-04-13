@@ -10,9 +10,9 @@ function CustomerClass.new(map, stage)
     CustomerClass.image = love.graphics.newImage("images/pawns/customer.png")
   end
 
-  local instance = {}
+  local instance = PawnClass.new(map, nil)
   setmetatable(instance, CustomerClass)
-  inherits(PawnClass.new(map, nil), instance)
+  inherits(PawnClass, instance)
   instance.equipment = nil
   instance.stage = stage
   instance.tray = nil
