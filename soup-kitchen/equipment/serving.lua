@@ -5,9 +5,9 @@ ServingClass = {}
 ServingClass.__index = ServingClass
 
 function ServingClass.new(type, location, volunteer)
-  local instance = {}
+  local instance = EquipmentClass.new('volunteer', type, location, volunteer)
   setmetatable(instance, ServingClass)
-  inherits(EquipmentClass.new('volunteer', type, location, volunteer), instance)
+  inherits(EquipmentClass, instance)
   instance.stock = nil
   instance.quantity = nil
   return instance

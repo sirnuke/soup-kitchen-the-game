@@ -6,9 +6,9 @@ DispensingClass.__index = DispensingClass
 
 function DispensingClass.new(type, location, customer)
 
-  local instance = {}
+  local instance = EquipmentClass.new('customer', type, location, customer)
   setmetatable(instance, DispensingClass)
-  inherits(EquipmentClass.new('customer', type, location, customer), instance)
+  inherits(EquipmentClass, instance)
   return instance
 end
 
