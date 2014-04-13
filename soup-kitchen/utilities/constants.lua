@@ -70,12 +70,13 @@ function C:setup()
   self.money.initial = 1000
   self.money.wage = 50
 
-  self.coords = {}
-  self.coords.start = Coordinate.new(5, 11)
-  self.coords.employee = Coordinate.new(6, 8)
-  self.coords.entrance = Coordinate.new(1, 9)
-  self.coords.exit = Coordinate.new(1, 3)
-  self.coords.exit_off = Coordinate.new(0, 3)
+  self.coordinates = {}
+  self.coordinates.customer = {}
+  self.coordinates.customer.entrance = Coordinate.new(5, 11)
+  self.coordinates.customer.exit = Coordinate.new(1, 3)
+  self.coordinates.player = {}
+  self.coordinates.player.start = Coordinate.new(6, 8)
+  self.coordinates.employees = {}
   
   self.sizes = {}
   self.sizes.square = 64
