@@ -15,3 +15,7 @@ function PlayerClass.new(map)
   return instance
 end
 
+function PlayerClass:update(dt)
+  self:move(dt)
+end
+
