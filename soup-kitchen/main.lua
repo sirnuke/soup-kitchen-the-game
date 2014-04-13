@@ -25,10 +25,12 @@ require "equipment/equipment"
 require "equipment/serving"
 require "equipment/dispensing"
 
-require "state/customer"
+require "pawns/customer"
+require "pawns/pawn"
+require "pawns/volunteer"
+
 require "state/homeless"
 require "state/map"
-require "state/pawn"
 require "state/state"
 require "state/stock"
 
