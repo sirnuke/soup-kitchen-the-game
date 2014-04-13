@@ -47,7 +47,7 @@ function State:create()
   end
 
   -- TODO: Create actual player class
-  self.player = PawnClass.new(self.map, C.coords.start)
+  self.player = PawnClass.new(self.map, C.coordinates.player.start)
   self.player.image = love.graphics.newImage("images/pawns/player.png")
   self.employee = nil
   self.volunteers = {}
@@ -121,9 +121,9 @@ function State:new_day()
   self.tasks = {}
   self.customers = {}
   self:new_stage('start')
-  self.player:jump(C.coords.start)
+  self.player:jump(C.coordinates.player.start)
   if self.employee then
-    self.employee:jump(C.coords.employee)
+    self.employee:jump(C.coordinates.employees.start)
   end
 end
 
