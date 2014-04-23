@@ -19,7 +19,6 @@ function C:setup()
   end
 
   -- Temp self that need a better home
-  self.squelch = 0.25
   self.max_progress = 100
   self.breakfast_end = 2
 
