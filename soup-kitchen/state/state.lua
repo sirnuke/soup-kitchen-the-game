@@ -28,14 +28,6 @@ function StateClass.new()
   return instance
 end
 
-function StateClass:_calc_stage()
-  for i = #self.stage_order,1,-1 do
-    if self.time >= C.time[self.stage_order[i]] then
-      return self.stage_order[i]
-    end
-  end
-end
-
 function StateClass:draw()
   self.player:draw()
   for class,table in pairs(self.map.equipment) do
@@ -53,12 +45,11 @@ end
 
 function StateClass:update(dt)
   self.time = self.time + dt * C.scale.clock
-  self.player:update(dt)
+  self.map:update(dt)
 
   local line = false
   if #self.line > 0 then line = true end
 
-  local stage = self:_calc_stage()
   assert(self.stages[stage])
   if self.stage ~= stage then
     self:new_stage(stage)
@@ -112,14 +103,14 @@ function StateClass:new_day()
   self.trash = 0
   self.day = self.day + 1
   self.time = C.time.start
-  if self.employee then self.cash = self.cash - C.money.wage end
+  self.cash = self.cash - C.money.wage * #self.employees
   self.line = {}
   self.eating = {}
   self.tasks = {}
   self.customers = {}
-  self:new_stage('start')
   self.player:jump(C.coordinates.player.start)
-  if self.employee then
+  for i,employee in pairs(self.employees) do
+    -- TODO: Jump to a random, empty location
     self.employee:jump(C.coordinates.employees.start)
   end
 end
