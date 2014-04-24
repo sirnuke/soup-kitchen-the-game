@@ -6,6 +6,7 @@ ObjectClass.__index = ObjectClass
 
 function ObjectClass.new()
   local instance = {}
+  setmetatable(instance, ObjectClass)
   instance.holder = nil
   instance.location = nil
   return instance
