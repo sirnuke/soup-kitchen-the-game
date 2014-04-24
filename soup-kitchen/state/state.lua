@@ -1,12 +1,36 @@
 -- Soup Kitchen
 -- Bryan DeGrendel (c) 2014
 
-State = {}
-State.stages = { start="start", breakfast="breakfast", prep_lunch="prep_lunch", lunch="lunch", 
-  cook="cook", prep_dinner="prep_dinner", dinner="dinner", cleanup="cleanup", done="done" }
-State.stage_order = { 'start', 'breakfast', 'prep_lunch', 'lunch', 'cook', 'prep_dinner', 'dinner', 'cleanup', 'done' }
+StateClass = {}
+StateClass.__index = StateClass
 
-function State:_calc_stage()
+function StateClass.new()
+  local instance = {}
+  setmetatable(instance, StateClass)
+  instance.day = 0
+  instance.cash = C.money.initial
+  instance.homeless = HomelessClass.new()
+  instance.stock = {}
+  -- bleh
+  instance.map = MapClass
+  instance.map:create()
+
+  local prepare = false
+  for k,v in pairs(C.stock.start) do
+    for i = 1,v do
+      if i % 2 == 1 then prepare = true else prepare = false end
+      table.insert(instance.stock, StockClass.random(k, prepare))
+    end
+  end
+
+  instance.player = PlayerClass.new(instance.map)
+  instance.employees = {}
+  instance.volunteers = {}
+  instance:new_day()
+  return instance
+end
+
+function StateClass:_calc_stage()
   for i = #self.stage_order,1,-1 do
     if self.time >= C.time[self.stage_order[i]] then
       return self.stage_order[i]
@@ -14,7 +38,7 @@ function State:_calc_stage()
   end
 end
 
-function State:draw()
+function StateClass:draw()
   self.player:draw()
   for class,table in pairs(self.map.equipment) do
     for name,equipment in pairs(table) do
@@ -29,31 +53,7 @@ function State:draw()
   end
 end
 
-function State:create()
-  self.day = 0
-  self.cash = C.money.initial
-  self.stock = {}
-  self.homeless = Homeless
-  self.homeless:setup()
-  self.map = MapClass
-  self.prep_stage = nil
-  self.map:create()
-  local prepare = false
-  for k,v in pairs(C.stock.start) do
-    for i = 1,v do
-      if i % 2 == 1 then prepare = true else prepare = false end
-      table.insert(self.stock, StockClass.random(k, prepare))
-    end
-  end
-
-  -- TODO: Create actual player class
-  self.player = PlayerClass.new(self.map)
-  self.employee = nil
-  self.volunteers = {}
-  self:new_day()
-end
-
-function State:update(dt)
+function StateClass:update(dt)
   self.time = self.time + dt * C.scale.clock
   self.player:update(dt)
 
@@ -83,7 +83,7 @@ function State:update(dt)
   end
 end
 
-function State:new_stage(stage)
+function StateClass:new_stage(stage)
   print("New stage", stage)
   local count = 0
   if stage == 'start' then
@@ -110,7 +110,7 @@ function State:new_stage(stage)
   self.stage = stage
 end
 
-function State:new_day()
+function StateClass:new_day()
   self.trash = 0
   self.day = self.day + 1
   self.time = C.time.start
@@ -126,11 +126,11 @@ function State:new_day()
   end
 end
 
-function State:add_trash(amount)
+function StateClass:add_trash(amount)
   self.trash = self.trash + amount
 end
 
-function State:format_time()
+function StateClass:format_time()
   if self.time >= C.time.done then 
     return "Late!"
   else
@@ -155,7 +155,7 @@ function State:format_time()
   end
 end
 
-function State:name_stage()
+function StateClass:name_stage()
   if self.time >= C.time.breakfast and self.time < C.time.breakfast + C.time.stage then
     return "Breakfast"
   elseif self.time >= C.time.lunch and self.time < C.time.lunch + C.time.stage then
@@ -171,17 +171,17 @@ function State:name_stage()
   end
 end
 
-function State:get_prep_stage()
+function StateClass:get_prep_stage()
   local prep = self.prep_stage
   self.prep_stage = nil
   return prep
 end
 
-function State:line_count()
+function StateClass:line_count()
   return #self.line
 end
 
-function State:eating_count()
+function StateClass:eating_count()
   return #self.eating
 end
 
