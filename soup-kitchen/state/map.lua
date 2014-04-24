@@ -20,6 +20,7 @@ function MapClass.new()
   }
   local instance = {}
   setmetatable(instance, MapClass)
+  instance.pawns = {}
   instance.data = {}
   for y,row in ipairs(structure) do
     local data = {}
@@ -87,6 +88,28 @@ function MapClass.new()
 
   --self.equipment.trash = {}
   --self.equipment.trash[1] = EquipmentClass.new(Coordinate.new(11,1), Coordinate.new(11,2))
+end
+
+function MapClass:add_pawn(pawn)
+  table.insert(self.pawns, pawn)
+end
+
+function MapClass:remove_pawn(pawn)
+  for k,v in pairs(self.pawns) do
+    if v == pawn then
+      table.remove(self.pawns, k)
+      return
+    end
+  end
+end
+
+function MapClass:update(dt)
+  for k,pawn in pairs(self.pawns) do
+    pawn:update(dt)
+  end
+end
+
+function MapClass:draw()
 end
 
 function MapClass:square(coord)
