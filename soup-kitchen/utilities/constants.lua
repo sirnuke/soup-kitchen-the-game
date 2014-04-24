@@ -57,6 +57,10 @@ function C:setup()
   self.stage.cook   = {}
   self.stage.dinner = {}
 
+  self.time = {}
+  self.time.start =  630 -- 10:30am
+  self.time.done  = 1230 --  8:30pm
+
   self.stage.lunch.start  =  630 -- 10:30am
   self.stage.lunch.serve  =  660 -- 11:00pm
   self.stage.lunch.clean  =  780 --  1:00pm
