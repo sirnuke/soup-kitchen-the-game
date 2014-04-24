@@ -1,14 +1,18 @@
 -- Soup Kitchen
 -- Bryan DeGrendel (c) 2014
 
-Homeless = {}
+HomelessClass = {}
+HomelessClass.__index = HomelessClass
 
 -- demand defaults to the Constant demand.initial
-function Homeless:setup(demand)
-  self.demand = demand or C.demand.initial
+function HomelessClass.new(demand)
+  local instance = {}
+  setmetatable(instance, HomelessClass)
+  instance.demand = demand or C.demand.initial
+  return instance
 end
 
-function Homeless:spawn(stage)
+function HomelessClass:spawn(stage)
   local demand, scale = 0, C.demand[stage]
   assert(scale, string.format("Unable to find demand scale for %s", stage))
   demand = math.floor(love.math.randomNormal(10, self.demand * scale))
@@ -19,7 +23,7 @@ function Homeless:spawn(stage)
   return demand
 end
 
-function Homeless:complete(served)
+function HomelessClass:complete(served)
   local delta = self.demand - served
   self.demand = self.demand + love.math.randomNormal(delta / 5, delta)
   print("New demand is", self.demand)
