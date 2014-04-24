@@ -20,7 +20,6 @@ function C:setup()
 
   -- Temp self that need a better home
   self.max_progress = 100
-  self.breakfast_end = 2
 
   self.trash = {}
   self.trash.max = 50
@@ -53,17 +52,24 @@ function C:setup()
   self.font.normal = 22
   self.font.small = 14
 
-  self.time = {}
-  self.time.stage       =  120 -- 2 hours
-  self.time.start       =  450 --  7:30am
-  self.time.breakfast   =  480 --  8:00am
-  self.time.prep_lunch  =  600 -- 10:00am
-  self.time.lunch       =  660 -- 11:00am
-  self.time.cook        =  840 --  2:00pm
-  self.time.prep_dinner =  960 --  4:00pm
-  self.time.dinner      = 1020 --  5:00pm
-  self.time.cleanup     = 1140 --  7:00pm
-  self.time.done        = 1200 --  8:00pm
+  self.stage = {}
+  self.stage.lunch  = {}
+  self.stage.cook   = {}
+  self.stage.dinner = {}
+
+  self.stage.lunch.start  =  630 -- 10:30am
+  self.stage.lunch.serve  =  660 -- 11:00pm
+  self.stage.lunch.clean  =  780 --  1:00pm
+  self.stage.lunch.done   =  840 --  2:00pm
+  self.stage.cook.start   =  840 --  2:00pm
+  self.stage.cook.serve   =  840 --  2:00pm
+  self.stage.cook.serve   =  840 --  2:00pm
+  self.stage.cook.clean   =  960 --  4:00pm
+  self.stage.cook.done    = 1020 --  5:00pm
+  self.stage.dinner.start = 1020 --  5:00pm
+  self.stage.dinner.serve = 1050 --  5:30pm
+  self.stage.dinner.clean = 1170 --  7:30pm
+  self.stage.dinner.done  = 1230 --  8:30pm
 
   self.money = {}
   self.money.initial = 1000
