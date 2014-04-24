@@ -11,8 +11,7 @@ function InGame:enter()
   self.selected = nil
   self.font_normal = Font.load(C.font.normal)
   self.font_small = Font.load(C.font.small)
-  self.state = State
-  self.state:create()
+  self.state = StateClass.new()
   self.meal_selection = MealSelection
   self.meal_selection:setup(self.state)
 end
