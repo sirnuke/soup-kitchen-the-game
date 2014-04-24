@@ -11,9 +11,7 @@ function StateClass.new()
   instance.cash = C.money.initial
   instance.homeless = HomelessClass.new()
   instance.stock = {}
-  -- bleh
-  instance.map = MapClass
-  instance.map:create()
+  instance.map = MapClass.new()
 
   local prepare = false
   for k,v in pairs(C.stock.start) do
