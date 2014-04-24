@@ -3,22 +3,24 @@
 
 MapClass = {}
 
-function MapClass:create()
+function MapClass.new()
   local structure = {
     { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'T', 'X' },
-    { ' ', ' ', ' ', 'X', 'C', 'C', 'C', 'C', ' ', ' ', ' ', 'X' },
-    { ' ', ' ', ' ', 'C', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-    { ' ', ' ', ' ', 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-    { ' ', ' ', ' ', 'F', ' ', ' ', 'P', 'P', ' ', ' ', 'S', 'S' },
-    { 'X', 'X', ' ', 'F', ' ', ' ', 'P', 'P', ' ', ' ', 'S', 'S' },
-    { 'X', 'X', ' ', 'X', ' ', ' ', 'P', 'P', ' ', ' ', 'S', 'S' },
-    { ' ', ' ', ' ', 'F', ' ', ' ', 'P', 'P', ' ', ' ', 'S', 'S' },
-    { ' ', ' ', ' ', 'F', ' ', ' ', 'P', 'P', ' ', ' ', 'S', 'S' },
-    { ' ', ' ', 'D', 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-    { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+    { ' ', ' ', ' ', ' ', 'X', 'C', 'C', 'C', ' ', ' ', ' ', 'X' },
+    { ' ', ' ', ' ', ' ', 'C', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+    { ' ', ' ', ' ', ' ', 'X', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+    { ' ', ' ', ' ', ' ', 'F', ' ', ' ', 'P', ' ', ' ', 'S', 'S' },
+    { ' ', ' ', ' ', ' ', 'F', ' ', ' ', 'P', ' ', ' ', 'S', 'S' },
+    { ' ', ' ', ' ', ' ', 'F', ' ', ' ', 'P', ' ', ' ', 'S', 'S' },
+    { ' ', ' ', ' ', ' ', 'F', ' ', ' ', 'P', ' ', ' ', 'S', 'S' },
+    { ' ', ' ', ' ', ' ', 'X', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+    { ' ', ' ', 'T', 'D', 'X', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+    { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'C', 'C', 'C', 'X' },
     { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' }
   }
-  self.data = {}
+  local instance = {}
+  setmetatable(instance, MapClass)
+  instance.data = {}
   for y,row in ipairs(structure) do
     local data = {}
     for x,v in ipairs(row) do
@@ -28,10 +30,10 @@ function MapClass:create()
         table.insert(data, {coord=Coordinate.new(x, y), blocked=true,  occupant=nil, equipment=nil})
       end
     end
-    table.insert(self.data, data)
+    table.insert(instance.data, data)
   end
 
-  self.equipment = {}
+  instance.equipment = {}
   local equipment = {}
   equipment.serving = {}
   equipment.serving.drinks = {Coordinate.new(3,10), Coordinate.new(3,11)}
@@ -50,13 +52,13 @@ function MapClass:create()
 
   for k,v in pairs(equipment) do
     local class = nil
-    self.equipment[k] = {}
+    instance.equipment[k] = {}
     if k == 'serving' then class = ServingClass
     elseif k == 'dispensing' then class = DispensingClass
     else assert(false, string.format("Unhandled equipment type of %s", k))
     end
     for id,data in pairs(v) do
-      self.equipment[k][id] = class.new(id, data[1], data[2])
+      instance.equipment[k][id] = class.new(id, data[1], data[2])
     end
   end
 
